@@ -70,7 +70,7 @@
             <EditText
                 android:layout_width="230dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/et_username"
+                android:id="@+id/phonenumber"
                 android:hint="95642834"
                 android:textColor="@android:color/white"
                 android:background="@android:color/transparent"/>
