@@ -3,4 +3,6 @@
     <color name="colorRed">#C0392B</color>
     <color name="colorOrange">#3700B3</color>
     <color name="colorGrey">#8F8F8F</color>
+    <color name="colourBlack">#000000</color>
+    <color name="colourYellow">#fabc2c</color>
 </resources>
