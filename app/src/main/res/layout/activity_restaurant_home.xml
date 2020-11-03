@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/"
+            android:fontFamily="@font/montserrat"
             android:text="Home"
             android:textColor="@android:color/white"
             android:textSize="18dp"
@@ -42,7 +42,8 @@
             android:layout_marginLeft="25dp"
             android:textSize="20dp"
             android:textStyle="bold"
-            android:textColor="#000000">
+            android:textColor="#000000"
+            android:fontFamily="@font/montserrat">
 
         </TextView>
         <Button
@@ -71,7 +72,9 @@
             android:layout_marginLeft="25dp"
             android:textSize="20dp"
             android:textStyle="bold"
-            android:textColor="#000000">
+            android:fontFamily="@font/montserrat"
+            android:textColor="#000000"
+            >
         </TextView>
         <Button
             android:id="@+id/viewAllPreorders"
