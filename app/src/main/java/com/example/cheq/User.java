@@ -1,4 +1,4 @@
-package com.example.testapp;
+package com.example.cheq;
 
 public class User {
     private int id;

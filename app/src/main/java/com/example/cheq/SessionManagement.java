@@ -1,4 +1,4 @@
-package com.example.testapp;
+package com.example.cheq;
 
 import android.content.Context;
 import android.content.SharedPreferences;
