@@ -12,18 +12,19 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:background="@color/colorRed"
+        android:background="@color/colorPrimaryDark"
         tools:ignore="MissingConstraints">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
+            android:fontFamily="@font/"
             android:text="Home"
             android:textColor="@android:color/white"
             android:textSize="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="30dp"></TextView>
+            tools:layout_editor_absoluteY="30dp"
+            ></TextView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
