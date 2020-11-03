@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">CheQ</string>
-    <string name="welcome_msg">Please enter your mobile number to begin</string>
+    <string name="app_name">TestApp</string>
+    <string name="loginMsg">Please enter your mobile number to begin</string>
 </resources>
