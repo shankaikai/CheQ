@@ -1,4 +1,4 @@
-package com.example.cheq;
+package com.example.cheq.Login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cheq.MainActivity;
 import com.example.cheq.R;
+import com.example.cheq.User;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -89,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void moveToMainActivity() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //        intent.putExtra("userID", userPhone);
         startActivity(intent);
     }

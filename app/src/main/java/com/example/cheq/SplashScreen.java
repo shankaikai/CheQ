@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cheq.Login.LoginActivity;
+
 public class SplashScreen extends AppCompatActivity {
 
     @Override
@@ -14,5 +16,4 @@ public class SplashScreen extends AppCompatActivity {
         startActivity(new Intent(this, LoginActivity.class));
     }
 
-    //TODO: sdfaasdf
 }

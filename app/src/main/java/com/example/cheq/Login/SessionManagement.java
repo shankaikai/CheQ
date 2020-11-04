@@ -1,7 +1,9 @@
-package com.example.cheq;
+package com.example.cheq.Login;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.example.cheq.User;
 
 public class SessionManagement {
     SharedPreferences sharedPreferences;

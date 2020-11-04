@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.cheq.LoginActivity"
+    tools:context="com.example.cheq.Login.LoginActivity"
     android:background="@color/colorPrimaryDark">
 
     <TextView
@@ -40,7 +40,7 @@
         android:background="@drawable/curvedcorner"
         android:gravity="center"
         android:hint="93282319"
-        android:inputType="text"
+        android:inputType="number"
         android:padding="10dp"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
