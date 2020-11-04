@@ -27,7 +27,7 @@
             ></TextView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/viewQueueLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,6 +36,7 @@
         tools:layout_editor_absoluteX="0dp"
         >
         <TextView
+            android:id="@+id/viewAllQueueTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="View All Queues"
@@ -50,22 +51,26 @@
             android:id="@+id/viewAllQueue"
             android:layout_width="22dp"
             android:layout_height="22dp"
+            android:layout_toRightOf="@+id/viewAllQueueTextView"
             android:layout_marginLeft="20dp"
             android:background="@drawable/ic_arrow_forward_black_18dp">
         </Button>
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp">
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:background="@color/colorPrimaryDark"
+            >
         </ListView>
-    </LinearLayout>
-    <LinearLayout
+    </RelativeLayout>
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/viewQueueLayout"
         tools:layout_editor_absoluteX="0dp">
         <TextView
+            android:id="@+id/viewAllPreordersTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="View All Pre-Orders"
@@ -80,6 +85,7 @@
             android:id="@+id/viewAllPreorders"
             android:layout_width="22dp"
             android:layout_height="22dp"
+            android:layout_toRightOf="@+id/viewAllPreordersTextView"
             android:layout_marginLeft="20dp"
             android:background="@drawable/ic_arrow_forward_black_18dp">
         </Button>
@@ -88,21 +94,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp">
         </ListView>
-    </LinearLayout>
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent">
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-        </Button>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-        </Button>
+        <
     </LinearLayout>
 
 

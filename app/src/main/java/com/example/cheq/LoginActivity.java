@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.testapp.R;
+import com.example.cheq.R;
 
 public class LoginActivity extends AppCompatActivity {
 

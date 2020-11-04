@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.testapp.R;
+import com.example.cheq.R;
 
 public class RestaurantActivity extends AppCompatActivity {
     @Override

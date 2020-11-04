@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.testapp.R;
+import com.example.cheq.R;
 
 public class MainActivity extends AppCompatActivity {
 
