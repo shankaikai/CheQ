@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutRH"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="@color/colorPrimaryDark"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:text="Home"
+            android:textColor="@android:color/white"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="30dp"></TextView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/viewQueueLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutRH"
+        >
+        <TextView
+            android:id="@+id/viewAllQueueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View All Queues"
+            android:layout_marginLeft="25dp"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:fontFamily="@font/montserrat">
+
+        </TextView>
+        <Button
+            android:id="@+id/viewAllQueue"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_toRightOf="@+id/viewAllQueueTextView"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/arrow_forward">
+        </Button>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:background="@color/colorPrimaryDark"
+            >
+        </ListView>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/viewQueueLayout"
+        tools:layout_editor_absoluteX="0dp">
+        <TextView
+            android:id="@+id/viewAllPreordersTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View All Pre-Orders"
+            android:layout_marginLeft="25dp"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/montserrat"
+            android:textColor="#000000"
+            >
+        </TextView>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp">
+        </ListView>
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
