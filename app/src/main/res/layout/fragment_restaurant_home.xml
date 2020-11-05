@@ -20,7 +20,7 @@
             android:textSize="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="30dp"></TextView>
+            tools:layout_editor_absoluteY="28dp"></TextView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <RelativeLayout
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="View All Queues"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="22dp"
             android:textSize="20dp"
             android:textStyle="bold"
             android:textColor="#000000"
@@ -43,20 +43,21 @@
 
         </TextView>
         <Button
-            android:id="@+id/viewAllQueue"
+            android:id="@+id/viewAllQueueBtn"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_toRightOf="@+id/viewAllQueueTextView"
             android:layout_marginLeft="20dp"
             android:background="@drawable/arrow_forward">
         </Button>
+
         <ListView
+            android:id="@+id/viewAllQueueListView"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="50dp"
-            android:background="@color/colorPrimaryDark"
-            >
-        </ListView>
+            android:layout_height="100dp"
+            android:layout_below="@+id/viewAllQueueTextView"
+            android:layout_marginTop="12dp"
+            android:background="@color/colorPrimaryDark"></ListView>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -69,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="View All Pre-Orders"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="22dp"
             android:textSize="20dp"
             android:textStyle="bold"
             android:fontFamily="@font/montserrat"
