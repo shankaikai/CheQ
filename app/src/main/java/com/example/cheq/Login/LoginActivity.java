@@ -14,12 +14,16 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.cheq.MainActivity;
 import com.example.cheq.R;
+import com.example.cheq.Restaurant.RestaurantActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
     // Temporary validation
     String validuser = "93821490";
     String validpassword = "password";
+
+    // Temporary Btn for Restaurant Activity
+    Button restBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,15 @@ public class LoginActivity extends AppCompatActivity {
                 checkUser(v);
             }
         });
+
+        restBtn = findViewById(R.id.toResBtn);
+        restBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveToRestaurantActivity();
+            }
+        });
+
     }
 
     @Override
@@ -150,6 +163,11 @@ public class LoginActivity extends AppCompatActivity {
     private void moveToMainActivity() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    private void moveToRestaurantActivity() {
+        Intent intent = new Intent(LoginActivity.this, RestaurantActivity.class);
         startActivity(intent);
     }
 

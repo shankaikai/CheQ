@@ -6,13 +6,23 @@
     android:layout_height="match_parent"
     tools:context="com.example.cheq.Login.LoginActivity"
     android:background="@color/colorPrimaryDark"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/toResBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To Restaurant"
+        android:layout_marginTop="20dp"/>
 
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.cheq.Login.LoginPhoneFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp"/>
+        android:layout_marginTop="60dp"/>
+
+
 
 </LinearLayout>
