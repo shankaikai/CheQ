@@ -30,6 +30,9 @@
 
         <!--MainActivity-->
         <activity android:name="com.example.cheq.MainActivity"></activity>
+        <activity android:name="com.example.cheq.Restaurant.RestaurantActivity"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>
