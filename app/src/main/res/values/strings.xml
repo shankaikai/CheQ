@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">CheQ</string>
     <string name="loginMsg">Please enter your mobile number to begin</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pwMsg">Please enter your password</string>
+    <string name="registerPrompt">Please fill in the following to proceed</string>
 </resources>
