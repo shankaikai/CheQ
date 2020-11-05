@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.cheq.Login.LoginActivity;
-import com.example.cheq.Login.SessionManagement;
+import com.example.cheq.Login.SessionManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,8 +20,8 @@ public class MainActivity extends AppCompatActivity {
 
         public void logout(View view) {
                 //remove session and open login screen
-                SessionManagement sessionManagement = new SessionManagement(MainActivity.this);
-                sessionManagement.removeSession();
+                SessionManager sessionManager = new SessionManager(MainActivity.this);
+                sessionManager.removeSession();
                 moveToLogin();
         }
 

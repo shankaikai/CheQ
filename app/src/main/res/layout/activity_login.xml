@@ -1,76 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.cheq.Login.LoginActivity"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimaryDark"
+    android:gravity="center_horizontal">
 
-    <TextView
-        android:id="@+id/welcomeMsg"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="Hello!"
-        android:textColor="@android:color/white"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.cheq.Login.LoginPhoneFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"/>
 
-
-    <TextView
-        android:id="@+id/loginPrompt"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/loginMsg"
-        android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcomeMsg" />
-
-    <EditText
-        android:id="@+id/inputPhone"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/curvedcorner"
-        android:gravity="center"
-        android:hint="93282319"
-        android:inputType="number"
-        android:padding="10dp"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginPrompt" />
-
-    <TextView
-        android:id="@+id/errorMsg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputPhone" />
-
-    <Button
-        android:id="@+id/continueBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:background="@android:color/transparent"
-        android:text="Continue"
-        android:textAllCaps="false"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/errorMsg"
-        android:onClick="login"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
