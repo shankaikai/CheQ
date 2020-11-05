@@ -65,20 +65,10 @@ public class LoginPhoneFragment extends Fragment {
 
             // TODO: Check database for userName
             if (userPhone.equals(validuser)) {
-
                 // Call PasswordFragment using changeFragment
                 ((LoginActivity) getActivity()).changeFragment("existing");
 
-                // Create a new User object (ID generation to be done by SQL)
-                // User user = new User(1, userPhone, );
-
-                // Save Session of User
-//                SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
-//                sessionManagement.saveSession(user);
-//                moveToMainActivity();
-
             } else {
-
                 // Call RegistrationFragment using changeFragment
                 ((LoginActivity) getActivity()).changeFragment("new");
             }

@@ -8,7 +8,6 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.cheq.MainActivity;
 import com.example.cheq.R;
@@ -24,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Temporary
         restBtn = findViewById(R.id.toResBtn);
         restBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
                 moveToRestaurantActivity();
             }
         });
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.loginFragmentFrame, new LoginPhoneFragment()).commit();
 
     }
 
@@ -60,17 +62,12 @@ public class LoginActivity extends AppCompatActivity {
 
         if (type == "existing") {
             fragment = new LoginPasswordFragment();
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.loginFragment, fragment);
-            ft.commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.loginFragmentFrame, fragment).commit();
         }
         if (type == "new") {
             fragment = new RegisterFragment();
             FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.loginFragment, fragment);
-            ft.commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.loginFragmentFrame, fragment).commit();
         }
     }
 

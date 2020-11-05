@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.cheq.R;
+import com.example.cheq.User;
 
 
 public class LoginPasswordFragment extends Fragment {
@@ -19,6 +21,7 @@ public class LoginPasswordFragment extends Fragment {
     // Views
     EditText inputPassword;
     TextView errorMsg;
+    Button passwordContinueBtn;
 
     // Temporary validation
     String validpassword = "password";
@@ -36,16 +39,31 @@ public class LoginPasswordFragment extends Fragment {
 
         inputPassword = (EditText) view.findViewById(R.id.inputPassword);
         errorMsg = (TextView) view.findViewById(R.id.errorMsg);
+        passwordContinueBtn = (Button) view.findViewById(R.id.passwordContinueBtn);
 
+        passwordContinueBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkPassword();
+            }
+        });
     }
 
     // Check if new or existing user
-    public void checkPassword(View view) {
+    public void checkPassword() {
 
         String userPassword = inputPassword.getText().toString();
 
         // TODO: Check database for password
         if (userPassword.equals(validpassword)) {
+
+            // TODO: Pass phone number to here and grab data from Firebase
+            // Create a new User object (ID generation to be done by SQL)
+             User user = new User(1, "93821490", "Shan Kai", "tiongshankai97@gmail.com", "customer");
+
+            // Save Session of User
+            SessionManager sessionManagement = new SessionManager(LoginActivity.this);
+            sessionManagement.saveSession(user);
             ((LoginActivity) getActivity()).moveToMainActivity();
         }
         else {
