@@ -1,17 +1,27 @@
 package com.example.cheq.Login;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.example.cheq.R;
 
 
 public class LoginPasswordFragment extends Fragment {
+
+    // Views
+    EditText inputPassword;
+    TextView errorMsg;
+
+    // Temporary validation
+    String validpassword = "password";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -20,5 +30,26 @@ public class LoginPasswordFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_login_password, container, false);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        inputPassword = (EditText) view.findViewById(R.id.inputPassword);
+        errorMsg = (TextView) view.findViewById(R.id.errorMsg);
+
+    }
+
+    // Check if new or existing user
+    public void checkPassword(View view) {
+
+        String userPassword = inputPassword.getText().toString();
+
+        // TODO: Check database for password
+        if (userPassword.equals(validpassword)) {
+            ((LoginActivity) getActivity()).moveToMainActivity();
+        }
+        else {
+            errorMsg.setText("Wrong password!");
+        }
+    }
 }

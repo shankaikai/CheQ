@@ -1,20 +1,14 @@
 package com.example.cheq.Restaurant;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import com.example.cheq.R;
-
-import java.net.Inet4Address;
 
 public class RestaurantHomeFragment extends Fragment {
     String[] xPax = {"2 Pax", "3 Pax","4 Pax","5 Pax","6 Pax++"};
@@ -30,15 +24,16 @@ public class RestaurantHomeFragment extends Fragment {
 
         return view;
     }
-    class RestaurantHomeAdapter extends ArrayAdapter<String>{
-        Context c;
-        String[] xPax;
-        Integer[] x;
-        String xWaiting;
 
-
-        public RestaurantHomeAdapter(@NonNull Context context, String[] xPax, Integer[] x, ) {
-            super(context, R.layout.row_restaurant_home_queue, R.id.xPaxRestaurant,
-        }
-    }
+//    class RestaurantHomeAdapter extends ArrayAdapter<String>{
+//        Context c;
+//        String[] xPax;
+//        Integer[] x;
+//        String xWaiting;
+//
+//
+//        public RestaurantHomeAdapter(@NonNull Context context, String[] xPax, Integer[] x, ) {
+//            super(context, R.layout.row_restaurant_home_queue, R.id.xPaxRestaurant,
+//        }
+//    }
 }
