@@ -4,17 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.cheq.Login.LoginActivity"
+    tools:context=".Login.OTPActivity"
     android:background="@color/colorPrimaryDark"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="50dp">
 
+    <ImageView
+        android:id="@+id/otpBackBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:src="@drawable/arrow_back"
+        app:tint="@color/colorPrimary" />
+
     <TextView
-        android:id="@+id/titleMsg"
+        android:id="@+id/otpMsg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello!"
+        android:text="Welcome Back!"
         android:textColor="@android:color/white"
         android:textSize="30dp"
         android:textStyle="bold"
@@ -22,27 +30,32 @@
         />
 
     <TextView
-        android:id="@+id/loginPrompt"
+        android:id="@+id/otpPrompt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/loginMsg"
+        android:text="@string/otpPrompt"
         android:textColor="@android:color/white" />
 
-    <EditText
-        android:id="@+id/inputPhone"
-        android:layout_width="match_parent"
+    <com.chaos.view.PinView
+        android:id="@+id/pinVew"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:itemCount="6"
+        app:itemHeight="50dp"
+        app:itemWidth="50dp"
+        app:lineColor="@color/colorAccent"
         android:layout_marginTop="10dp"
-        android:background="@drawable/curvedcorner"
-        android:hint="93282319"
+        android:itemBackground="@color/colorPrimary"
+        style="@style/PinWidget.PinView"
         android:inputType="number"
-        android:padding="15dp"
-        android:textSize="15dp"
-        />
+        android:cursorVisible="true"
+        app:cursorColor="@color/colorAccent"
+        app:itemRadius="6dp"
+        app:hideLineWhenFilled="true"/>
 
     <Button
-        android:id="@+id/phoneContinueBtn"
+        android:id="@+id/otpContinueBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

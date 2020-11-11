@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cheq">
-
-    <!--Enables internet access-->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Enables internet access -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,27 +11,43 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Login.OTPActivity"></activity>
 
-        <!--First Activity that will be launched-->
-        <activity android:name="com.example.cheq.SplashScreen"
-            android:theme="@style/SplashScreen"
-            android:noHistory="true">
+        <!--SplashScreen-->
+        <activity
+            android:name=".Login.SplashScreen"
+            android:noHistory="true"
+            android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!--LoginActivity-->
-        <activity android:name="com.example.cheq.Login.LoginActivity"
+        <!-- LoginActivity -->
+        <activity
+            android:name=".Login.LoginActivity"
             android:theme="@style/AppTheme"
             android:noHistory="true"/>
 
-        <!--MainActivity-->
-        <activity android:name="com.example.cheq.MainActivity"></activity>
-        <activity android:name="com.example.cheq.Restaurant.RestaurantActivity"
-            android:theme="@style/AppTheme">
-        </activity>
+        <!--RegistrationActivity-->
+        <activity
+            android:name=".Login.RegistrationActivity"
+            android:noHistory="true"/>
+
+        <!--PasswordActivity-->
+        <activity
+            android:name=".Login.PasswordActivity"
+            android:noHistory="true"/>
+
+        <!-- MainActivity -->
+        <activity android:name=".MainActivity" />
+
+        <!-- RestaurantActivity -->
+        <activity
+            android:name=".Restaurant.RestaurantActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
