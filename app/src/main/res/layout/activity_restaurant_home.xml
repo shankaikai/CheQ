@@ -10,9 +10,22 @@
     tools:context="com.example.cheq.Restaurant.RestaurantActivity">
 
     <FrameLayout
+        android:id="@+id/fragmentRestaurant"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/fragmentRestaurant"/>
+        tools:layout_editor_absoluteX="0dp">
+
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/buttonLogout"
+        android:layout_width="143dp"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationViewRestaurant"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationViewRestaurant"

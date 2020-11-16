@@ -10,6 +10,14 @@
     android:orientation="vertical"
     android:padding="50dp">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:src="@drawable/arrow_back"
+        app:tint="@color/colorPrimary"
+        android:visibility="invisible"/>
+
     <TextView
         android:id="@+id/titleMsg"
         android:layout_width="match_parent"

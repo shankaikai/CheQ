@@ -1,4 +1,4 @@
-package com.example.cheq.Login;
+package com.example.cheq.Entities;
 
 public class User {
 
