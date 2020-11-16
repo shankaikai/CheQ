@@ -30,15 +30,15 @@ public class RestaurantHomeFragment extends Fragment {
 
         return view;
     }
-    class RestaurantHomeAdapter extends ArrayAdapter<String>{
-        Context c;
-        String[] xPax;
-        Integer[] x;
-        String xWaiting;
-
-
-        public RestaurantHomeAdapter(@NonNull Context context, String[] xPax, Integer[] x, ) {
-            super(context, R.layout.row_restaurant_home_queue, R.id.xPaxRestaurant,
-        }
-    }
+//    class RestaurantHomeAdapter extends ArrayAdapter<String>{
+//        Context c;
+//        String[] xPax;
+//        Integer[] x;
+//        String xWaiting;
+//
+//
+//        public RestaurantHomeAdapter(@NonNull Context context, String[] xPax, Integer[] x, ) {
+//            super(context, R.layout.row_restaurant_home_queue, R.id.xPaxRestaurant,
+//        }
+//    }
 }
