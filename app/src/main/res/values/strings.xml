@@ -4,4 +4,17 @@
     <string name="pwMsg">Please enter your password</string>
     <string name="registerPrompt">Please fill in the following to proceed</string>
     <string name="otpPrompt">Please enter the OTP sent to</string>
+    <string name="nav_home_title">Home</string>
+    <string name="nav_activities_title">Activities</string>
+    <string name="nav_account_title">Account</string>
+    <string-array name="restaurant_names">
+        <item>gomgom</item>
+        <item>Crooked Cooks</item>
+    </string-array>
+    <string-array name="categories">
+        <item>Cafe, Sandwiches</item>
+        <item>Takeout, Japanese</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

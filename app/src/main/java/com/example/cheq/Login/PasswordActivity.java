@@ -20,6 +20,7 @@ import com.example.cheq.MainActivity;
 import com.example.cheq.Managers.SessionManager;
 import com.example.cheq.R;
 import com.example.cheq.Restaurant.RestaurantActivity;
+import com.example.cheq.Users.UserActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
