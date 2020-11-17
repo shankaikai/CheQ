@@ -4,12 +4,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.example.cheq.MainActivity;
+import com.example.cheq.Managers.FirebaseManager;
 import com.example.cheq.R;
+import com.google.firebase.database.DatabaseReference;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +35,15 @@ public class UserAccountFragment extends Fragment {
     CardView howToUse;
     CardView leaveRating;
     CardView logOut;
+
+    // Firebase
+    FirebaseManager firebaseManager;
+
+    // Variables for User Info elements
+    TextView userNameTextView;
+    TextView userEmailTextView;
+    String userName;
+    String userEmail;
 
     public UserAccountFragment() {
         // Required empty public constructor
@@ -62,6 +74,12 @@ public class UserAccountFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        firebaseManager = new FirebaseManager();
+
+        DatabaseReference rootRef = firebaseManager.rootRef;
+        userName = rootRef.child("Users").child("name").getKey().toString();
+        userEmail = rootRef.child("Users").child("userEmail").getKey().toString();
     }
 
     @Override
@@ -76,6 +94,14 @@ public class UserAccountFragment extends Fragment {
         howToUse = view.findViewById(R.id.how_to_use);
         leaveRating = view.findViewById(R.id.leave_a_rating);
         logOut = view.findViewById(R.id.log_out);
+
+        // Connect the user text view elements to the variables
+        userNameTextView = view.findViewById(R.id.userNameTextView);
+        userEmailTextView = view.findViewById(R.id.userEmailTextView);
+
+        // Set the user text view elements to the user's name and email
+        userNameTextView.setText(userName);
+        userEmailTextView.setText(userEmail);
 
         // Set a click listener to each view element
         contactUs.setOnClickListener(new View.OnClickListener() {
