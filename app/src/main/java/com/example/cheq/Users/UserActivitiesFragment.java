@@ -1,13 +1,17 @@
 package com.example.cheq.Users;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.cheq.R;
+import com.google.android.material.tabs.TabLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,6 +19,8 @@ import com.example.cheq.R;
  * create an instance of this fragment.
  */
 public class UserActivitiesFragment extends Fragment {
+
+    private final String TAG = "UserActivitiesFragment";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,6 +56,7 @@ public class UserActivitiesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "onCreate");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -59,7 +66,19 @@ public class UserActivitiesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView");
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_user_activities, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.i(TAG, "onActivityCreated");
+        UserActivitiesSectionsPagerAdapter sectionsPagerAdapter = new UserActivitiesSectionsPagerAdapter(this.getContext(), getChildFragmentManager());
+        ViewPager viewPager = getView().findViewById(R.id.view_pager);
+        viewPager.setAdapter(sectionsPagerAdapter);
+        TabLayout tabs = getView().findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
     }
 }
