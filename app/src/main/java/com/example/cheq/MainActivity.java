@@ -11,12 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.cheq.Login.LoginActivity;
-import com.example.cheq.MainActivity;
 import com.example.cheq.Managers.SessionManager;
-import com.example.cheq.R;
 import com.example.cheq.Users.UserAccountFragment;
 import com.example.cheq.Users.UserActivitiesFragment;
-import com.example.cheq.Users.UserActivity;
 import com.example.cheq.Users.UserHomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
