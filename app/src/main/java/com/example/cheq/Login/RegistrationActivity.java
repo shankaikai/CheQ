@@ -16,12 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.cheq.Entities.User;
+import com.example.cheq.Login.RestaurantOnboard.RestaurantOnboardingActivity;
 import com.example.cheq.Managers.FirebaseManager;
-import com.example.cheq.MainActivity;
 import com.example.cheq.Managers.SessionManager;
 import com.example.cheq.R;
-import com.example.cheq.Restaurant.RestaurantActivity;
-import com.google.android.gms.tasks.Tasks;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -89,23 +87,23 @@ public class RegistrationActivity extends AppCompatActivity {
         // Validate inputs
         if (userName.isEmpty() || !validEmail(userEmail) || userPassword.isEmpty()){
             Toast.makeText(RegistrationActivity.this, "One or more invalid inputs", Toast.LENGTH_SHORT).show();
+            registerProgressBar.setVisibility(View.GONE);
         }
         else {
-            // Save Session
-            sessionManager.saveSession(userPhone, userType);
 
             // Create new User object
             User user = new User(userPhone, userName, userEmail, userPassword, userType);
-
             // Insert new user into firebase
             firebaseManager.registerNewUser(user);
 
             registerProgressBar.setVisibility(View.GONE);
 
             if (userType.equals("Customer")){
+                // Save Session
+                sessionManager.saveSession(userPhone, userType);
                 moveToDoneActivity();
             } else {
-                moveToRestaurantActivity();
+                moveToRestaurantRegisterDetailsActivity(userPhone);
             }
         }
     }
@@ -130,10 +128,20 @@ public class RegistrationActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
     }
 
-    public void moveToRestaurantActivity() {
-        Intent intent = new Intent(RegistrationActivity.this, RestaurantActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+    public void moveToRestaurantRegisterDetailsActivity(String userPhone){
+        Intent intent = new Intent(RegistrationActivity.this, RestaurantOnboardingActivity.class);
+        intent.putExtra("userPhone", userPhone);
+
+        // Add Transition
+        Pair transition = new Pair<View, String>(registerContinueBtn, "transitionContinueBtn");
+
+        // Check if SDK version is high enough for animation
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(RegistrationActivity.this, transition);
+            startActivity(intent, options.toBundle());
+        } else {
+            startActivity(intent);
+        }
     }
 
     private void moveToLoginActivity() {
@@ -145,10 +153,8 @@ public class RegistrationActivity extends AppCompatActivity {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(RegistrationActivity.this, transition);
             startActivity(intent, options.toBundle());
-            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         } else {
             startActivity(intent);
-            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         }
     }
 }

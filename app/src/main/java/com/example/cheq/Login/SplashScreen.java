@@ -6,10 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.cheq.Entities.Restaurant;
 import com.example.cheq.MainActivity;
 import com.example.cheq.Managers.SessionManager;
-import com.example.cheq.R;
 import com.example.cheq.Restaurant.RestaurantActivity;
 
 public class SplashScreen extends AppCompatActivity {

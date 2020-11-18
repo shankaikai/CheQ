@@ -79,7 +79,7 @@ public class PasswordActivity extends AppCompatActivity {
 
         userPassword = inputPassword.getText().toString();
 
-        DatabaseReference rootRef = firebaseManager.rootRef;
+        final DatabaseReference rootRef = firebaseManager.rootRef;
 
         if (userPassword != null) {
 
@@ -98,6 +98,7 @@ public class PasswordActivity extends AppCompatActivity {
                        if (userType.equals("Customer")) {
                            moveToMainActivity();
                        } else {
+
                            moveToRestaurantActivity();
                        }
 

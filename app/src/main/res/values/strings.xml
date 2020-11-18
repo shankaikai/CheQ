@@ -12,9 +12,15 @@
         <item>Crooked Cooks</item>
     </string-array>
     <string-array name="categories">
-        <item>Cafe, Sandwiches</item>
-        <item>Takeout, Japanese</item>
+        <item>Cafe</item>
+        <item>Japanese</item>
+        <item>Fast Food</item>
+        <item>Western</item>
+        <item>Chinese</item>
     </string-array>
+    <string name="category_hint">Category</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="rest_image_prompt">Choose a profile image</string>
+    <string name="onboard_menu_msg">Add your menu!</string>
 </resources>
