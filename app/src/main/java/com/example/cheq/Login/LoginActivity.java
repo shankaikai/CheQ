@@ -8,6 +8,8 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     Button phoneContinueBtn;
     TextView loginMsg;
     TextView loginPrompt;
+    RelativeLayout loginProgressBar;
 
     // Firebase
     FirebaseManager firebaseManager;
@@ -53,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                 checkUser();
             }
         });
+        loginProgressBar = findViewById(R.id.loginProgressBar);
 
         firebaseManager = new FirebaseManager();
     }
@@ -61,6 +65,8 @@ public class LoginActivity extends AppCompatActivity {
      * This method checks whether the user is an existing or new user based on the userPhone input
      */
     public void checkUser() {
+        // Set progress bar to visible
+        loginProgressBar.setVisibility(View.VISIBLE);
 
         // Get user phone input
         userPhone = inputPhone.getText().toString();
@@ -73,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
             rootRef.child("Users").child(userPhone).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    loginProgressBar.setVisibility(View.GONE);
                     if (snapshot.exists()) {
                         moveToPasswordActivity();
                     } else {
@@ -82,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(LoginActivity.this, "An error occured", Toast.LENGTH_SHORT).show();
                     Log.d("Error", error.getMessage());
                 }
             });
