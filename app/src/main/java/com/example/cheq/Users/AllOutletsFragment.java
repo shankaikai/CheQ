@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAd
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "test";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -83,6 +85,19 @@ public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAd
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        final View view = inflater.inflate(R.layout.fragment_all_outlets, container, false);
+
+        // Initialise UI elements
+        searchEditText = view.findViewById(R.id.searchEditText);
+        noResultsTextView = view.findViewById(R.id.noResultsTextView);
+        backArrow = view.findViewById(R.id.backArrow);
+
         // Retrieve restaurants hashmap data
         allRestaurants = new HashMap<>();
         Bundle b = this.getArguments();
@@ -95,29 +110,21 @@ public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAd
             allRestaurants.get(id).put("waitingTime", "20 mins");
         }
 
-    }
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().popBackStackImmediate();
+            }
+        });
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_all_outlets, container, false);
-
-        // Initialise UI elements
-        searchEditText = view.findViewById(R.id.searchEditText);
-        noResultsTextView = view.findViewById(R.id.noResultsTextView);
-        viewAllOutletsList = view.findViewById(R.id.viewAllOutletsList);
-        backArrow = view.findViewById(R.id.backArrow);
-
-        // just to double check that the allRestaurant hashmap is not null
-        if (allRestaurants != null) {
-            // setting up the list to display all restaurants in database
-            // it will only be appeared if the users has completed queues
-            viewAllOutletsList = (RecyclerView) view.findViewById(R.id.queueAgainList);
+        // setting up the list to display all restaurants in database
+        // it will only be appeared if the users has completed queues
+        if (this.getContext() != null) {
+            viewAllOutletsList = (RecyclerView) view.findViewById(R.id.viewAllOutletsList);
             viewAllOutletsList.setLayoutManager(new LinearLayoutManager(AllOutletsFragment.this.getContext()));
-            mAdapter = new com.example.cheq.Users.ViewAllOutletsListAdapter(allRestaurants, AllOutletsFragment.this);
+            mAdapter = new com.example.cheq.Users.ViewAllOutletsListAdapter(allRestaurants, AllOutletsFragment.this, getContext());
             viewAllOutletsList.setAdapter(mAdapter);
-            viewAllOutletsList.setHasFixedSize(true);
+            viewAllOutletsList.setVisibility(View.VISIBLE);
         }
 
         return view;

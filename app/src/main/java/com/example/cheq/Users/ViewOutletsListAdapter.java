@@ -1,6 +1,9 @@
 package com.example.cheq.Users;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +13,10 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.cheq.R;
-import com.example.cheq.Utils.Utils;
+
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -22,11 +27,13 @@ import java.util.HashMap;
 
 public class ViewOutletsListAdapter extends RecyclerView.Adapter<com.example.cheq.Users.ViewOutletsListAdapter.ViewHolder> {
 
-    private static final String TAG = "retrieve id";
+    private static final String TAG = "test";
     ArrayList<String> restaurantNames;
     ArrayList<String> categories;
     ArrayList<String> restaurantImages;
     static ArrayList<String> restaurantID;
+    String url = "";
+    Context context;
 
     private onRestaurantListener mOnRestaurantListener;
 
@@ -69,7 +76,7 @@ public class ViewOutletsListAdapter extends RecyclerView.Adapter<com.example.che
     }
 
     // Constructor
-    public ViewOutletsListAdapter(HashMap<String, HashMap<String, String>> info, onRestaurantListener onRestaurantListener) {
+    public ViewOutletsListAdapter(HashMap<String, HashMap<String, String>> info, onRestaurantListener onRestaurantListener, Context context) {
         this.restaurantNames = new ArrayList<>();
         this.categories = new ArrayList<>();
         this.restaurantImages = new ArrayList<>();
@@ -79,8 +86,11 @@ public class ViewOutletsListAdapter extends RecyclerView.Adapter<com.example.che
             this.restaurantID.add(id);
             this.restaurantNames.add(info.get(id).get("name"));
             this.categories.add(info.get(id).get("category"));
+            this.restaurantImages.add(info.get(id).get("image"));
         }
+
         this.mOnRestaurantListener = onRestaurantListener;
+        this.context = context;
     }
 
     // Create new views (invoked by the layout manager)
@@ -99,22 +109,7 @@ public class ViewOutletsListAdapter extends RecyclerView.Adapter<com.example.che
         // retrieve the data for that position
         holder.getNameTextView().setText(restaurantNames.get(position));
         holder.getCategoryTextView().setText(categories.get(position));
-
-        // Convert the URL string to Bitmap
-        String url = restaurantImages.get(position);
-        URL imageURL = null;
-        try {
-            imageURL = new URL(url);
-            try {
-                Bitmap bitmap = Utils.getBitmap(imageURL);
-                holder.getImageView().setImageBitmap(bitmap);
-            } catch (IOException ex) {
-                Log.i(TAG, "Conversion to Bitmap Failed");
-            }
-        } catch (MalformedURLException ex) {
-            Log.i(TAG, "Invalid Image URL");
-            holder.getImageView().setImageResource(R.drawable.bulbasaur);
-        }
+        Glide.with(this.context).load(restaurantImages.get(position)).centerCrop().placeholder(R.drawable.bulbasaur).into(holder.getImageView());
     }
 
     // Return the size of your dataset (invoked by the layout manager)

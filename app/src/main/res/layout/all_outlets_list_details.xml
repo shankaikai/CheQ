@@ -9,6 +9,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         app:cardCornerRadius="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,27 +18,27 @@
             android:layout_margin="10dp">
 
             <ImageView
-                android:id="@+id/restaurantImage"
+                android:id="@+id/restImage"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:src="@drawable/bulbasaur"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="300dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/restaurantImage"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
+                app:layout_constraintStart_toEndOf="@+id/restImage"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginLeft="8dp">
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
-                    android:layout_width="220dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -45,7 +46,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/restaurantName"
+                        android:id="@+id/restName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_medium"
@@ -54,7 +55,8 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp">
 
                         <ImageView
                             android:id="@+id/imageView"
@@ -64,7 +66,7 @@
                             android:src="@drawable/restaurant" />
 
                         <TextView
-                            android:id="@+id/restaurantCategory"
+                            android:id="@+id/restCategory"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -77,35 +79,35 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_timer"
+                    app:tint="@color/colorGrey" />
+
+                <TextView
+                    android:id="@+id/waitingTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@+id/linearLayout"
-                    tools:layout_editor_absoluteY="0dp">
+                    android:fontFamily="@font/montserrat_light"
+                    android:text="20 mins"
+                    android:textSize="12dp" />
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_timer"
-                        app:tint="@color/colorGrey" />
-
-                    <TextView
-                        android:id="@+id/waitingTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:fontFamily="@font/montserrat_light"
-                        android:text="20 mins"
-                        android:textSize="12dp" />
-
-                </LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
