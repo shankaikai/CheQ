@@ -7,6 +7,8 @@
     <string name="nav_home_title">Home</string>
     <string name="nav_activities_title">Activities</string>
     <string name="nav_account_title">Account</string>
+    <string name="view_all_outlets">View All Outlets</string>
+    <string name="no_search_results">No results match your search.</string>
     <string-array name="restaurant_names">
         <item>gomgom</item>
         <item>Crooked Cooks</item>
@@ -58,5 +60,4 @@
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-	<string name="preorder_restaurant">No. of Pre-orders</string>
 </resources>
