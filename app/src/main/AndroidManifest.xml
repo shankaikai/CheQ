@@ -40,6 +40,9 @@
         <activity
             android:name=".Restaurant.RestaurantActivity"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Users.UserActivity"
+            android:screenOrientation="nosensor"/>
     </application>
 
 </manifest>
