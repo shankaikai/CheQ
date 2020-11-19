@@ -5,16 +5,16 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/colorGrey"
+
     >
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardBackgroundColor="@color/colorPrimary"
         card_view:cardCornerRadius="10dp"
-        card_view:cardElevation="5dp"
+        card_view:cardElevation="3dp"
         card_view:cardUseCompatPadding="true"
         >
 
@@ -24,31 +24,33 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/allQueueSeatNo"
+                android:id="@+id/restaurantAllQueueSeatNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/montserrat"
                 android:paddingLeft="20dp"
                 android:text="A001"
-                android:textFontWeight="600"
-                android:textSize="17dp"
+                android:textFontWeight="700"
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"/>
             <TextView
-                android:id="@+id/allQueuePax"
+                android:id="@+id/restaurantAllQueuePax"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/montserrat"
                 android:text="2 Pax"
                 android:textFontWeight="400"
-                android:textSize="17dp"
+                android:textSize="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginLeft="110dp"
-                app:layout_constraintLeft_toLeftOf="parent"/>
+                android:layout_marginLeft="90dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:textColor="@color/colorBlack"/>
 
             <Button
                 android:id="@+id/restaurantAllQueuesSeatButton"

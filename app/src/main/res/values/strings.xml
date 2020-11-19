@@ -1,9 +1,62 @@
 <resources>
     <string name="app_name">CheQ</string>
     <string name="loginMsg">Please enter your mobile number to begin</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="pwMsg">Please enter your password</string>
     <string name="registerPrompt">Please fill in the following to proceed</string>
-    <string name="preorder_restaurant">No. of Pre-orders</string>
+    <string name="otpPrompt">Please enter the OTP sent to</string>
+    <string name="nav_home_title">Home</string>
+    <string name="nav_activities_title">Activities</string>
+    <string name="nav_account_title">Account</string>
+    <string-array name="restaurant_names">
+        <item>gomgom</item>
+        <item>Crooked Cooks</item>
+    </string-array>
+    <string-array name="categories">
+        <item>Cafe, Sandwiches</item>
+        <item>Takeout, Japanese</item>
+    </string-array>
+    <string name="tab_text_1">Current</string>
+    <string name="tab_text_2">Past</string>
+    <string-array name="past_activities">
+        <item>Din Tai Fung</item>
+        <item>Crooked Crooks</item>
+        <item>These are</item>
+        <item>Just to</item>
+        <item>Test</item>
+        <item>Recycle</item>
+        <item>View</item>
+        <item>Is</item>
+        <item>Working</item>
+        <item>Or</item>
+        <item>Not</item>
+    </string-array>
+    <string-array name="past_activities_date">
+        <item>12 Sep 2020, Saturday</item>
+        <item>11 Sep 2020, Saturday</item>
+        <item>10 Sep 2020, Saturday</item>
+        <item>9 Sep 2020, Saturday</item>
+        <item>8 Sep 2020, Saturday</item>
+        <item>7 Sep 2020, Saturday</item>
+        <item>6 Sep 2020, Saturday</item>
+        <item>5 Sep 2020, Saturday</item>
+        <item>4 Sep 2020, Saturday</item>
+        <item>3 Sep 2020, Saturday</item>
+        <item>2 Sep 2020, Saturday</item>
+    </string-array>
+    <string-array name="past_activities_groupsize">
+        <item>2 people</item>
+        <item>3 people</item>
+        <item>4 people</item>
+        <item>1 person</item>
+        <item>4 people</item>
+        <item>4 people</item>
+        <item>4 people</item>
+        <item>4 people</item>
+        <item>4 people</item>
+        <item>4 people</item>
+        <item>4 people</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+	<string name="preorder_restaurant">No. of Pre-orders</string>
 </resources>

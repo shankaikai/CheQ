@@ -1,76 +1,139 @@
 package com.example.cheq.Login;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
+import com.example.cheq.Managers.FirebaseManager;
 import com.example.cheq.MainActivity;
+import com.example.cheq.Managers.SessionManager;
 import com.example.cheq.R;
-import com.example.cheq.Restaurant.RestaurantActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
-    // Temporary validation
-    String validuser = "93821490";
-    String validpassword = "password";
+    // Views
+    EditText inputPhone;
+    Button phoneContinueBtn;
+    TextView loginMsg;
+    TextView loginPrompt;
+    RelativeLayout loginProgressBar;
 
-    // Temporary Btn for Restaurant Activity
-    Button restBtn;
+    // Firebase
+    FirebaseManager firebaseManager;
 
+    String userPhone;
+
+    final String USERPHONEKEY = "userPhone";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Create the onClickListener for the Continue Button
-        Button phoneContinueBtn = (Button) findViewById(R.id.phoneContinueBtn);
+        // Hooks
+        inputPhone = (EditText) findViewById(R.id.inputPhone);
+        loginMsg = findViewById(R.id.titleMsg);
+        loginPrompt = findViewById(R.id.loginPrompt);
+        phoneContinueBtn = (Button) findViewById(R.id.phoneContinueBtn);
         phoneContinueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkUser(v);
+                checkUser();
             }
         });
+        loginProgressBar = findViewById(R.id.loginProgressBar);
 
-        restBtn = findViewById(R.id.toResBtn);
-        restBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moveToRestaurantActivity();
-            }
-        });
-
+        firebaseManager = new FirebaseManager();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        checkSession(); // Check if user is logged in
-    }
+    /**
+     * This method checks whether the user is an existing or new user based on the userPhone input
+     */
+    public void checkUser() {
+        // Set progress bar to visible
+        loginProgressBar.setVisibility(View.VISIBLE);
 
-    private void checkSession() {
+        // Get user phone input
+        userPhone = inputPhone.getText().toString();
 
-        // Instantiate SessionManagement and get current session
-        SessionManager sessionManager = new SessionManager(LoginActivity.this);
-        int userID = sessionManager.getSession();
+        DatabaseReference rootRef = firebaseManager.rootRef;
 
-        // If user is logged in then move to MainActivity
-        if (userID != -1){
+        // Check if the phone number input is valid
+        if (isValidNumber(userPhone)) {
 
-            // TODO: Check for user type and redirect to Restaurant Activity if they are
-            moveToMainActivity();
+            rootRef.child("Users").child(userPhone).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    loginProgressBar.setVisibility(View.GONE);
+                    if (snapshot.exists()) {
+                        moveToPasswordActivity();
+                    } else {
+                        moveToRegistrationActivity();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(LoginActivity.this, "An error occured", Toast.LENGTH_SHORT).show();
+                    Log.d("Error", error.getMessage());
+                }
+            });
+        }
+        else {
+            // Display error message if phone input is invalid
+            Toast.makeText(LoginActivity.this, "Please enter a valid phone number", Toast.LENGTH_SHORT).show();
         }
     }
 
+    public void moveToPasswordActivity() {
+        Intent intent = new Intent(LoginActivity.this, PasswordActivity.class);
+        intent.putExtra(USERPHONEKEY, userPhone);
+        Pair transition = new Pair<View, String>(phoneContinueBtn, "transitionContinueBtn");
+        // Check if SDK version is high enough for animation
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this, transition);
+            startActivity(intent, options.toBundle());
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        } else {
+            startActivity(intent);
+        }
+    }
+
+    public void moveToRegistrationActivity() {
+        Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+        intent.putExtra(USERPHONEKEY, userPhone);
+        Pair transition = new Pair<View, String>(phoneContinueBtn, "transitionContinueBtn");
+        // Check if SDK version is high enough for animation
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this, transition);
+            startActivity(intent, options.toBundle());
+        } else {
+            startActivity(intent);
+        }
+    }
+
+    /**
+     * This method checks if the input string is a valid Singaporean number and returns true/false.
+     * @param s a String object
+     * @return a boolean value
+     */
     public boolean isValidNumber(String s) {
-        if (s.length() == 8) {
+        if (s.length() == 8 && (s.charAt(0) == '6' | s.charAt(0) == '8' | s.charAt(0) == '9')) {
             try {
                 int num = Integer.parseInt(s);
                 return true;
@@ -79,96 +142,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
         return false;
-    }
-
-    // Check if new or existing user
-    public void checkUser(View view) {
-
-        EditText inputPhone = (EditText) findViewById(R.id.inputPhone);
-        String userPhone = inputPhone.getText().toString();
-
-        // Error Message
-        TextView errorMsg = (TextView) findViewById(R.id.errorMsg);
-
-        // Check if the phone number input is valid
-        if (isValidNumber(userPhone)) {
-
-            // TODO: Check database for userName
-            if (userPhone.equals(validuser)) {
-
-                // Call PasswordFragment
-                changeFragment("existing");
-
-                // Create a new User object (ID generation to be done by SQL)
-                // User user = new User(1, userPhone, );
-
-                // Save Session of User
-//                SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
-//                sessionManagement.saveSession(user);
-//                moveToMainActivity();
-
-            } else {
-
-                // Call RegistrationFragment
-                changeFragment("new");
-            }
-        }
-        else {
-            errorMsg.setText("Please enter a valid phone number");
-        }
-
-    }
-
-    // Check if new or existing user
-    public void checkPassword(View view) {
-
-        EditText inputPassword = (EditText) findViewById(R.id.inputPassword);
-        String userPassword = inputPassword.getText().toString();
-
-        // Error Message
-        TextView errorMsg = (TextView) findViewById(R.id.errorMsg);
-
-        // TODO: Check database for password
-        if (userPassword.equals(validuser)) {
-            moveToMainActivity();
-        }
-        else {
-            errorMsg.setText("Wrong password!");
-        }
-
-    }
-
-    // Replace loginFragment with the next fragment
-    public void changeFragment(String type) {
-        Fragment fragment;
-
-        if (type == "existing") {
-            fragment = new LoginPasswordFragment();
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.loginFragment, fragment);
-            ft.commit();
-        }
-        if (type == "new") {
-            fragment = new RegisterFragment();
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.loginFragment, fragment);
-            ft.commit();
-        }
-    }
-
-
-
-    private void moveToMainActivity() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
-
-    private void moveToRestaurantActivity() {
-        Intent intent = new Intent(LoginActivity.this, RestaurantActivity.class);
-        startActivity(intent);
     }
 
 }

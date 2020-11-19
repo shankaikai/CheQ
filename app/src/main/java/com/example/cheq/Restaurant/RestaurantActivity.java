@@ -1,16 +1,21 @@
-package com.example.cheq.Restaurant;
+package com.example.cheq_restaurant;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.example.cheq.R;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class RestaurantActivity extends AppCompatActivity {
+    public final String TAG = "Logcat";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -38,4 +43,40 @@ public class RestaurantActivity extends AppCompatActivity {
             return true;
         }
     };
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart");
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i(TAG,"onPause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG, "Resume");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG, "Stop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG,"Destory");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i(TAG, "Restart");
+    }
 }
+

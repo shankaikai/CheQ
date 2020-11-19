@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,22 +7,81 @@
     tools:context="com.example.cheq.Login.LoginActivity"
     android:background="@color/colorPrimaryDark"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="50dp">
 
-    <Button
-        android:id="@+id/toResBtn"
+    <ImageView
+        android:id="@+id/placeholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To Restaurant"
-        android:layout_marginTop="20dp"/>
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/arrow_back"
+        app:tint="@color/colorPrimary"
+        android:visibility="invisible" />
 
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.cheq.Login.LoginPhoneFragment"
+    <TextView
+        android:id="@+id/titleMsg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="60dp"/>
+        android:layout_height="wrap_content"
+        android:text="Hello!"
+        android:textColor="@android:color/white"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:layout_marginTop="100dp"
+        android:layout_below="@+id/placeholder"
+        />
+
+    <RelativeLayout
+        android:id="@+id/loginProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:elevation="10dp"
+        android:visibility="gone">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/white_circle"
+            android:padding="15dp" />
+    </RelativeLayout>
 
 
+    <TextView
+        android:id="@+id/loginPrompt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/titleMsg"
+        android:text="@string/loginMsg"
+        android:textColor="@android:color/white" />
 
-</LinearLayout>
+    <EditText
+        android:id="@+id/inputPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/curvedcorner"
+        android:hint="93282319"
+        android:inputType="number"
+        android:padding="15dp"
+        android:textSize="15dp"
+        android:layout_below="@+id/loginPrompt"
+        />
+
+    <Button
+        android:id="@+id/phoneContinueBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/inputPhone"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:text="Continue"
+        android:textAllCaps="false"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:transitionName="transitionContinueBtn"/>
+
+</RelativeLayout>
