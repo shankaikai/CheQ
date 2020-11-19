@@ -35,6 +35,7 @@ public class RestaurantSeatCustomerActivity extends AppCompatActivity {
 
         restaurantSeatCustomerSeatNoTextView.setText(seat.getSeatNo());
 
+
         restaurantSeatCustomerBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
