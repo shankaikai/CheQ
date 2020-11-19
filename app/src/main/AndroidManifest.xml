@@ -38,7 +38,12 @@
             android:noHistory="true" /> <!-- RestaurantActivity -->
         <activity
             android:name=".Restaurant.RestaurantActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:screenOrientation="nosensor"/>
+        <activity
+            android:name=".Restaurant.RestaurantAllQueuesActivity"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="nosensor"/>
         <activity
             android:name=".Users.UserActivity"
             android:screenOrientation="nosensor"/>
