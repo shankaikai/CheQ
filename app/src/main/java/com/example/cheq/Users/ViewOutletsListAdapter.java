@@ -25,7 +25,7 @@ public class ViewOutletsListAdapter extends RecyclerView.Adapter<com.example.che
     private static final String TAG = "retrieve id";
     ArrayList<String> restaurantNames;
     ArrayList<String> categories;
-    ArrayList<String> restaurantImages;
+    ArrayList<Integer> restaurantImages;
     static ArrayList<String> restaurantID;
 
     private onRestaurantListener mOnRestaurantListener;
@@ -79,6 +79,7 @@ public class ViewOutletsListAdapter extends RecyclerView.Adapter<com.example.che
             this.restaurantID.add(id);
             this.restaurantNames.add(info.get(id).get("name"));
             this.categories.add(info.get(id).get("category"));
+            this.restaurantImages.add(R.drawable.bulbasaur);
         }
         this.mOnRestaurantListener = onRestaurantListener;
     }
@@ -99,22 +100,23 @@ public class ViewOutletsListAdapter extends RecyclerView.Adapter<com.example.che
         // retrieve the data for that position
         holder.getNameTextView().setText(restaurantNames.get(position));
         holder.getCategoryTextView().setText(categories.get(position));
+        holder.getImageView().setImageResource(restaurantImages.get(position));
 
         // Convert the URL string to Bitmap
-        String url = restaurantImages.get(position);
-        URL imageURL = null;
-        try {
-            imageURL = new URL(url);
-            try {
-                Bitmap bitmap = Utils.getBitmap(imageURL);
-                holder.getImageView().setImageBitmap(bitmap);
-            } catch (IOException ex) {
-                Log.i(TAG, "Conversion to Bitmap Failed");
-            }
-        } catch (MalformedURLException ex) {
-            Log.i(TAG, "Invalid Image URL");
-            holder.getImageView().setImageResource(R.drawable.bulbasaur);
-        }
+//        String url = restaurantImages.get(position);
+//        URL imageURL = null;
+//        try {
+//            imageURL = new URL(url);
+//            try {
+//                Bitmap bitmap = Utils.getBitmap(imageURL);
+//                holder.getImageView().setImageBitmap(bitmap);
+//            } catch (IOException ex) {
+//                Log.i(TAG, "Conversion to Bitmap Failed");
+//            }
+//        } catch (MalformedURLException ex) {
+//            Log.i(TAG, "Invalid Image URL");
+//            holder.getImageView().setImageResource(R.drawable.bulbasaur);
+//        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
