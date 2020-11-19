@@ -8,7 +8,6 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,8 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cheq.Managers.FirebaseManager;
-import com.example.cheq.MainActivity;
-import com.example.cheq.Managers.SessionManager;
 import com.example.cheq.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -74,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         DatabaseReference rootRef = firebaseManager.rootRef;
 
         // Check if the phone number input is valid
-        if (isValidNumber(userPhone)) {
+        if (InputValidation.isValidNumber(userPhone)) {
 
             rootRef.child("Users").child(userPhone).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -89,12 +86,14 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
+                    loginProgressBar.setVisibility(View.GONE);
                     Toast.makeText(LoginActivity.this, "An error occured", Toast.LENGTH_SHORT).show();
                     Log.d("Error", error.getMessage());
                 }
             });
         }
         else {
+            loginProgressBar.setVisibility(View.GONE);
             // Display error message if phone input is invalid
             Toast.makeText(LoginActivity.this, "Please enter a valid phone number", Toast.LENGTH_SHORT).show();
         }
@@ -127,21 +126,5 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * This method checks if the input string is a valid Singaporean number and returns true/false.
-     * @param s a String object
-     * @return a boolean value
-     */
-    public boolean isValidNumber(String s) {
-        if (s.length() == 8 && (s.charAt(0) == '6' | s.charAt(0) == '8' | s.charAt(0) == '9')) {
-            try {
-                int num = Integer.parseInt(s);
-                return true;
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid Number!");
-            }
-        }
-        return false;
-    }
 
 }

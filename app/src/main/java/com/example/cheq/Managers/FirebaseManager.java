@@ -3,10 +3,13 @@ package com.example.cheq.Managers;
 
 import com.example.cheq.Entities.RestaurantInfo;
 import com.example.cheq.Entities.User;
+import com.example.cheq.Login.RestaurantOnboard.DishItem;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-// This class handles all firebase interactions
+import java.util.ArrayList;
+
+// This class handles all firebase insert interactions
 public class FirebaseManager {
 
     public FirebaseDatabase firebaseInstance;
@@ -31,5 +34,14 @@ public class FirebaseManager {
 
         // Insert user into firebase
         firebaseReference.child(userPhone).setValue(restaurantInfo);
+    }
+
+    // Upload menu to database
+    private void uploadMenu(String userPhone, ArrayList<DishItem> menuList) {
+        // Set reference to "Users" child
+        DatabaseReference firebaseReference = firebaseInstance.getReference("Menus");
+
+        // Insert user into firebase
+        firebaseReference.child(userPhone).setValue(menuList);
     }
 }
