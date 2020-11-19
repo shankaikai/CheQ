@@ -8,18 +8,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cheq.MainActivity;
 import com.example.cheq.Managers.FirebaseManager;
 import com.example.cheq.R;
-import com.example.cheq.Utils.Utils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -68,8 +70,8 @@ public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter
     HashMap<String, HashMap<String, String>> allRestaurants;
 
     // UI Elements
-    RelativeLayout queueAgainLayout;
-    RelativeLayout allOutletsLayout;
+    LinearLayout queueAgainLayout;
+    LinearLayout allOutletsLayout;
     Button viewOutletsBtn;
 
     public UserHomeFragment() {
@@ -129,14 +131,14 @@ public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter
         rootRef.child("Users").child(userPhone).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child("queues").child("completed").exists()) {
+                if (snapshot.child("pastQueues").exists()) {
                     restaurantsQueueAgainList = new ArrayList<>();
-                    Query query = rootRef.child("Users").child(userPhone).child("queues").child("completed").orderByValue().limitToLast(5);
+                    Query query = rootRef.child("Users").child(userPhone).child("pastQueues").orderByValue().limitToLast(5);
                     query.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (Iterator<DataSnapshot> iter = snapshot.getChildren().iterator(); iter.hasNext();) {
-                                String restaurantID = iter.next().getKey().toString();
+                                String restaurantID = iter.next().getKey();
                                 restaurantsQueueAgainList.add(restaurantID);
                             }
                             if (restaurantsQueueAgainList.size() > 1) {
@@ -177,8 +179,8 @@ public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter
                         // it will only be appeared if the users has completed queues
                         if (restaurantsQueueAgainList != null) {
                             queueAgainList = (RecyclerView) view.findViewById(R.id.queueAgainList);
-                            queueAgainList.setLayoutManager(new GridLayoutManager(UserHomeFragment.this.getContext(), 2));
-                            mAdapter = new com.example.cheq.Users.ViewOutletsListAdapter(restaurantInfo, UserHomeFragment.this);
+                            queueAgainList.setLayoutManager(new LinearLayoutManager(UserHomeFragment.this.getContext(), LinearLayoutManager.HORIZONTAL, false));
+                            mAdapter = new com.example.cheq.Users.ViewOutletsListAdapter(restaurantInfo, UserHomeFragment.this, getContext());
                             queueAgainList.setAdapter(mAdapter);
                             queueAgainList.setHasFixedSize(true);
                             queueAgainLayout.setVisibility(View.VISIBLE);
@@ -186,11 +188,10 @@ public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter
 
                         // setting up the All Outlets list
                         outletsList = (RecyclerView) view.findViewById(R.id.outletsList);
-                        outletsList.setLayoutManager(new GridLayoutManager(UserHomeFragment.this.getContext(), 2));
-                        mAdapter = new com.example.cheq.Users.ViewOutletsListAdapter(allRestaurants,UserHomeFragment.this);
+                        outletsList.setLayoutManager(new LinearLayoutManager(UserHomeFragment.this.getContext(), LinearLayoutManager.HORIZONTAL, false));
+                        mAdapter = new com.example.cheq.Users.ViewOutletsListAdapter(allRestaurants,UserHomeFragment.this, getContext());
                         outletsList.setAdapter(mAdapter);
                         outletsList.setHasFixedSize(true);
-
                         // set the visibility of the UI elements to visible when the data is loaded
                         allOutletsLayout.setVisibility(View.VISIBLE);
                     }
@@ -214,8 +215,7 @@ public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter
                 Bundle restaurants = new Bundle();
                 restaurants.putSerializable("hashmap", allRestaurants);
                 fragment.setArguments(restaurants);
-
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, "home").addToBackStack("home").commit();
             }
         });
 
