@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.cheq.Entities.User;
@@ -34,6 +35,7 @@ public class RegistrationActivity extends AppCompatActivity {
     Button registerContinueBtn;
     RadioGroup userType;
     ImageView registerBackBtn;
+    RelativeLayout registerProgressBar;
 
     // FirebaseManager
     FirebaseManager firebaseManager;
@@ -56,7 +58,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 moveToLoginActivity();
             }
         });
-
         registerContinueBtn = findViewById(R.id.registerContinueBtn);
         registerContinueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +65,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 addNewUser();
             }
         });
+        registerProgressBar = findViewById(R.id.registerProgressBar);
 
         firebaseManager = new FirebaseManager();
         sessionManager = SessionManager.getSessionManager(RegistrationActivity.this);
@@ -71,6 +73,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     // Add new users to database after validation
     public void addNewUser() {
+        registerProgressBar.setVisibility(View.VISIBLE);
 
         // Get user inputs
         String userName = inputName.getText().toString();
@@ -96,6 +99,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
             // Insert new user into firebase
             firebaseManager.registerNewUser(user);
+
+            registerProgressBar.setVisibility(View.GONE);
 
             if (userType.equals("Customer")){
                 moveToDoneActivity();

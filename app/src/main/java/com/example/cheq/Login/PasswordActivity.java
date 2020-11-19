@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class PasswordActivity extends AppCompatActivity {
     EditText inputPassword;
     Button passwordContinueBtn;
     ImageView passwordBackBtn;
+    RelativeLayout passwordProgressBar;
 
     // Managers
     FirebaseManager firebaseManager;
@@ -57,6 +59,7 @@ public class PasswordActivity extends AppCompatActivity {
                 checkPassword();
             }
         });
+        passwordProgressBar = findViewById(R.id.passwordProgressBar);
         passwordBackBtn = findViewById(R.id.passwordBackBtn);
         passwordBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +72,8 @@ public class PasswordActivity extends AppCompatActivity {
 
     // Check if new or existing user
     public void checkPassword() {
+        passwordProgressBar.setVisibility(View.VISIBLE);
+
         // Get userPhone from LoginActivity
         userPhone = getIntent().getStringExtra("userPhone");
 
@@ -88,6 +93,8 @@ public class PasswordActivity extends AppCompatActivity {
                        // Save Session of User
                        String userType = snapshot.child("userType").getValue().toString();
                        sessionManager.saveSession(userPhone, userType);
+                       passwordProgressBar.setVisibility(View.GONE);
+
                        if (userType.equals("Customer")) {
                            moveToMainActivity();
                        } else {
