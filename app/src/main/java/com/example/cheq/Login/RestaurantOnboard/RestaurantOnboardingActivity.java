@@ -1,9 +1,5 @@
 package com.example.cheq.Login.RestaurantOnboard;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,7 +14,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.cheq.Entities.RestaurantInfo;
+import com.example.cheq.Login.InputValidation;
 import com.example.cheq.Managers.FirebaseManager;
 import com.example.cheq.R;
 import com.google.android.gms.tasks.Continuation;
@@ -49,6 +50,10 @@ public class RestaurantOnboardingActivity extends AppCompatActivity {
     private FirebaseManager firebaseManager;
 
     String userPhone;
+    String restName;
+    String restPhone;
+    String restEmail;
+    String restCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +86,6 @@ public class RestaurantOnboardingActivity extends AppCompatActivity {
         firebaseStorage = firebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
 
-        firebaseManager = new FirebaseManager();
-
         userPhone = getIntent().getStringExtra("userPhone");
     }
 
@@ -107,55 +110,68 @@ public class RestaurantOnboardingActivity extends AppCompatActivity {
         onboardProgressBar.setVisibility(View.VISIBLE);
 
         // Get inputs
-        final String restName = onboardRestaurantName.getText().toString();
-        final String restPhone = onboardRestaurantNum.getText().toString();
-        final String restEmail = onboardRestaurantEmail.getText().toString();
-        final String restCategory = onboardSpinner.getSelectedItem().toString();
+        restName = onboardRestaurantName.getText().toString();
+        restPhone = onboardRestaurantNum.getText().toString();
+        restEmail = onboardRestaurantEmail.getText().toString();
+        restCategory = onboardSpinner.getSelectedItem().toString();
 
-        // Generate a random string for the image name
-        final String randomKey = UUID.randomUUID().toString();
-        final StorageReference ref = storageReference.child("images/" + randomKey);
+        // Validate inputs
+        if (validateInputs()) {
+            // Generate a random string for the image name
+            final String randomKey = UUID.randomUUID().toString();
+            final StorageReference ref = storageReference.child("images/" + randomKey);
 
-        // Add the file into firebase storage
-        UploadTask uploadTask = ref.putFile(imageUri);
+            // Add the file into firebase storage
+            UploadTask uploadTask = ref.putFile(imageUri);
 
-        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful()) {
-                    throw task.getException();
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+
+                    // Continue with the task to get the download URL
+                    return ref.getDownloadUrl();
                 }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        String downloadUri = task.getResult().toString();
 
-                // Continue with the task to get the download URL
-                return ref.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if (task.isSuccessful()) {
-                    String downloadUri = task.getResult().toString();
+                        // Create RestaurantInfo object
+                        RestaurantInfo restaurantInfo = new RestaurantInfo(restPhone, restName, restEmail, downloadUri, restCategory);
 
-                    // Create RestaurantInfo object
-                    RestaurantInfo restaurantInfo = new RestaurantInfo(restPhone, restName, restEmail, downloadUri, restCategory);
+                        //Upload details to firebase
+                        firebaseManager.addRestaurantDetails(restaurantInfo, userPhone);
 
-                    //Upload details to firebase
-                    firebaseManager.addRestaurantDetails(restaurantInfo, userPhone);
+                        onboardProgressBar.setVisibility(View.GONE);
+                        moveToRestaurantOnboardingMenuActivity(userPhone);
 
-                    // Set progress bar to gone
-                    onboardProgressBar.setVisibility(View.GONE);
-
-                    // Move To RestaurantOnboardingMenuActivity
-                    moveToMenuActivity(userPhone);
-
-                } else {
-                    Toast.makeText(RestaurantOnboardingActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(RestaurantOnboardingActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
-
+            });
+        }
     }
 
-    private void moveToMenuActivity(String userPhone) {
+    // Validate all the inputs
+    public boolean validateInputs(){
+        if (restName == null || restPhone == null) {
+            Toast.makeText(this, "Restaurant Name/Phone is empty", Toast.LENGTH_SHORT).show();
+        } else if (imageUri == null) {
+            Toast.makeText(this, "Please upload an image", Toast.LENGTH_SHORT).show();
+        } else if (!InputValidation.isValidEmail(restEmail)) {
+            Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
+        } else {
+            return true;
+        }
+        return false;
+    }
+
+    private void moveToRestaurantOnboardingMenuActivity(String userPhone) {
         Intent intent = new Intent(RestaurantOnboardingActivity.this, RestaurantOnboardingMenuActivity.class);
         intent.putExtra("userPhone", userPhone);
         // Add Transition
