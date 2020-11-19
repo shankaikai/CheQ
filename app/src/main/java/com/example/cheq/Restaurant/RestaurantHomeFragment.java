@@ -46,10 +46,6 @@ public class RestaurantHomeFragment extends Fragment {
         RestaurantHomeQueueAdapter arrayAdapterQ = new RestaurantHomeQueueAdapter(this.getContext() , xPax, xWaiting);
         viewAllQueueListView.setAdapter(arrayAdapterQ);
 
-        preorderTextView = view.findViewById(R.id.preorderTextView);
-        String preorderString = preorder.toString();
-        preorderTextView.setText(preorderString);
-
         viewAllQueuesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
