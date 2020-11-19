@@ -1,10 +1,11 @@
-package com.example.cheq_restaurant;
+package com.example.cheq.Restaurant;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import com.example.cheq.R;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

@@ -1,4 +1,4 @@
-package com.example.cheq_restaurant;
+package com.example.cheq.Restaurant;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.cheq.R;
 
 import org.w3c.dom.Text;
 

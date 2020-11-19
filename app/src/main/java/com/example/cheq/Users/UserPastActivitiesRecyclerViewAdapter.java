@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.cheq.R;
-import com.example.cheq.Users.dummy.DummyContent.DummyItem;
+
 
 import java.util.List;
 

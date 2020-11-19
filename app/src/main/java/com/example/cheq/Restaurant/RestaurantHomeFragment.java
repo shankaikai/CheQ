@@ -1,4 +1,4 @@
-package com.example.cheq_restaurant;
+package com.example.cheq.Restaurant;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+
+import com.example.cheq.R;
 
 import org.w3c.dom.Text;
 

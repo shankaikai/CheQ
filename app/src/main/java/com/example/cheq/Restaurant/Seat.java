@@ -1,4 +1,4 @@
-package com.example.cheq_restaurant;
+package com.example.cheq.Restaurant;
 
 import java.io.Serializable;
 

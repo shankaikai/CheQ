@@ -1,4 +1,4 @@
-package com.example.cheq_restaurant;
+package com.example.cheq.Restaurant;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.cheq.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,9 +52,9 @@ public class SeatsAdapter extends RecyclerView.Adapter<SeatsAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         // Get the data model based on position
-        Seat seat = seats.get(position);
+        final Seat seat = seats.get(position);
 
         // Set item views based on your views and data model
         TextView restaurantAllQueuePax = holder.restaurantAllQueuePax;

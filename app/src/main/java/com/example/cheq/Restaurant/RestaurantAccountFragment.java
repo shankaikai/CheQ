@@ -1,4 +1,4 @@
-package com.example.cheq_restaurant;
+package com.example.cheq.Restaurant;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.net.Uri;
 import android.widget.Button;
 
+import com.example.cheq.Login.LoginActivity;
+import com.example.cheq.Managers.SessionManager;
+import com.example.cheq.R;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -45,19 +48,21 @@ public class RestaurantAccountFragment extends Fragment{
         logOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SessionManager sessionManager = SessionManager.getSessionManager(getContext());
+                sessionManager.removeSession();
                 moveToMainActivity();
             }
         });
-//        editNameBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//            }
-//        });
-//        editPictureBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//            }
-//        });
+        editNameBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        editPictureBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
 
         // Inflate the layout for this fragment
         return view;
@@ -68,7 +73,7 @@ public class RestaurantAccountFragment extends Fragment{
         startActivity(launchBrowser);
     }
     private void moveToMainActivity() {
-        Intent intent = new Intent(getActivity(), MainActivity.class);
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
     }
 }
