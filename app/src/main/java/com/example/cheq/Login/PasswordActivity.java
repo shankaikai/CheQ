@@ -1,24 +1,27 @@
 package com.example.cheq.Login;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.cheq.MainActivity;
 import com.example.cheq.Managers.FirebaseManager;
+import com.example.cheq.MainActivity;
 import com.example.cheq.Managers.SessionManager;
 import com.example.cheq.R;
 import com.example.cheq.Restaurant.RestaurantActivity;
+import com.example.cheq.Users.UserActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -67,7 +70,7 @@ public class PasswordActivity extends AppCompatActivity {
 
     }
 
-    // Check if password is correct for the user
+    // Check if new or existing user
     public void checkPassword() {
         passwordProgressBar.setVisibility(View.VISIBLE);
 
@@ -78,7 +81,7 @@ public class PasswordActivity extends AppCompatActivity {
 
         final DatabaseReference rootRef = firebaseManager.rootRef;
 
-        if (InputValidation.isValidPassword(userPassword)) {
+        if (userPassword != null) {
 
             // Check firebase for password match
            final DatabaseReference userRef = rootRef.child("Users").child(userPhone);
@@ -95,11 +98,11 @@ public class PasswordActivity extends AppCompatActivity {
                        if (userType.equals("Customer")) {
                            moveToMainActivity();
                        } else {
+
                            moveToRestaurantActivity();
                        }
 
                    } else {
-                       passwordProgressBar.setVisibility(View.GONE);
                        // Display error toast
                        Toast.makeText(PasswordActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
                    }
@@ -107,16 +110,14 @@ public class PasswordActivity extends AppCompatActivity {
 
                @Override
                public void onCancelled(@NonNull DatabaseError error) {
-                   passwordProgressBar.setVisibility(View.GONE);
                    // Display error toast
                    Toast.makeText(PasswordActivity.this, "Service is unavailable", Toast.LENGTH_SHORT).show();
                }
            });
         }
         else {
-            passwordProgressBar.setVisibility(View.GONE);
             // Display error toast
-            Toast.makeText(PasswordActivity.this, "Please enter a valid password of at least 6 characters", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PasswordActivity.this, "The password field is empty", Toast.LENGTH_SHORT).show();
         }
     }
 

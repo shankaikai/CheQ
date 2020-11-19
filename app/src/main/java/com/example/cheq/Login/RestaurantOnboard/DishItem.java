@@ -2,23 +2,32 @@ package com.example.cheq.Login.RestaurantOnboard;
 
 public class DishItem {
 
+    private int dishID;
     private String dishTitle;
     private String dishPrice;
     private String dishImageUrl;
-    private String dishCategory;
 
     // TODO: dishImageUrl
-    public DishItem(String dishTitle, String dishPrice, String dishCategory) {
+    public DishItem(int id, String dishTitle, String dishPrice) {
+        this.dishID = id;
         this.dishTitle = dishTitle;
         this.dishPrice = dishPrice;
-        this.dishCategory = dishCategory;
     }
 
-    public DishItem(String dishTitle, String dishPrice, String dishCategory, String dishImageUrl) {
+    public DishItem(int id, String dishTitle, String dishPrice, String dishImageUrl) {
+        this.dishID = id;
         this.dishTitle = dishTitle;
         this.dishPrice = dishPrice;
-        this.dishCategory = dishCategory;
         this.dishImageUrl = dishImageUrl;
+    }
+
+
+    public int getDishID() {
+        return dishID;
+    }
+
+    public void setDishID(int dishID) {
+        this.dishID = dishID;
     }
 
     public String getTitle() {
