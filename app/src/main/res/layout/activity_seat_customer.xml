@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RestaurantAllQueuesActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/restaurantSeatCustomerSeatLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/restaurantSeatCustomerSeatNoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:text="A001"
+            android:textColor="@android:color/black"
+            android:textFontWeight="500"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/restaurantSeatCustomerSeatLayout1"
+            android:layout_marginBottom="16dp"></TextView>
+
+        <Button
+            android:id="@+id/restaurantSeatCustomerBackBtn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="23dp"
+            android:background="@drawable/back_ios"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/restaurantSeatCustomerSeatLayout1"
+            android:layout_marginBottom="16dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/restaurantSeatCustomerSeatLayout1"
+        >
+
+        <TextView
+            android:id="@+id/restaurantSeatCustomerOrderConfirmationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="18dp"
+            android:text="Order Confirmation"
+            android:textColor="@color/colorBlack"
+            android:textFontWeight="700"
+            android:textSize="18dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ListView
+            android:id="@+id/restaurantSeatCustomerListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/restaurantSeatCustomerOrderConfirmationText"
+        />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        >
+
+        <Button
+            android:id="@+id/restaurantSeatCustomerSendOrderBtn"
+            android:layout_width="311dp"
+            android:layout_height="36dp"
+            android:background="@drawable/half_rounded_button_red"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="Send Order"
+            android:textColor="@color/colorPrimary"
+            android:textAllCaps="false"
+            android:textSize="18dp"
+            android:textFontWeight="600"
+
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
