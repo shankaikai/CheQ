@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Users.RestaurantPageActivity"></activity>
         <!-- SplashScreen -->
         <activity
             android:name=".Login.SplashScreen"
@@ -21,26 +22,21 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <!-- LoginActivity -->
+        </activity> <!-- LoginActivity -->
         <activity
             android:name=".Login.LoginActivity"
             android:noHistory="true"
-            android:theme="@style/AppTheme" />
-        <!-- RegistrationActivity -->
+            android:theme="@style/AppTheme" /> <!-- RegistrationActivity -->
         <activity
             android:name=".Login.RegistrationActivity"
-            android:noHistory="true" />
-        <!-- PasswordActivity -->
+            android:noHistory="true" /> <!-- PasswordActivity -->
         <activity
             android:name=".Login.PasswordActivity"
-            android:noHistory="true" />
-        <!-- MainActivity -->
-        <activity android:name=".MainActivity" />
-        <!-- DoneActivity -->
-        <activity android:name=".Login.DoneActivity"
-            android:noHistory="true"></activity>
-        <!-- RestaurantActivity -->
+            android:noHistory="true" /> <!-- MainActivity -->
+        <activity android:name=".MainActivity" /> <!-- DoneActivity -->
+        <activity
+            android:name=".Login.DoneActivity"
+            android:noHistory="true" /> <!-- RestaurantActivity -->
         <activity
             android:name=".Restaurant.RestaurantActivity"
             android:theme="@style/AppTheme" />
