@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.example.cheq.Restaurant.RestaurantActivity">
+    tools:context="com.example.cheq_restaurant.RestaurantActivity">
 
     <FrameLayout
         android:id="@+id/fragmentRestaurant"
