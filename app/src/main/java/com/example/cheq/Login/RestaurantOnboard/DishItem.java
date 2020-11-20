@@ -1,57 +1,54 @@
 package com.example.cheq.Login.RestaurantOnboard;
 
+import android.net.Uri;
+
 public class DishItem {
 
-    private int dishID;
-    private String dishTitle;
+
+    private String dishName;
     private String dishPrice;
-    private String dishImageUrl;
+    private String dishCategory;
+    private Uri dishImageUri;
 
-    // TODO: dishImageUrl
-    public DishItem(int id, String dishTitle, String dishPrice) {
-        this.dishID = id;
-        this.dishTitle = dishTitle;
+
+    public DishItem(String dishName, String dishPrice, String dishCategory, Uri dishImageUri) {
+        this.dishImageUri = dishImageUri;
+        this.dishCategory = dishCategory;
+        this.dishName = dishName;
         this.dishPrice = dishPrice;
     }
 
-    public DishItem(int id, String dishTitle, String dishPrice, String dishImageUrl) {
-        this.dishID = id;
-        this.dishTitle = dishTitle;
-        this.dishPrice = dishPrice;
-        this.dishImageUrl = dishImageUrl;
+
+    public String getDishName() {
+        return dishName;
     }
 
-
-    public int getDishID() {
-        return dishID;
+    public void setDishName(String dishName) {
+        this.dishName = dishName;
     }
 
-    public void setDishID(int dishID) {
-        this.dishID = dishID;
-    }
-
-    public String getTitle() {
-        return dishTitle;
-    }
-
-    public void setTitle(String dishTitle) {
-        this.dishTitle = dishTitle;
-    }
-
-    public String getPrice() {
+    public String getDishPrice() {
         return dishPrice;
     }
 
-    public void setPrice(String dishPrice) {
+    public void setDishPrice(String dishPrice) {
         this.dishPrice = dishPrice;
     }
 
-    public String getImageUrl() {
-        return dishImageUrl;
+    public String getDishCategory() {
+        return dishCategory;
     }
 
-    public void setImageUrl(String dishImageUrl) {
-        this.dishImageUrl = dishImageUrl;
+    public void setDishCategory(String dishCategory) {
+        this.dishCategory = dishCategory;
+    }
+
+    public Uri getDishImageUri() {
+        return dishImageUri;
+    }
+
+    public void setDishImageUri(Uri dishImageUri) {
+        this.dishImageUri = dishImageUri;
     }
 
 }

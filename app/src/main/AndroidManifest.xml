@@ -16,11 +16,7 @@
             android:name=".Login.SplashScreen"
             android:noHistory="true"
             android:theme="@style/SplashScreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity> <!-- LoginActivity -->
         <activity
             android:name=".Login.LoginActivity"
@@ -40,7 +36,13 @@
             android:name=".Restaurant.RestaurantActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".Login.RestaurantOnboard.RestaurantOnboardingActivity" />
-        <activity android:name=".Login.RestaurantOnboard.RestaurantOnboardingMenuActivity"></activity>
+        <activity android:name=".Login.RestaurantOnboard.RestaurantOnboardingMenuActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

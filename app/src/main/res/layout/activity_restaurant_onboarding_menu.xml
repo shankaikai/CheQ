@@ -30,7 +30,7 @@
         android:text="It's time to show off your dishes"
         android:textColor="@android:color/white" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:id="@+id/onboardMenuContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,18 +44,14 @@
             android:src="@drawable/add_orange"
             android:background="@drawable/white_circle"
             android:padding="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_centerHorizontal="true"
             android:elevation="10dp"/>
 
         <View
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_alignParentTop="true" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/onboardMenuRecycler"
@@ -64,13 +60,9 @@
             android:background="@drawable/curvedcorner"
             android:padding="10dp"
             android:scrollbars="vertical"
-            app:layout_constraintTop_toBottomOf="@id/view"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_below="@id/view"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
     <Button
         android:id="@+id/onboardMenuContinueBtn"

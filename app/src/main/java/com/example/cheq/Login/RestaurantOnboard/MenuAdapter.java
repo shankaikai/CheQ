@@ -18,12 +18,14 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
         public ImageView dishImage;
         public TextView dishName;
         public TextView dishPrice;
+        public TextView dishCategory;
 
         public MenuViewHolder(View itemView) {
             super(itemView);
             dishImage = itemView.findViewById(R.id.dishImage);
             dishName = itemView.findViewById(R.id.dishName);
             dishPrice = itemView.findViewById(R.id.dishPrice);
+            dishCategory = itemView.findViewById(R.id.dishCategory);
         }
     }
 
@@ -42,10 +44,10 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     public void onBindViewHolder(MenuViewHolder holder, int position) {
         DishItem currentItem = menuList.get(position);
 
-        // TODO: Grab image from firebase
-        holder.dishImage.setImageResource(R.drawable.snorlax);
-        holder.dishName.setText(currentItem.getTitle());
-        holder.dishPrice.setText(currentItem.getPrice());
+        holder.dishImage.setImageURI(currentItem.getDishImageUri());
+        holder.dishCategory.setText(currentItem.getDishCategory());
+        holder.dishName.setText(currentItem.getDishName());
+        holder.dishPrice.setText("$"+currentItem.getDishName());
     }
 
     @Override

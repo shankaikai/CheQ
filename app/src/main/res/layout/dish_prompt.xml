@@ -48,7 +48,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/curvedcorner_outline"
         android:hint="Dish Price"
-        android:inputType="text"
+        android:inputType="numberDecimal"
         android:padding="15dp"
         android:textSize="15dp" />
 
@@ -90,18 +90,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_baseline_add_a_photo_24"/>
-
-    <Button
-        android:id="@+id/addDishBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@android:color/transparent"
-        android:text="Add Dish"
-        android:textAllCaps="false"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimaryDark"/>
+        android:layout_marginTop="10dp"
+        android:src="@drawable/add_photo_orange"/>
 
 </LinearLayout>
