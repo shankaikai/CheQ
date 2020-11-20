@@ -18,6 +18,12 @@
         <item>Western</item>
         <item>Chinese</item>
     </string-array>
+    <string-array name="dish_categories">
+        <item>Main</item>
+        <item>Beverage</item>
+        <item>Dessert</item>
+        <item>Appetiser</item>
+    </string-array>
     <string name="category_hint">Category</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
