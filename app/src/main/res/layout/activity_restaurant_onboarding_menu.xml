@@ -39,7 +39,7 @@
 
         <ImageView
             android:id="@+id/addDishMenuBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/add_orange"
             android:background="@drawable/white_circle"
@@ -87,20 +87,15 @@
         android:textColor="@android:color/white"
         android:transitionName="transitionContinueBtn"/>
 
-    <RelativeLayout
+    <ProgressBar
         android:id="@+id/onboardMenuProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone">
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/white_circle"
-            android:padding="15dp"
-            android:elevation="10dp"/>
-    </RelativeLayout>
+        android:layout_gravity="center"
+        android:background="@drawable/white_circle"
+        android:padding="15dp"
+        android:elevation="10dp"
+        android:visibility="gone"/>
 
 
 </RelativeLayout>
