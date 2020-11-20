@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cheq.Entities.RestaurantInfo;
+import com.example.cheq.Login.InputValidation;
 import com.example.cheq.Managers.FirebaseManager;
 import com.example.cheq.R;
 import com.google.android.gms.tasks.Continuation;
@@ -112,46 +113,50 @@ public class RestaurantOnboardingActivity extends AppCompatActivity {
         final String restEmail = onboardRestaurantEmail.getText().toString();
         final String restCategory = onboardSpinner.getSelectedItem().toString();
 
-        // Generate a random string for the image name
-        final String randomKey = UUID.randomUUID().toString();
-        final StorageReference ref = storageReference.child("images/" + randomKey);
+        if (validateInputs(restName, restPhone, restEmail, restCategory, imageUri)) {
+            // Generate a random string for the image name
+            final String randomKey = UUID.randomUUID().toString();
+            final StorageReference ref = storageReference.child("images/" + randomKey);
 
-        // Add the file into firebase storage
-        UploadTask uploadTask = ref.putFile(imageUri);
+            // Add the file into firebase storage
+            UploadTask uploadTask = ref.putFile(imageUri);
 
-        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful()) {
-                    throw task.getException();
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+
+                    // Continue with the task to get the download URL
+                    return ref.getDownloadUrl();
                 }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        String downloadUri = task.getResult().toString();
 
-                // Continue with the task to get the download URL
-                return ref.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if (task.isSuccessful()) {
-                    String downloadUri = task.getResult().toString();
+                        // Create RestaurantInfo object
+                        RestaurantInfo restaurantInfo = new RestaurantInfo(restPhone, restName, restEmail, downloadUri, restCategory);
 
-                    // Create RestaurantInfo object
-                    RestaurantInfo restaurantInfo = new RestaurantInfo(restPhone, restName, restEmail, downloadUri, restCategory);
+                        //Upload details to firebase
+                        firebaseManager.addRestaurantDetails(restaurantInfo, userPhone);
 
-                    //Upload details to firebase
-                    firebaseManager.addRestaurantDetails(restaurantInfo, userPhone);
+                        // Set progress bar to gone
+                        onboardProgressBar.setVisibility(View.GONE);
 
-                    // Set progress bar to gone
-                    onboardProgressBar.setVisibility(View.GONE);
+                        // Move To RestaurantOnboardingMenuActivity
+                        moveToMenuActivity(userPhone);
 
-                    // Move To RestaurantOnboardingMenuActivity
-                    moveToMenuActivity(userPhone);
-
-                } else {
-                    Toast.makeText(RestaurantOnboardingActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(RestaurantOnboardingActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            onboardProgressBar.setVisibility(View.GONE);
+        }
 
     }
 
@@ -168,5 +173,19 @@ public class RestaurantOnboardingActivity extends AppCompatActivity {
         } else {
             startActivity(intent);
         }
+    }
+
+    // Validate all the inputs
+    public boolean validateInputs(String restName, String restPhone, String restEmail, String restCategory, Uri imageUri){
+        if (restName == null || restPhone == null) {
+            Toast.makeText(this, "Restaurant Name/Phone is empty", Toast.LENGTH_SHORT).show();
+        } else if (imageUri == null) {
+            Toast.makeText(this, "Please upload an image", Toast.LENGTH_SHORT).show();
+        } else if (!InputValidation.isValidEmail(restEmail)) {
+            Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
+        } else {
+            return true;
+        }
+        return false;
     }
 }
