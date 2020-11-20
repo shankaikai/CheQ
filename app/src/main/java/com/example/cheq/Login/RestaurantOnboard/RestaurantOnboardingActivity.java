@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -40,7 +41,7 @@ public class RestaurantOnboardingActivity extends AppCompatActivity {
     EditText onboardRestaurantEmail;
     Button onboardContinueBtn;
     ImageView onboardBackBtn;
-    RelativeLayout onboardProgressBar;
+    ProgressBar onboardProgressBar;
     TextView chooseRestaurantPicture;
 
     private Uri imageUri;
