@@ -11,8 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Login.RestaurantOnboard.RestaurantOnboardingMenuActivity"></activity>
-        <activity android:name=".Login.RestaurantOnboard.RestaurantOnboardingActivity" /> <!-- SplashScreen -->
+         <!-- SplashScreen -->
         <activity
             android:name=".Login.SplashScreen"
             android:noHistory="true"
@@ -40,6 +39,8 @@
         <activity
             android:name=".Restaurant.RestaurantActivity"
             android:theme="@style/AppTheme" />
+        <activity android:name=".Login.RestaurantOnboard.RestaurantOnboardingActivity" />
+        <activity android:name=".Login.RestaurantOnboard.RestaurantOnboardingMenuActivity"></activity>
     </application>
 
 </manifest>
