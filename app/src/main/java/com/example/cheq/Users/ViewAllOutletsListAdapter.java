@@ -2,8 +2,6 @@ package com.example.cheq.Users;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,24 +14,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.cheq.R;
 
-import org.json.JSONException;
-
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ViewOutletsListAdapter extends RecyclerView.Adapter<com.example.cheq.Users.ViewOutletsListAdapter.ViewHolder> {
+public class ViewAllOutletsListAdapter extends RecyclerView.Adapter<com.example.cheq.Users.ViewAllOutletsListAdapter.ViewHolder> {
 
-    private static final String TAG = "test";
     ArrayList<String> restaurantNames;
     ArrayList<String> categories;
     ArrayList<String> restaurantImages;
+    ArrayList<String> restaurantWaitingTimes;
     static ArrayList<String> restaurantID;
-    String url = "";
+
     Context context;
+
+    private static final String TAG = "test";
 
     private onRestaurantListener mOnRestaurantListener;
 
@@ -42,14 +39,16 @@ public class ViewOutletsListAdapter extends RecyclerView.Adapter<com.example.che
         TextView nameTextView;
         TextView categoryTextView;
         ImageView imageView;
+        TextView waitingTimeTextView;
 
         onRestaurantListener onRestaurantListener;
 
         public ViewHolder(View itemView, onRestaurantListener listener) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.restaurant_image);
-            nameTextView = itemView.findViewById(R.id.restaurant_name);
-            categoryTextView = itemView.findViewById(R.id.category);
+            imageView = itemView.findViewById(R.id.restImage);
+            nameTextView = itemView.findViewById(R.id.restName);
+            categoryTextView = itemView.findViewById(R.id.restCategory);
+            waitingTimeTextView = itemView.findViewById(R.id.waitingTime);
             this.onRestaurantListener = listener;
 
             itemView.setOnClickListener(this);
@@ -73,23 +72,29 @@ public class ViewOutletsListAdapter extends RecyclerView.Adapter<com.example.che
         public TextView getNameTextView() {
             return nameTextView;
         }
+
+        public TextView getWaitingTimeTextView() {
+            return waitingTimeTextView;
+        }
     }
 
     // Constructor
-    public ViewOutletsListAdapter(HashMap<String, HashMap<String, String>> info, onRestaurantListener onRestaurantListener, Context context) {
+    public ViewAllOutletsListAdapter(HashMap<String, HashMap<String, String>> info, onRestaurantListener onRestaurantListener, Context context) {
         this.restaurantNames = new ArrayList<>();
         this.categories = new ArrayList<>();
         this.restaurantImages = new ArrayList<>();
         this.restaurantID = new ArrayList<>();
+        this.restaurantWaitingTimes = new ArrayList<>();
 
         for (String id: info.keySet()) {
             this.restaurantID.add(id);
             this.restaurantNames.add(info.get(id).get("name"));
             this.categories.add(info.get(id).get("category"));
+            this.restaurantWaitingTimes.add(info.get(id).get("waitingTime"));
             this.restaurantImages.add(info.get(id).get("image"));
         }
-
         this.mOnRestaurantListener = onRestaurantListener;
+
         this.context = context;
     }
 
@@ -97,9 +102,9 @@ public class ViewOutletsListAdapter extends RecyclerView.Adapter<com.example.che
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.outlets_list_details, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_outlets_list_details, parent, false);
 
-        return new ViewHolder(v, mOnRestaurantListener);
+        return new ViewAllOutletsListAdapter.ViewHolder(v, mOnRestaurantListener);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -110,6 +115,7 @@ public class ViewOutletsListAdapter extends RecyclerView.Adapter<com.example.che
         holder.getNameTextView().setText(restaurantNames.get(position));
         holder.getCategoryTextView().setText(categories.get(position));
         Glide.with(this.context).load(restaurantImages.get(position)).centerCrop().into(holder.getImageView());
+        holder.getWaitingTimeTextView().setText(restaurantWaitingTimes.get(position));
     }
 
     // Return the size of your dataset (invoked by the layout manager)
