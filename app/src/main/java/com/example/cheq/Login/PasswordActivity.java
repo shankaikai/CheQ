@@ -70,7 +70,7 @@ public class PasswordActivity extends AppCompatActivity {
 
     }
 
-    // Check if new or existing user
+    // Check password of user
     public void checkPassword() {
         passwordProgressBar.setVisibility(View.VISIBLE);
 
