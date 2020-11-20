@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_root"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="30dp"
+    android:background="@drawable/curvedcorner">
+
+    <TextView
+        android:id="@+id/dishPromptMsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tell us about your dish!"
+        android:textColor="@color/colorBlack"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Dish Name"
+        android:textColor="@color/colorBlack" />
+
+    <EditText
+        android:id="@+id/inputDishName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="Dish Name"
+        android:background="@drawable/curvedcorner_outline"
+        android:inputType="text"
+        android:padding="15dp"
+        android:textSize="15dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Dish Price"
+        android:textColor="@color/colorBlack" />
+
+    <EditText
+        android:id="@+id/inputDishPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/curvedcorner_outline"
+        android:hint="Dish Price"
+        android:inputType="text"
+        android:padding="15dp"
+        android:textSize="15dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Dish Category"
+        android:textColor="@color/colorBlack" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/curvedcorner_outline"
+        android:layout_marginTop="10dp">
+        <Spinner
+            android:id="@+id/spinnerDishCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/dish_categories"
+            android:spinnerMode="dialog"
+            android:prompt="@string/category_hint"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:textSize="15dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Dish Image"
+        android:textColor="@color/colorBlack" />
+
+    <ImageView
+        android:id="@+id/dishImageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_baseline_add_a_photo_24"/>
+
+    <Button
+        android:id="@+id/addDishBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:text="Add Dish"
+        android:textAllCaps="false"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"/>
+
+</LinearLayout>
