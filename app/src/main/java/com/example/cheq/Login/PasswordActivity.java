@@ -110,12 +110,14 @@ public class PasswordActivity extends AppCompatActivity {
 
                @Override
                public void onCancelled(@NonNull DatabaseError error) {
+                   passwordProgressBar.setVisibility(View.GONE);
                    // Display error toast
                    Toast.makeText(PasswordActivity.this, "Service is unavailable", Toast.LENGTH_SHORT).show();
                }
            });
         }
         else {
+            passwordProgressBar.setVisibility(View.GONE);
             // Display error toast
             Toast.makeText(PasswordActivity.this, "The password field is empty", Toast.LENGTH_SHORT).show();
         }
