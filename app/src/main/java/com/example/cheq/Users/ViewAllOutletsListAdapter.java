@@ -114,7 +114,7 @@ public class ViewAllOutletsListAdapter extends RecyclerView.Adapter<com.example.
         // retrieve the data for that position
         holder.getNameTextView().setText(restaurantNames.get(position));
         holder.getCategoryTextView().setText(categories.get(position));
-        Glide.with(this.context).load(restaurantImages.get(position)).centerCrop().placeholder(R.drawable.bulbasaur).into(holder.getImageView());
+        Glide.with(this.context).load(restaurantImages.get(position)).centerCrop().into(holder.getImageView());
         holder.getWaitingTimeTextView().setText(restaurantWaitingTimes.get(position));
     }
 

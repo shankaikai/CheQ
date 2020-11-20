@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:background="@color/colorPrimaryDark"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        android:elevation="8dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,6 +28,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/homeLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_home"
+        android:layout_marginTop="65dp"
+        android:background="@color/colorBlack25"
+        android:visibility="visible"/>
 
     <LinearLayout
         android:id="@+id/queueAgainLayout"

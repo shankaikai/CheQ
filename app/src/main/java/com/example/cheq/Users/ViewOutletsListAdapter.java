@@ -109,7 +109,7 @@ public class ViewOutletsListAdapter extends RecyclerView.Adapter<com.example.che
         // retrieve the data for that position
         holder.getNameTextView().setText(restaurantNames.get(position));
         holder.getCategoryTextView().setText(categories.get(position));
-        Glide.with(this.context).load(restaurantImages.get(position)).centerCrop().placeholder(R.drawable.bulbasaur).into(holder.getImageView());
+        Glide.with(this.context).load(restaurantImages.get(position)).centerCrop().into(holder.getImageView());
     }
 
     // Return the size of your dataset (invoked by the layout manager)

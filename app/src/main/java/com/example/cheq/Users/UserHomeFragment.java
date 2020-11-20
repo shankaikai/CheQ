@@ -2,12 +2,14 @@ package com.example.cheq.Users;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -73,6 +75,7 @@ public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter
     LinearLayout queueAgainLayout;
     LinearLayout allOutletsLayout;
     Button viewOutletsBtn;
+    ImageView homeLoading;
 
     public UserHomeFragment() {
         // Required empty public constructor
@@ -122,6 +125,7 @@ public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter
         queueAgainLayout = view.findViewById(R.id.queueAgainLayout);
         allOutletsLayout = view.findViewById(R.id.allOutletsLayout);
         viewOutletsBtn = view.findViewById(R.id.viewOutletsBtn);
+        homeLoading = view.findViewById(R.id.homeLoading);
 
         // Initialise variables
         allRestaurants = new HashMap<>();
@@ -194,6 +198,9 @@ public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter
                         outletsList.setHasFixedSize(true);
                         // set the visibility of the UI elements to visible when the data is loaded
                         allOutletsLayout.setVisibility(View.VISIBLE);
+
+                        // set the loading screen to invisible when the views are done loading
+                        homeLoading.setVisibility(View.INVISIBLE);
                     }
 
                     @Override
