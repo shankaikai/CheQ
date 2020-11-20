@@ -11,117 +11,116 @@
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:background="@color/colorPrimaryDark"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        android:elevation="8dp">
 
-        <androidx.cardview.widget.CardView
-
-            android:layout_width="375dp"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/nav_home_title"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:cardCornerRadius="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_search"
-                    android:layout_marginLeft="5dp"/>
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Search for food outlets"
-                    android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/montserrat"
-                    android:textSize="15dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:paddingTop="5dp"/>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/homeLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_home"
+        android:layout_marginTop="65dp"
+        android:background="@color/colorBlack25"
+        android:visibility="visible"/>
+
+    <LinearLayout
         android:id="@+id/queueAgainLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/user_home"
-        tools:layout_editor_absoluteX="0dp">
+        tools:layout_editor_absoluteX="0dp"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/queueAgainTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
             android:fontFamily="@font/montserrat"
             android:text="Queue Again"
             android:textColor="#000000"
             android:textSize="20dp"
-            android:textStyle="bold"></TextView>
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/queueAgainList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/queueAgainTextView"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="22dp" />
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            app:layout_constraintTop_toBottomOf="@+id/queueAgainTextView" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/outletsNearYouLayout"
+    <LinearLayout
+        android:id="@+id/allOutletsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/queueAgainLayout"
-        >
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:visibility="invisible">
 
-        <TextView
-            android:id="@+id/outletsNearYouTextView"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Food Outlets Near You"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/queueAgainLayout"
+            android:layout_marginBottom="16dp"
             android:layout_marginLeft="22dp"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:fontFamily="@font/montserrat">
-        </TextView>
+            android:layout_marginRight="22dp">
 
-        <Button
-            android:id="@+id/viewOutletsBtn"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_toRightOf="@+id/outletsNearYouTextView"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/arrow_forward">
-        </Button>
+            <TextView
+                android:id="@+id/allOutletsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:text="View All Outlets"
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/viewOutletsBtn"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_above="@+id/horizontalScroll"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toRightOf="@+id/allOutletsTextView"
+                android:background="@drawable/arrow_forward"
+                android:gravity="center_vertical"></Button>
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/outletsList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/outletsNearYouTextView"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="22dp"/>
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            android:layout_below="@+id/allOutletsTextView"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp" />
 
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

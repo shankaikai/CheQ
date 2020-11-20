@@ -11,12 +11,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat"
-        android:textSize="16dp"
+        android:textSize="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_margin="22dp"
         android:textFontWeight="400"
-        tools:ignore="MissingConstraints"
-        android:textColor="@color/colorBlack">
+        tools:ignore="MissingConstraints">
     </TextView>
     <TextView
         android:id="@+id/xWaitingRestaurant"
@@ -24,12 +23,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat"
-        android:textSize="16dp"
+        android:textSize="20dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_margin="22dp"
         android:textFontWeight="600"
-        tools:ignore="MissingConstraints"
-        android:textColor="@color/colorBlack">
+        tools:ignore="MissingConstraints">
     </TextView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
