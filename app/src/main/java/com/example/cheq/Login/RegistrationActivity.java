@@ -85,8 +85,11 @@ public class RegistrationActivity extends AppCompatActivity {
         String userPhone = getIntent().getStringExtra("userPhone");
         
         // Validate inputs
-        if (userName.isEmpty() || !validEmail(userEmail) || userPassword.isEmpty()){
-            Toast.makeText(RegistrationActivity.this, "One or more invalid inputs", Toast.LENGTH_SHORT).show();
+        if (userName == null || userPassword == null){
+            Toast.makeText(RegistrationActivity.this, "Username/Password is empty", Toast.LENGTH_SHORT).show();
+            registerProgressBar.setVisibility(View.GONE);
+        } else if (!InputValidation.isValidEmail(userEmail)) {
+            Toast.makeText(RegistrationActivity.this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
             registerProgressBar.setVisibility(View.GONE);
         }
         else {
