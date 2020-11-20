@@ -28,7 +28,24 @@
         android:textSize="30dp"
         android:textStyle="bold"
         android:layout_marginTop="100dp"
-        android:layout_below="@+id/placeholder" />
+        android:layout_below="@+id/placeholder"
+        />
+
+    <RelativeLayout
+        android:id="@+id/loginProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:elevation="10dp"
+        android:visibility="gone">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/white_circle"
+            android:padding="15dp" />
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/loginPrompt"
@@ -66,20 +83,5 @@
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:transitionName="transitionContinueBtn"/>
-
-    <RelativeLayout
-        android:id="@+id/loginProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone">
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/white_circle"
-            android:padding="15dp"
-            android:elevation="10dp"/>
-    </RelativeLayout>
 
 </RelativeLayout>

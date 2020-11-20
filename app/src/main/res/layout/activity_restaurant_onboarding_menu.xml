@@ -19,7 +19,8 @@
         android:textColor="@android:color/white"
         android:textSize="30dp"
         android:textStyle="bold"
-        android:layout_marginTop="20dp"/>
+
+        />
 
     <TextView
         android:id="@+id/onboardMenuPrompt"
@@ -30,54 +31,57 @@
         android:text="It's time to show off your dishes"
         android:textColor="@android:color/white" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/onboardMenuContainer"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/onboardMenuRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/curvedcorner"
+        android:layout_below="@id/onboardMenuPrompt"
+        android:scrollbars="vertical"/>
+
+    <EditText
+        android:id="@+id/inputDishName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/onboardMenuPrompt"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:background="@drawable/curvedcorner"
+        android:hint="Dish Name"
+        android:inputType="text"
+        android:padding="15dp"
+        android:textSize="15dp"
+        android:layout_below="@+id/onboardMenuRecycler"
+        />
 
-        <ImageView
-            android:id="@+id/addDishMenuBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:src="@drawable/add_orange"
-            android:background="@drawable/white_circle"
-            android:padding="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:elevation="10dp"/>
+    <EditText
+        android:id="@+id/inputDishPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/curvedcorner"
+        android:hint="Dish Price"
+        android:inputType="numberDecimal"
+        android:padding="15dp"
+        android:textSize="15dp"
+        android:layout_below="@+id/inputDishName"
+        />
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/addDishBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Dish"
+        android:textAllCaps="false"
+        android:layout_below="@+id/inputDishPrice"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/onboardMenuRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@drawable/curvedcorner"
-            android:padding="10dp"
-            android:scrollbars="vertical"
-            app:layout_constraintTop_toBottomOf="@id/view"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/onboardMenuContinueBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/onboardMenuContainer"
+        android:layout_below="@id/addDishBtn"
         android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
         android:text="Continue"
@@ -92,15 +96,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:elevation="10dp"
         android:visibility="gone">
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/white_circle"
-            android:padding="15dp"
-            android:elevation="10dp"/>
+            android:padding="15dp" />
     </RelativeLayout>
+
 
 
 </RelativeLayout>
