@@ -56,8 +56,4 @@ public class SessionManager {
         editor.putString(USERPHONEKEY, "").commit();
         editor.putString(USERTYPE, "").commit();
     }
-
-    public String getUserPhone() {
-        return sharedPreferences.getString(USERPHONEKEY, "");
-    }
 }
