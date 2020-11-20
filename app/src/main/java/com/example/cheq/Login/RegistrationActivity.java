@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -33,7 +34,7 @@ public class RegistrationActivity extends AppCompatActivity {
     Button registerContinueBtn;
     RadioGroup userType;
     ImageView registerBackBtn;
-    RelativeLayout registerProgressBar;
+    ProgressBar registerProgressBar;
 
     // FirebaseManager
     FirebaseManager firebaseManager;

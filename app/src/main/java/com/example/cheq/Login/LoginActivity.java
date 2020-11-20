@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     Button phoneContinueBtn;
     TextView loginMsg;
     TextView loginPrompt;
-    RelativeLayout loginProgressBar;
+    ProgressBar loginProgressBar;
 
     // Firebase
     FirebaseManager firebaseManager;

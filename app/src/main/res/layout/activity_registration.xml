@@ -148,19 +148,16 @@
         android:textColor="@android:color/white"
         android:transitionName="transitionContinueBtn"/>
 
-    <RelativeLayout
+    <ProgressBar
         android:id="@+id/registerProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/white_circle"
         android:layout_centerInParent="true"
         android:elevation="10dp"
-        android:visibility="gone">
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/white_circle"
-            android:padding="15dp" />
-    </RelativeLayout>
+        android:padding="15dp"
+        android:visibility="gone"/>
+
 
 </RelativeLayout>

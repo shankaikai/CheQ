@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +34,7 @@ public class PasswordActivity extends AppCompatActivity {
     EditText inputPassword;
     Button passwordContinueBtn;
     ImageView passwordBackBtn;
-    RelativeLayout passwordProgressBar;
+    ProgressBar passwordProgressBar;
 
     // Managers
     FirebaseManager firebaseManager;
