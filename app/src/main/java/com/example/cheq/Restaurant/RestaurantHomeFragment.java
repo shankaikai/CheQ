@@ -18,22 +18,28 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 
+import com.example.cheq.Managers.FirebaseManager;
 import com.example.cheq.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
 import java.net.Inet4Address;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RestaurantHomeFragment extends Fragment {
 
     Button viewAllQueuesBtn;
     ListView viewAllQueueListView;
-    TextView preorderTextView;
-    String[] xPax = {"2 Pax", "3 Pax","4 Pax","5 Pax","6 Pax++"};
-//    Integer[] x = {1,2,3,4,5};
-    String[] xWaiting = {"2 waiting", "3 waiting", "2 waiting", "1 waiting", "1 waiting"};
-    Integer preorder = 9;
+    FirebaseManager firebaseManager;
+    String restaurantId;
+    final String[] xPax = {"2 Pax", "3 Pax","4 Pax","5 Pax","6 Pax++"};
+    long[] xWaiting = new long[xPax.length];
+
 
 
     @Override
@@ -42,6 +48,29 @@ public class RestaurantHomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_restaurant_home, container, false);
         viewAllQueueListView = view.findViewById(R.id.viewAllQueueListView);
         viewAllQueuesBtn = view.findViewById(R.id.viewAllQueueBtn);
+
+
+        firebaseManager = new FirebaseManager();
+        //need to update this restaurantId
+        restaurantId = "88888888";
+
+        final DatabaseReference rootRef = firebaseManager.rootRef;
+        rootRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DataSnapshot restaurantQueueSnapshot = dataSnapshot.child("Queues").child(restaurantId);
+                xWaiting[0] = restaurantQueueSnapshot.child("1").getChildrenCount() + restaurantQueueSnapshot.child("2").getChildrenCount();
+                xWaiting[1] = restaurantQueueSnapshot.child("3").getChildrenCount();
+                xWaiting[2] = restaurantQueueSnapshot.child("4").getChildrenCount();
+                xWaiting[3] = restaurantQueueSnapshot.child("5").getChildrenCount();
+                xWaiting[4] = restaurantQueueSnapshot.child("6").getChildrenCount();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+        //HashMap<type of no. of pax waiting, no. of each type>
 
         RestaurantHomeQueueAdapter arrayAdapterQ = new RestaurantHomeQueueAdapter(this.getContext() , xPax, xWaiting);
         viewAllQueueListView.setAdapter(arrayAdapterQ);
@@ -62,10 +91,9 @@ public class RestaurantHomeFragment extends Fragment {
     class RestaurantHomeQueueAdapter extends ArrayAdapter<String>{
         Context context;
         String[] xPax;
-        Integer[] x;
-        String[] xWaiting;
+        long[] xWaiting;
 
-        RestaurantHomeQueueAdapter(Context context, String[] xPax, String[] xWaiting) {
+        RestaurantHomeQueueAdapter(Context context, String[] xPax, long[] xWaiting) {
             super(context, R.layout.row_restaurant_home_queue, R.id.xPaxRestaurant, xPax);
             this.context = context;
             this.xPax = xPax;
@@ -81,7 +109,7 @@ public class RestaurantHomeFragment extends Fragment {
             TextView xWaitingRestaurant =row.findViewById(R.id.xWaitingRestaurant);
 
             xPaxRestaurant.setText(xPax[position]);
-            xWaitingRestaurant.setText(xWaiting[position]);
+            xWaitingRestaurant.setText(xWaiting[position] + " waiting");
 
             return row;
         }

@@ -11,15 +11,19 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cheq.R;
+import com.example.cheq.Users.UserLeaveQueuePopupFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SeatsAdapter extends RecyclerView.Adapter<SeatsAdapter.ViewHolder> {
-    private ArrayList<Seat> seats;
+    private final ArrayList<Seat> seats;
+    Context context;
 
     public SeatsAdapter(ArrayList<Seat> seats){this.seats = seats;}
 
@@ -64,31 +68,30 @@ public class SeatsAdapter extends RecyclerView.Adapter<SeatsAdapter.ViewHolder> 
         restaurantAllQueuePax.setText(seat.getNoOfPax());
         restaurantAllQueueSeatNo.setText(seat.getSeatNo());
 
-        restaurantAllQueueCancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                seats.remove(position);
-                notifyItemRemoved(position);
-            }
-        });
-
-        restaurantAllQueueSeatButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                int a = holder.getAdapterPosition();
-                Intent intent = new Intent(v.getContext(), RestaurantSeatCustomerActivity.class);
-                Bundle b = new Bundle();
-                b.putSerializable("seat", seat);
-                intent.putExtras(b);
-                v.getContext().startActivity(intent);
-
-//                intent.putExtra("noOfPax", seats.get(position).getNoOfPax());
-            }
-        });
+//        restaurantAllQueueCancelButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int a = holder.getAdapterPosition();
+//                RestaurantSeatPopupFragment restaurantSeatPopupFragment = new RestaurantSeatPopupFragment();
+//                FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+//                restaurantSeatPopupFragment.show(fragmentManager, "restaurantSeatPopupFragment");
+//            }
+//        });
+//
+//        restaurantAllQueueSeatButton.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v){
+//                int a = holder.getAdapterPosition();
+//                RestaurantSeatPopupFragment restaurantSeatPopupFragment = new RestaurantSeatPopupFragment();
+//                FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+//                restaurantSeatPopupFragment.show(fragmentManager, "restaurantSeatPopupFragment");
+//
+//            }
+//        });
     }
 
     @Override
     public int getItemCount() {
-        return seats.size();
+        return 0;
     }
 }
