@@ -47,7 +47,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
         holder.dishImage.setImageURI(currentItem.getDishImageUri());
         holder.dishCategory.setText(currentItem.getDishCategory());
         holder.dishName.setText(currentItem.getDishName());
-        holder.dishPrice.setText("$"+currentItem.getDishName());
+        holder.dishPrice.setText("$"+currentItem.getDishPrice());
     }
 
     @Override

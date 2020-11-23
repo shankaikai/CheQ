@@ -52,6 +52,8 @@ public class RestaurantOnboardingActivity extends AppCompatActivity {
 
     String userPhone;
 
+    final int REQUEST_CODE_IMAGE = 1000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,17 +90,17 @@ public class RestaurantOnboardingActivity extends AppCompatActivity {
         userPhone = getIntent().getStringExtra("userPhone");
     }
 
+    // This method calls an explicit intent to get an image from gallery
     private void choosePicture(){
-        Intent intent = new Intent();
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, REQUEST_CODE_IMAGE);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        if (requestCode == REQUEST_CODE_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
             chooseRestaurantPicture.setText("Great Picture!");
         }

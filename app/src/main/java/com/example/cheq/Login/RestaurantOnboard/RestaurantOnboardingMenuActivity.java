@@ -1,8 +1,10 @@
 package com.example.cheq.Login.RestaurantOnboard;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.cheq.R;
 
@@ -34,6 +37,7 @@ public class RestaurantOnboardingMenuActivity extends AppCompatActivity {
 
     RecyclerView.Adapter menuAdapter;
     RecyclerView.LayoutManager menuLayoutManger;
+    ItemTouchHelper itemTouchHelper;
 
     // TODO: Grab from intent
     String userPhone = "99999999";
@@ -70,6 +74,25 @@ public class RestaurantOnboardingMenuActivity extends AppCompatActivity {
         menuLayoutManger = new LinearLayoutManager(this);
         onboardMenuRecycler.setLayoutManager(menuLayoutManger);
         onboardMenuRecycler.setAdapter(menuAdapter);
+
+
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                MenuAdapter.MenuViewHolder menuViewHolder = (MenuAdapter.MenuViewHolder) viewHolder;
+                int position = menuViewHolder.getAdapterPosition();
+                removeDish(position);
+                menuAdapter.notifyDataSetChanged();
+            }
+        };
+
+        itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(onboardMenuRecycler);
     }
 
     private void openDishPrompt() {
@@ -126,6 +149,11 @@ public class RestaurantOnboardingMenuActivity extends AppCompatActivity {
 
         // Show the dialog
         alertDialog.show();
+    }
+
+    void removeDish(int position) {
+        Toast.makeText(this, "Dish removed!", Toast.LENGTH_SHORT).show();
+        menuList.remove(position);
     }
 
     // Choose dish picture
