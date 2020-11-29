@@ -70,6 +70,7 @@ public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter
     ArrayList<String> restaurantsQueueAgainList;
     HashMap<String, HashMap<String, String>> restaurantInfo;
     HashMap<String, HashMap<String, String>> allRestaurants;
+    HashMap<String, String> restaurantsNamesIDs;
 
     // UI Elements
     LinearLayout queueAgainLayout;
@@ -129,6 +130,7 @@ public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter
 
         // Initialise variables
         allRestaurants = new HashMap<>();
+        restaurantsNamesIDs = new HashMap<>();
 
         // Retrieving the user's name and email from firebase and
         // Store these info locally in the Main Activity
@@ -171,6 +173,8 @@ public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter
                             allRestaurants.get(id).put("category", category);
                             allRestaurants.get(id).put("name", name);
                             allRestaurants.get(id).put("image", imageURL);
+                            Log.i(TAG, name);
+                            restaurantsNamesIDs.put(id, name.toLowerCase());
                             if (restaurantsQueueAgainList != null && restaurantsQueueAgainList.contains(id)) {
                                 restaurantInfo.put(id, new HashMap<String, String>());
                                 restaurantInfo.get(id).put("category", category);
@@ -221,6 +225,7 @@ public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter
                 AllOutletsFragment fragment = new AllOutletsFragment();
                 Bundle restaurants = new Bundle();
                 restaurants.putSerializable("hashmap", allRestaurants);
+                restaurants.putSerializable("restaurantNames", restaurantsNamesIDs);
                 fragment.setArguments(restaurants);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, "home").addToBackStack("home").commit();
             }
