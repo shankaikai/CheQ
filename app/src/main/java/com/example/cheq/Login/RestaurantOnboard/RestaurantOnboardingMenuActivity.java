@@ -53,14 +53,15 @@ import java.util.UUID;
     RecyclerView.LayoutManager menuLayoutManger;
     ItemTouchHelper itemTouchHelper;
 
-    // TODO: Grab from intent
-    String userPhone = "99999999";
+    String userPhone;
     Uri imageUri;
 
     FirebaseManager firebaseManager;
     DatabaseReference menuRef;
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
+
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,9 +115,12 @@ import java.util.UUID;
         itemTouchHelper.attachToRecyclerView(onboardMenuRecycler);
 
         firebaseManager = new FirebaseManager();
+        userPhone = getIntent().getStringExtra("userPhone");
         menuRef = firebaseManager.rootRef.child("Menu").child(userPhone);
+
         firebaseStorage = firebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReference();
+        storageReference = firebaseStorage.getReference("dishImages");
+
     }
 
 
@@ -224,9 +228,10 @@ import java.util.UUID;
         menuAdapter.notifyDataSetChanged();
         onboardMenuProgressBar.setVisibility(View.GONE);
         if (validateInputs(dishName, dishPrice, imageUri)) {
+
             // Generate a random string for the image name
             final String randomKey = UUID.randomUUID().toString();
-            final StorageReference ref = storageReference.child("dishImages/" + randomKey);
+            final StorageReference ref = storageReference.child(randomKey);
 
             // Add the file into firebase storage
             UploadTask uploadTask = ref.putFile(imageUri);
