@@ -11,12 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Users.RestaurantPageActivity"></activity>
+        <activity android:name=".Users.RestaurantPageActivity"
+            android:noHistory="true"
+            android:screenOrientation="nosensor"></activity>
         <!-- SplashScreen -->
         <activity
             android:name=".Login.SplashScreen"
             android:noHistory="true"
-            android:theme="@style/SplashScreen">
+            android:theme="@style/SplashScreen"
+            android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -25,22 +28,30 @@
         <activity
             android:name=".Login.LoginActivity"
             android:noHistory="true"
-            android:theme="@style/AppTheme" /> <!-- RegistrationActivity -->
+            android:theme="@style/AppTheme"
+            android:screenOrientation="nosensor"/> <!-- RegistrationActivity -->
         <activity
             android:name=".Login.RegistrationActivity"
-            android:noHistory="true" /> <!-- PasswordActivity -->
+            android:noHistory="true"
+            android:screenOrientation="nosensor"/> <!-- PasswordActivity -->
         <activity
             android:name=".Login.PasswordActivity"
-            android:noHistory="true" /> <!-- MainActivity -->
-        <activity android:name=".MainActivity" /> <!-- DoneActivity -->
+            android:noHistory="true"
+            android:screenOrientation="nosensor"/> <!-- MainActivity -->
+        <activity android:name=".MainActivity"
+            android:screenOrientation="nosensor"/> <!-- DoneActivity -->
         <activity
             android:name=".Login.DoneActivity"
-            android:noHistory="true" /> <!-- RestaurantActivity -->
+            android:noHistory="true"
+            android:screenOrientation="nosensor"/> <!-- RestaurantActivity -->
         <activity
             android:name=".Restaurant.RestaurantActivity"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".Login.RestaurantOnboard.RestaurantOnboardingActivity" />
-        <activity android:name=".Login.RestaurantOnboard.RestaurantOnboardingMenuActivity">
+            android:theme="@style/AppTheme"
+            android:screenOrientation="nosensor"/>
+        <activity android:name=".Login.RestaurantOnboard.RestaurantOnboardingActivity"
+            android:screenOrientation="nosensor"/>
+        <activity android:name=".Login.RestaurantOnboard.RestaurantOnboardingMenuActivity"
+            android:screenOrientation="nosensor">
         
         </activity>
         <activity
