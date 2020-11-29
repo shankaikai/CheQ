@@ -9,6 +9,8 @@
     <string name="nav_account_title">Account</string>
     <string name="view_all_outlets">View All Outlets</string>
     <string name="no_search_results">No results match your search.</string>
+    <string name="place_order_btn">Place Order</string>
+    <string name="order_placed">Order Placed</string>
     <string-array name="restaurant_names">
         <item>gomgom</item>
         <item>Crooked Cooks</item>

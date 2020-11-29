@@ -233,8 +233,10 @@ public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter
     @Override
     public void onRestaurantClick(String id) {
         // TODO: change the MainActivity to the correct Activity name
-        Intent intent = new Intent(getActivity(), RestaurantPageActivity.class);
-        intent.putExtra("restaurantID", id);
-        getActivity().startActivity(intent);
+//        Intent intent = new Intent(getActivity(), RestaurantPageActivity.class);
+//        intent.putExtra("restaurantID", id);
+//        getActivity().startActivity(intent);
+        EmptyBasketFragment fragment = new EmptyBasketFragment();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
 }
