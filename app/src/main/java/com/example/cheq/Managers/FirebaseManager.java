@@ -1,6 +1,9 @@
 package com.example.cheq.Managers;
 
 
+import android.util.Log;
+
+import com.example.cheq.Entities.FirebaseDishItem;
 import com.example.cheq.Entities.RestaurantInfo;
 import com.example.cheq.Entities.User;
 import com.google.firebase.database.DatabaseReference;
@@ -31,5 +34,13 @@ public class FirebaseManager {
 
         // Insert user into firebase
         firebaseReference.child(userPhone).setValue(restaurantInfo);
+    }
+
+    public void addDish(FirebaseDishItem firebaseDishItem, String userPhone) {
+        // Set reference to "Users" child
+        DatabaseReference firebaseReference = firebaseInstance.getReference("Menu");
+        Log.i("hi", "add dish");
+        // Insert user into firebase
+        firebaseReference.child(userPhone).push().setValue(firebaseDishItem);
     }
 }

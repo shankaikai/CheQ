@@ -1,7 +1,6 @@
 package com.example.cheq.Login.RestaurantOnboard;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
@@ -14,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -94,7 +92,9 @@ public class RestaurantOnboardingActivity extends AppCompatActivity {
     private void choosePicture(){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        startActivityForResult(intent, REQUEST_CODE_IMAGE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, REQUEST_CODE_IMAGE);
+        }
     }
 
     @Override
@@ -103,6 +103,8 @@ public class RestaurantOnboardingActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
             chooseRestaurantPicture.setText("Great Picture!");
+        } else {
+            chooseRestaurantPicture.setText("Please Try again!");
         }
     }
 
@@ -138,10 +140,10 @@ public class RestaurantOnboardingActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
-                        String downloadUri = task.getResult().toString();
+                        String downloadUrl = task.getResult().toString();
 
                         // Create RestaurantInfo object
-                        RestaurantInfo restaurantInfo = new RestaurantInfo(restPhone, restName, restEmail, downloadUri, restCategory);
+                        RestaurantInfo restaurantInfo = new RestaurantInfo(restPhone, restName, restEmail, downloadUrl, restCategory);
 
                         //Upload details to firebase
                         firebaseManager.addRestaurantDetails(restaurantInfo, userPhone);

@@ -22,8 +22,8 @@
     import androidx.recyclerview.widget.LinearLayoutManager;
     import androidx.recyclerview.widget.RecyclerView;
 
+    import com.example.cheq.Entities.FirebaseDishItem;
     import com.example.cheq.Entities.RestaurantInfo;
-    import com.example.cheq.Login.InputValidation;
     import com.example.cheq.Managers.FirebaseManager;
     import com.example.cheq.R;
     import com.google.android.gms.tasks.Continuation;
@@ -78,7 +78,7 @@
         onboardMenuContinueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadMenu();
+                moveToRestaurantActivity();
             }
         });
         onboardMenuProgressBar = findViewById(R.id.onboardMenuProgressBar);
@@ -116,7 +116,9 @@
         storageReference = firebaseStorage.getReference();
     }
 
-    private void openDishPrompt() {
+
+
+        private void openDishPrompt() {
         // get dish_prompt.xml view
         LayoutInflater li = LayoutInflater.from(this);
         View promptsView = li.inflate(R.layout.dish_prompt, null);
@@ -149,7 +151,7 @@
                                 String dishPrice = inputDishPrice.getText().toString();
                                 String dishCategory = spinnerDishCategory.getSelectedItem().toString();
 
-                                insertDishIntoMenuList(dishName, dishPrice, dishCategory, imageUri);
+                                uploadDishToFirebase(dishName, dishPrice, dishCategory, imageUri);
 
                                 // Reset imageUri to null;
                                 imageUri = null;
@@ -200,7 +202,8 @@
     }
 
     // Upload dish to firebase
-    public void uploadDishToFirebase(String dishName, String dishPrice, String dishCategory, Uri imageUri) {
+    public void uploadDishToFirebase(final String dishName, final String dishPrice, final String dishCategory, Uri imageUri) {
+        onboardMenuProgressBar.setVisibility(View.VISIBLE);
         if (validateInputs(dishName, dishPrice, imageUri)) {
             // Generate a random string for the image name
             final String randomKey = UUID.randomUUID().toString();
@@ -223,29 +226,30 @@
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
-                        String downloadUri = task.getResult().toString();
-
+                        String downloadUrl = task.getResult().toString();
+                        Log.i("hi", downloadUrl);
                         // Create FirebaseDish Object
-                        RestaurantInfo restaurantInfo = new RestaurantInfo(restPhone, restName, restEmail, downloadUri, restCategory);
+                        FirebaseDishItem firebaseDishItem = new FirebaseDishItem(dishName, dishPrice, dishCategory, downloadUrl);
 
                         //Upload details to firebase
-                        firebaseManager.addRestaurantDetails(restaurantInfo, userPhone);
+                        firebaseManager.addDish(firebaseDishItem, userPhone);
 
                         // Set progress bar to gone
-                        onboardProgressBar.setVisibility(View.GONE);
+                        onboardMenuProgressBar.setVisibility(View.GONE);
 
                         // Move To RestaurantOnboardingMenuActivity
-                        moveToMenuActivity(userPhone);
+                        // moveToMenuActivity(userPhone);
 
                     } else {
-                        Toast.makeText(RestaurantOnboardingActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
+                        onboardMenuProgressBar.setVisibility(View.GONE);
+                        Toast.makeText(RestaurantOnboardingMenuActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         } else {
-            onboardProgressBar.setVisibility(View.GONE);
+            onboardMenuProgressBar.setVisibility(View.GONE);
         }
-        menuRef.push().setValue()
+
     }
 
         // Validate all the inputs
@@ -260,5 +264,8 @@
                 return true;
             }
             return false;
+        }
+
+        private void moveToRestaurantActivity() {
         }
 }
