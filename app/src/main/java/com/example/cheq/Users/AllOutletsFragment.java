@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -32,7 +35,7 @@ import java.util.Iterator;
  * Use the {@link AllOutletsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAdapter.onRestaurantListener {
+public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAdapter.onRestaurantListener, TextWatcher {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,6 +57,7 @@ public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAd
 
     // Restaurant Info
     HashMap<String, HashMap<String, String>> allRestaurants;
+    HashMap<String, String> restaurantNamesIDs;
 
     /**
      * Use this factory method to create a new instance of
@@ -99,10 +103,14 @@ public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAd
         backArrow = view.findViewById(R.id.backArrow);
 
         // Retrieve restaurants hashmap data
-        allRestaurants = new HashMap<>();
         Bundle b = this.getArguments();
         if (b.getSerializable("hashmap") != null) {
+            allRestaurants = new HashMap<>();
             allRestaurants = (HashMap<String, HashMap<String, String>>) b.getSerializable(("hashmap"));
+        }
+        if (b.getSerializable("restaurantNames") != null) {
+            restaurantNamesIDs = new HashMap<>();
+            restaurantNamesIDs = (HashMap<String, String>) b.getSerializable(("restaurantNames"));
         }
 
         for (String id: allRestaurants.keySet()) {
@@ -127,6 +135,9 @@ public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAd
             viewAllOutletsList.setVisibility(View.VISIBLE);
         }
 
+        // validating all search inputs to control the recyclerview
+        searchEditText.addTextChangedListener(this);
+
         return view;
     }
 
@@ -139,4 +150,48 @@ public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAd
         getActivity().startActivity(intent);
     }
 
+    @Override
+    public void afterTextChanged(Editable editable) {
+        String userInput = searchEditText.getText().toString().toLowerCase().trim();
+        updateView(userInput);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        String userInput = charSequence.toString().trim();
+        if (userInput.equals("")) {
+            updateView(userInput);
+        }
+    }
+
+    void updateView(String userInput) {
+        if (!userInput.equals("")) {
+            HashMap<String, HashMap<String, String>> searchedRestaurantInfo = new HashMap<>();
+            // run the user input with the keyset of the data
+            for (String id: restaurantNamesIDs.keySet()) {
+                // if the user input is part of a restaurant name, the restaurant will be displayed
+                // if the user input equals to a restaurant name, the restaurant will also be displayed
+                if (restaurantNamesIDs.get(id).contains(userInput) || restaurantNamesIDs.get(id).equals(userInput)) {
+                    HashMap<String, String> temp = allRestaurants.get(id);
+                    searchedRestaurantInfo.put(id, temp);
+                }
+            }
+            if (searchedRestaurantInfo.size() != 0) {
+                viewAllOutletsList.setAdapter(new com.example.cheq.Users.ViewAllOutletsListAdapter(searchedRestaurantInfo, AllOutletsFragment.this, getContext()));
+                noResultsTextView.setVisibility(View.INVISIBLE);
+                viewAllOutletsList.setVisibility(View.VISIBLE);
+            } else {
+                viewAllOutletsList.setVisibility(View.INVISIBLE);
+                noResultsTextView.setVisibility(View.VISIBLE);
+            }
+        } else if (userInput.equals("")) {
+            noResultsTextView.setVisibility(View.INVISIBLE);
+            viewAllOutletsList.setAdapter(new com.example.cheq.Users.ViewAllOutletsListAdapter(allRestaurants, AllOutletsFragment.this, getContext()));
+            viewAllOutletsList.setVisibility(View.VISIBLE);
+        }
+    }
 }

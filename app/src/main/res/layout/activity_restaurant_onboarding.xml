@@ -4,56 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login.RegistrationActivity"
+    tools:context=".Login.RestaurantOnboard.RestaurantOnboardingActivity"
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="@color/colorPrimaryDark"
     android:padding="50dp">
 
     <ImageView
-        android:id="@+id/registerBackBtn"
+        android:id="@+id/onboardBackBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:src="@drawable/arrow_back"
-        app:tint="@color/colorPrimary" />
+        app:tint="@color/colorPrimary"
+        android:visibility="invisible"/>
 
     <TextView
-        android:id="@+id/titleMsg"
+        android:id="@+id/onboardMsg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/registerBackBtn"
-        android:text="Welcome!"
+        android:layout_below="@+id/onboardBackBtn"
+        android:text="We need some details!"
         android:textColor="@android:color/white"
         android:textSize="30dp"
         android:textStyle="bold"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="60dp"
         />
 
     <TextView
-        android:id="@+id/registerPrompt"
+        android:id="@+id/onboardPrompt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/titleMsg"
+        android:layout_below="@+id/onboardMsg"
         android:layout_marginTop="10dp"
         android:text="@string/registerPrompt"
         android:textColor="@android:color/white" />
 
     <LinearLayout
-        android:id="@+id/registrationLayout"
+        android:id="@+id/onboardLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/registerPrompt"
+        android:layout_below="@+id/onboardPrompt"
         android:orientation="vertical"
         android:layout_marginTop="10dp">
 
         <EditText
-            android:id="@+id/inputName"
+            android:id="@+id/onboardResturantName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/curvedcornertop"
-            android:hint="Name"
+            android:hint="Restaurant Name"
             android:inputType="text"
             android:padding="15dp"
             android:textSize="15dp" />
@@ -64,12 +65,12 @@
             android:background="@color/colorGrey"/>
 
         <EditText
-            android:id="@+id/inputEmail"
+            android:id="@+id/onboardResturantNum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:hint="Email"
-            android:inputType="text"
+            android:hint="Restaurant Number"
+            android:inputType="number"
             android:padding="15dp"
             android:textSize="15dp" />
 
@@ -79,13 +80,12 @@
             android:background="@color/colorGrey"/>
 
         <EditText
-            android:id="@+id/inputPassword"
+            android:id="@+id/onboardResturantEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:password="true"
+            android:hint="Restaurant Email"
+            android:inputType="text"
             android:padding="15dp"
             android:textSize="15dp" />
 
@@ -93,51 +93,46 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorGrey"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary">
+            <Spinner
+                android:id="@+id/onboardSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/categories"
+                android:spinnerMode="dialog"
+                android:prompt="@string/category_hint"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:textSize="15dp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorGrey" />
 
         <TextView
+            android:id="@+id/chooseRestaurantPicture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text = "User Type"
-            android:background="@color/colorPrimary"
-            android:paddingTop="15dp"
-            android:paddingLeft="15dp"
-            android:textSize="15dp"/>
-
-        <RadioGroup
-            android:id="@+id/userType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:background="@drawable/curvedcornerbtm"
-            android:gravity="center"
-            android:paddingBottom="15dp"
-            android:paddingTop="5dp"
-            android:checkedButton="@id/customerRadio">
-
-            <RadioButton
-                android:id="@+id/customerRadio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Customer"
-                android:layout_marginRight="20dp"
-                android:textSize="15dp"/>
-
-            <RadioButton
-                android:id="@+id/restaurantRadio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Restaurant"
-                android:textSize="15dp"/>
-
-        </RadioGroup>
+            android:hint="@string/rest_image_prompt"
+            android:padding="15dp"
+            android:textSize="15dp"/>
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/registerContinueBtn"
+        android:id="@+id/onboardContinueBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/registrationLayout"
+        android:layout_below="@id/onboardLayout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
@@ -149,14 +144,14 @@
         android:transitionName="transitionContinueBtn"/>
 
     <ProgressBar
-        android:id="@+id/registerProgressBar"
+        android:id="@+id/onboardProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/white_circle"
+        android:padding="15dp"
         android:layout_centerInParent="true"
         android:elevation="10dp"
-        android:padding="15dp"
         android:visibility="gone"/>
 
 
