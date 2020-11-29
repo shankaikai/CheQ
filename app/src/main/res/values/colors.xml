@@ -5,7 +5,7 @@
     <color name="colorAccent">#FABC2C</color>
     <color name="colorBlack">#000000</color>
     <color name="colorGrey">#8f8f8f</color>
-    <color name="colorLightGrey">#268f8f8f</color>
+    <color name="colorLightGrey">#408F8F8F</color>
     <color name="transparent">#00000000</color>
-    <color name="colorBlack25">#40000000</color>
+
 </resources>
