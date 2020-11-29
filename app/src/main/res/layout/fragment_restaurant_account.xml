@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayoutRAllQ"
+        android:id="@+id/constraintLayoutRH"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:background="@color/colorPrimaryDark"
@@ -20,17 +20,126 @@
             android:textSize="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="28dp"></TextView>
+            app:layout_constraintBottom_toBottomOf="@+id/constraintLayoutRH"
+            android:layout_marginBottom="16dp"></TextView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/shapeableImageView"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayoutRH"
+        app:shapeAppearanceOverlay="@style/circleImageView"
+        app:srcCompat="@drawable/restaurant_picture"></com.google.android.material.imageview.ShapeableImageView>
+
+    <LinearLayout
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/circle_buttons"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.825"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shapeableImageView">
+        <Button
+            android:id="@+id/restaurantAccountPictureEditButton"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/edit"></Button>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/restaurantAccountlayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/shapeableImageView"
+        android:layout_marginTop="11dp"
+        android:orientation="vertical"
 
-        android:layout_margin="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutRAllQ" />
-
-
+        >
+        <TextView
+            android:id="@+id/restaurantAccountNameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Yeo's Claypot Rice"
+            android:fontFamily="@font/montserrat"
+            android:textFontWeight="600"
+            android:gravity="center">
+        </TextView>
+        <Button
+            android:id="@+id/restaurantAccountNameEditButton"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="@color/colorAccent"
+            android:textSize="12dp"
+            android:text="Edit Profile"
+            android:background="@drawable/half_rounded_button_yellow"
+            android:fontFamily="@font/montserrat"
+            android:textAllCaps="false"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/restaurantAccountlayout1"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/restaurantAccountContactUsButton"
+            android:layout_width="250dp"
+            android:layout_height="47dp"
+            android:background="@drawable/rounded_button_yellow"
+            android:drawableLeft="@drawable/email"
+            android:paddingLeft="22dp"
+            android:drawableRight="@drawable/arrow_forward"
+            android:paddingRight="10dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Contact Us"
+            android:textAllCaps="false"/>
+        <Button
+            android:id="@+id/restaurantAccountLeaveRatingButton"
+            android:layout_width="250dp"
+            android:layout_height="47dp"
+            android:background="@drawable/rounded_button_yellow"
+            android:drawableLeft="@drawable/star"
+            android:paddingLeft="22dp"
+            android:drawableRight="@drawable/arrow_forward"
+            android:paddingRight="10dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Leave a Rating"
+            android:textAllCaps="false"
+            android:layout_marginTop="14dp"/>
+        <Button
+            android:id="@+id/restaurantAccountFAQButton"
+            android:layout_width="250dp"
+            android:layout_height="47dp"
+            android:background="@drawable/rounded_button_yellow"
+            android:drawableLeft="@drawable/faq"
+            android:paddingLeft="22dp"
+            android:drawableRight="@drawable/arrow_forward"
+            android:paddingRight="10dp"
+            android:fontFamily="@font/montserrat"
+            android:text="How to Use/FAQ"
+            android:textAllCaps="false"
+            android:layout_marginTop="14dp"/>
+        <Button
+            android:id="@+id/restaurantAccountLogOutButton"
+            android:layout_width="250dp"
+            android:layout_height="47dp"
+            android:background="@drawable/rounded_button_yellow"
+            android:drawableLeft="@drawable/exit_to_app"
+            android:paddingLeft="22dp"
+            android:drawableRight="@drawable/arrow_forward"
+            android:paddingRight="10dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Log Out"
+            android:textAllCaps="false"
+            android:layout_marginTop="14dp"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

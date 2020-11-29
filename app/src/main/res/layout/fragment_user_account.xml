@@ -17,14 +17,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
-            android:text="@string/nav_account_title"
+            android:text="Home"
             android:textColor="@color/colorBlack"
             android:textSize="18dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            tools:layout_editor_absoluteY="28dp"
+            android:textStyle="bold"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

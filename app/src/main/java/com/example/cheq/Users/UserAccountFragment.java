@@ -1,26 +1,18 @@
 package com.example.cheq.Users;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import com.example.cheq.Login.PasswordActivity;
 import com.example.cheq.MainActivity;
 import com.example.cheq.Managers.FirebaseManager;
-import com.example.cheq.Managers.SessionManager;
 import com.example.cheq.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,14 +30,14 @@ public class UserAccountFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    // Edit Profile
-    Button editProfileBtn;
-
     // Variables for each View element
     CardView contactUs;
     CardView howToUse;
     CardView leaveRating;
     CardView logOut;
+
+    // Firebase
+    FirebaseManager firebaseManager;
 
     // Variables for User Info elements
     TextView userNameTextView;
@@ -83,10 +75,11 @@ public class UserAccountFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        // Retrieve the local storage of the user's name and email
-        MainActivity activity = (MainActivity) getActivity();
-        userEmail = activity.getUserEmail();
-        userName = activity.getUserName();
+        firebaseManager = new FirebaseManager();
+
+        DatabaseReference rootRef = firebaseManager.rootRef;
+        userName = rootRef.child("Users").child("name").getKey().toString();
+        userEmail = rootRef.child("Users").child("userEmail").getKey().toString();
     }
 
     @Override
@@ -101,7 +94,6 @@ public class UserAccountFragment extends Fragment {
         howToUse = view.findViewById(R.id.how_to_use);
         leaveRating = view.findViewById(R.id.leave_a_rating);
         logOut = view.findViewById(R.id.log_out);
-        editProfileBtn = view.findViewById(R.id.editProfileBtn);
 
         // Connect the user text view elements to the variables
         userNameTextView = view.findViewById(R.id.userNameTextView);
@@ -111,33 +103,25 @@ public class UserAccountFragment extends Fragment {
         userNameTextView.setText(userName);
         userEmailTextView.setText(userEmail);
 
-        // Set a click listener to the editProfileBtn
-        editProfileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: Edit Profile Fragment
-            }
-        });
-
         // Set a click listener to each view element
         contactUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Connect Email
+                // TODO
             }
         });
 
         howToUse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Connect to FAQ
+                // TODO
             }
         });
 
         leaveRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Connect to Play Store/Leave a Rating Page
+                // TODO
             }
         });
 
