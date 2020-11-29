@@ -57,6 +57,9 @@
         <activity
             android:name=".Users.UserActivity"
             android:screenOrientation="nosensor"/>
+        <activity
+            android:name=".RestaurantInfo.RestaurantInfoActivity"
+            android:screenOrientation="nosensor"/>
     </application>
 
 </manifest>
