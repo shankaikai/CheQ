@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +34,7 @@ public class PasswordActivity extends AppCompatActivity {
     EditText inputPassword;
     Button passwordContinueBtn;
     ImageView passwordBackBtn;
-    RelativeLayout passwordProgressBar;
+    ProgressBar passwordProgressBar;
 
     // Managers
     FirebaseManager firebaseManager;
@@ -70,7 +71,7 @@ public class PasswordActivity extends AppCompatActivity {
 
     }
 
-    // Check if new or existing user
+    // Check password of user
     public void checkPassword() {
         passwordProgressBar.setVisibility(View.VISIBLE);
 
@@ -79,7 +80,7 @@ public class PasswordActivity extends AppCompatActivity {
 
         userPassword = inputPassword.getText().toString();
 
-        DatabaseReference rootRef = firebaseManager.rootRef;
+        final DatabaseReference rootRef = firebaseManager.rootRef;
 
         if (userPassword != null) {
 
@@ -98,6 +99,7 @@ public class PasswordActivity extends AppCompatActivity {
                        if (userType.equals("Customer")) {
                            moveToMainActivity();
                        } else {
+
                            moveToRestaurantActivity();
                        }
 
@@ -109,12 +111,14 @@ public class PasswordActivity extends AppCompatActivity {
 
                @Override
                public void onCancelled(@NonNull DatabaseError error) {
+                   passwordProgressBar.setVisibility(View.GONE);
                    // Display error toast
                    Toast.makeText(PasswordActivity.this, "Service is unavailable", Toast.LENGTH_SHORT).show();
                }
            });
         }
         else {
+            passwordProgressBar.setVisibility(View.GONE);
             // Display error toast
             Toast.makeText(PasswordActivity.this, "The password field is empty", Toast.LENGTH_SHORT).show();
         }

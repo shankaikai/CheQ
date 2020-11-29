@@ -1,21 +1,26 @@
 package com.example.cheq.Restaurant;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
-import com.example.cheq.R;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-
+import com.example.cheq.Login.LoginActivity;
+import com.example.cheq.Login.RegistrationActivity;
+import com.example.cheq.Managers.SessionManager;
+import com.example.cheq.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class RestaurantActivity extends AppCompatActivity {
-    public final String TAG = "Logcat";
+
+    Button logoutBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,16 @@ public class RestaurantActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationViewRestaurant = findViewById(R.id.bottomNavigationViewRestaurant);
         bottomNavigationViewRestaurant.setOnNavigationItemSelectedListener(navListenerRestaurant);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentRestaurant, new RestaurantHomeFragment()).commit();
+
+        logoutBtn = findViewById(R.id.buttonLogout);
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SessionManager sessionManager = SessionManager.getSessionManager(RestaurantActivity.this);
+                sessionManager.removeSession();
+                moveToLoginActivity();
+            }
+        });
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListenerRestaurant = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -45,39 +60,9 @@ public class RestaurantActivity extends AppCompatActivity {
         }
     };
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.i(TAG, "onStart");
-    }
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.i(TAG,"onPause");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i(TAG, "Resume");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i(TAG, "Stop");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i(TAG,"Destory");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.i(TAG, "Restart");
+    private void moveToLoginActivity() {
+        Intent intent = new Intent(RestaurantActivity.this, LoginActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
 }
-

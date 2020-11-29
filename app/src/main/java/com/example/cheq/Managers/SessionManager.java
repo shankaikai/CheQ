@@ -11,6 +11,10 @@ public class SessionManager {
     SharedPreferences.Editor editor;
 
     // String variables
+    final String SHAREDPREFNAME = "sharedPreferences";
+    final String USERPHONEKEY = "userPhone";
+    final String USERTYPE = "userType";
+    final String RESTAURANTID = "restaurantID";
 
     // Singleton SessionManager object
     private static SessionManager sessionManager = null;
@@ -31,10 +35,17 @@ public class SessionManager {
         return sessionManager;
     }
 
-    // Call this function to remember that the user is logged in and add a session
+    // Call this function to remember that the customer user is logged in and add a session
     public void saveSession(String userPhone, String userType){
         editor.putString(USERPHONEKEY, userPhone).commit();
         editor.putString(USERTYPE, userType).commit();
+    }
+
+    // Call this function to remember that the restaurant user is logged in and add a session
+    public void saveSession(String userPhone, String userType, String restaurantID){
+        editor.putString(USERPHONEKEY, userPhone).commit();
+        editor.putString(USERTYPE, userType).commit();
+        editor.putString(RESTAURANTID, restaurantID).commit();
     }
 
     // Call this function to check if user is logged in
@@ -43,6 +54,11 @@ public class SessionManager {
             return false;
         }
         return true;
+    }
+
+    // Call this function to get the restaurant ID of the logged in restaurant user
+    public String getRestaurantID() {
+        return sharedPreferences.getString(RESTAURANTID, "");
     }
 
     // Call this function to retrieve userType
@@ -54,5 +70,9 @@ public class SessionManager {
     public void removeSession() {
         editor.putString(USERPHONEKEY, "").commit();
         editor.putString(USERTYPE, "").commit();
+    }
+
+    public String getUserPhone() {
+        return sharedPreferences.getString(USERPHONEKEY, "");
     }
 }
