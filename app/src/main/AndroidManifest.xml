@@ -11,12 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-         <!-- SplashScreen -->
+        <activity android:name=".Users.RestaurantPageActivity"></activity>
+        <!-- SplashScreen -->
         <activity
             android:name=".Login.SplashScreen"
             android:noHistory="true"
             android:theme="@style/SplashScreen">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity> <!-- LoginActivity -->
         <activity
             android:name=".Login.LoginActivity"
@@ -37,12 +41,11 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".Login.RestaurantOnboard.RestaurantOnboardingActivity" />
         <activity android:name=".Login.RestaurantOnboard.RestaurantOnboardingMenuActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        
         </activity>
+        <activity
+            android:name=".Users.UserActivity"
+            android:screenOrientation="nosensor"/>
     </application>
 
 </manifest>
