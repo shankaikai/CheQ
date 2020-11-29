@@ -89,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
+                    loginProgressBar.setVisibility(View.GONE);
                     Toast.makeText(LoginActivity.this, "An error occured", Toast.LENGTH_SHORT).show();
                     Log.d("Error", error.getMessage());
                 }

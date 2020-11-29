@@ -79,6 +79,7 @@ public class SeatsAdapter extends RecyclerView.Adapter<SeatsAdapter.ViewHolder> 
         restaurantAllQueueCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("restId", seat.getRestaurantId());
                   restaurantQueueNoRef.child(seat.getNoOfPaxInt().toString()).child(seat.getUserId()).removeValue();
             }
         });
