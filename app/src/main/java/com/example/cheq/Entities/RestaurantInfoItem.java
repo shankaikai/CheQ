@@ -1,6 +1,6 @@
 package com.example.cheq.Entities;
 
-public class RestaurantInfo {
+public class RestaurantInfoItem {
 
     private String restPhone;
     private String restName;
@@ -8,7 +8,7 @@ public class RestaurantInfo {
     private String restImageUri;
     private String restCategory;
 
-    public RestaurantInfo(String restPhone, String restName, String restEmail, String restImageUri, String restCategory) {
+    public RestaurantInfoItem(String restPhone, String restName, String restEmail, String restImageUri, String restCategory) {
         this.restPhone = restPhone;
         this.restName = restName;
         this.restEmail = restEmail;

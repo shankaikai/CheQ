@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="180dp"
+    android:background="@drawable/pop_up_bg">
+
+    <TextView
+        android:id="@+id/textJoinQueue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:text="@string/join_rest" />
+
+    <TextView
+        android:id="@+id/textTableFor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textJoinQueue"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-10dp"
+        android:text="@string/table_no"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/popUpInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textTableFor"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:text="@string/pop_up_info" />
+
+    <Button
+        android:id="@+id/confirmJoinButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/popUpInfo"
+        android:text="@string/join_queue"
+        android:textAllCaps="false" />
+
+</RelativeLayout>

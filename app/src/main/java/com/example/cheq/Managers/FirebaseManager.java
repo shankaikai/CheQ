@@ -4,7 +4,7 @@ package com.example.cheq.Managers;
 import android.util.Log;
 
 import com.example.cheq.Entities.FirebaseDishItem;
-import com.example.cheq.Entities.RestaurantInfo;
+import com.example.cheq.Entities.RestaurantInfoItem;
 import com.example.cheq.Entities.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,7 +28,7 @@ public class FirebaseManager {
         firebaseReference.child(user.getUserPhone()).setValue(user);
     }
 
-    public void addRestaurantDetails(RestaurantInfo restaurantInfo, String userPhone) {
+    public void addRestaurantDetails(RestaurantInfoItem restaurantInfo, String userPhone) {
         // Set reference to "Users" child
         DatabaseReference firebaseReference = firebaseInstance.getReference("Restaurants");
 

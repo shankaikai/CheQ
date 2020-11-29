@@ -17,7 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cheq.Entities.RestaurantInfo;
+import com.example.cheq.Entities.RestaurantInfoItem;
 import com.example.cheq.Login.InputValidation;
 import com.example.cheq.Managers.FirebaseManager;
 import com.example.cheq.R;
@@ -143,7 +143,7 @@ public class RestaurantOnboardingActivity extends AppCompatActivity {
                         String downloadUrl = task.getResult().toString();
 
                         // Create RestaurantInfo object
-                        RestaurantInfo restaurantInfo = new RestaurantInfo(restPhone, restName, restEmail, downloadUrl, restCategory);
+                        RestaurantInfoItem restaurantInfo = new RestaurantInfoItem(restPhone, restName, restEmail, downloadUrl, restCategory);
 
                         //Upload details to firebase
                         firebaseManager.addRestaurantDetails(restaurantInfo, userPhone);
