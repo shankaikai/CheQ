@@ -45,8 +45,8 @@ public class RestaurantHomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_restaurant_home, container, false);
-        viewAllQueueListView = view.findViewById(R.id.viewAllQueueListView);
+        final View view = inflater.inflate(R.layout.fragment_restaurant_home, container, false);
+
         viewAllQueuesBtn = view.findViewById(R.id.viewAllQueueBtn);
 
 
@@ -56,16 +56,17 @@ public class RestaurantHomeFragment extends Fragment {
 
         final DatabaseReference rootRef = firebaseManager.rootRef;
         DatabaseReference restaurantQueueRef = rootRef.child("Queues").child(restaurantId);
-        rootRef.addValueEventListener(new ValueEventListener() {
+        restaurantQueueRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 xWaiting[0] = dataSnapshot.child("1").getChildrenCount() + dataSnapshot.child("2").getChildrenCount();
-                Log.i("countct1000", String.valueOf(dataSnapshot.child("1").getChildrenCount()));
+                //Log.i("countct1000", String.valueOf(dataSnapshot.child("1").getChildrenCount()));
                 xWaiting[1] = dataSnapshot.child("3").getChildrenCount();
                 xWaiting[2] = dataSnapshot.child("4").getChildrenCount();
                 xWaiting[3] = dataSnapshot.child("5").getChildrenCount();
                 xWaiting[4] = dataSnapshot.child("6").getChildrenCount();
+                viewAllQueueListView = view.findViewById(R.id.viewAllQueueListView);
                 RestaurantHomeQueueAdapter arrayAdapterQ = new RestaurantHomeQueueAdapter(getContext() , xPax, xWaiting);
                 viewAllQueueListView.setAdapter(arrayAdapterQ);
             }
