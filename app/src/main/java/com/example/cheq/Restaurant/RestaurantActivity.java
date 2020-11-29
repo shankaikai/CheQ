@@ -71,7 +71,7 @@ public class RestaurantActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i(TAG,"Destory");
+        Log.i(TAG,"Destroy");
     }
 
     @Override

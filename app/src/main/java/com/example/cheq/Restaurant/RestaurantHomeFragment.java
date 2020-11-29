@@ -55,15 +55,19 @@ public class RestaurantHomeFragment extends Fragment {
         restaurantId = "88888888";
 
         final DatabaseReference rootRef = firebaseManager.rootRef;
+        DatabaseReference restaurantQueueRef = rootRef.child("Queues").child(restaurantId);
         rootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                DataSnapshot restaurantQueueSnapshot = dataSnapshot.child("Queues").child(restaurantId);
-                xWaiting[0] = restaurantQueueSnapshot.child("1").getChildrenCount() + restaurantQueueSnapshot.child("2").getChildrenCount();
-                xWaiting[1] = restaurantQueueSnapshot.child("3").getChildrenCount();
-                xWaiting[2] = restaurantQueueSnapshot.child("4").getChildrenCount();
-                xWaiting[3] = restaurantQueueSnapshot.child("5").getChildrenCount();
-                xWaiting[4] = restaurantQueueSnapshot.child("6").getChildrenCount();
+
+                xWaiting[0] = dataSnapshot.child("1").getChildrenCount() + dataSnapshot.child("2").getChildrenCount();
+                Log.i("countct1000", String.valueOf(dataSnapshot.child("1").getChildrenCount()));
+                xWaiting[1] = dataSnapshot.child("3").getChildrenCount();
+                xWaiting[2] = dataSnapshot.child("4").getChildrenCount();
+                xWaiting[3] = dataSnapshot.child("5").getChildrenCount();
+                xWaiting[4] = dataSnapshot.child("6").getChildrenCount();
+                RestaurantHomeQueueAdapter arrayAdapterQ = new RestaurantHomeQueueAdapter(getContext() , xPax, xWaiting);
+                viewAllQueueListView.setAdapter(arrayAdapterQ);
             }
 
             @Override
@@ -72,8 +76,7 @@ public class RestaurantHomeFragment extends Fragment {
 
         //HashMap<type of no. of pax waiting, no. of each type>
 
-        RestaurantHomeQueueAdapter arrayAdapterQ = new RestaurantHomeQueueAdapter(this.getContext() , xPax, xWaiting);
-        viewAllQueueListView.setAdapter(arrayAdapterQ);
+
 
         viewAllQueuesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,30 +91,30 @@ public class RestaurantHomeFragment extends Fragment {
         Intent intent = new Intent(getActivity(), RestaurantAllQueuesActivity.class);
         startActivity(intent);
     }
-    class RestaurantHomeQueueAdapter extends ArrayAdapter<String>{
-        Context context;
-        String[] xPax;
-        long[] xWaiting;
+}
+class RestaurantHomeQueueAdapter extends ArrayAdapter<String>{
+    Context context;
+    String[] xPax;
+    long[] xWaiting;
 
-        RestaurantHomeQueueAdapter(Context context, String[] xPax, long[] xWaiting) {
-            super(context, R.layout.row_restaurant_home_queue, R.id.xPaxRestaurant, xPax);
-            this.context = context;
-            this.xPax = xPax;
-            this.xWaiting = xWaiting;
-        }
+    RestaurantHomeQueueAdapter(Context context, String[] xPax, long[] xWaiting) {
+        super(context, R.layout.row_restaurant_home_queue, R.id.xPaxRestaurant, xPax);
+        this.context = context;
+        this.xPax = xPax;
+        this.xWaiting = xWaiting;
+    }
 
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
-            LayoutInflater layoutInflater = (LayoutInflater) context.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View row = layoutInflater.inflate(R.layout.row_restaurant_home_queue, parent, false);
-            TextView xPaxRestaurant = row.findViewById(R.id.xPaxRestaurant);
-            TextView xWaitingRestaurant =row.findViewById(R.id.xWaitingRestaurant);
+    @NonNull
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
+        LayoutInflater layoutInflater = (LayoutInflater) context.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View row = layoutInflater.inflate(R.layout.row_restaurant_home_queue, parent, false);
+        TextView xPaxRestaurant = row.findViewById(R.id.xPaxRestaurant);
+        TextView xWaitingRestaurant =row.findViewById(R.id.xWaitingRestaurant);
 
-            xPaxRestaurant.setText(xPax[position]);
-            xWaitingRestaurant.setText(xWaiting[position] + " waiting");
+        xPaxRestaurant.setText(xPax[position]);
+        xWaitingRestaurant.setText(xWaiting[position] + " waiting");
 
-            return row;
-        }
+        return row;
     }
 }
