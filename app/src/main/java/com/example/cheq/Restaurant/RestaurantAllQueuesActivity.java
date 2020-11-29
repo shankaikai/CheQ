@@ -41,7 +41,7 @@ public class RestaurantAllQueuesActivity extends AppCompatActivity {
         restaurantId = sessionManager.getUserPhone();
 
         final DatabaseReference rootRef = firebaseManager.rootRef;
-        DatabaseReference restaurantQueueNoRef = rootRef.child("Queues").child("88888888");
+        DatabaseReference restaurantQueueNoRef = rootRef.child("Queues").child(restaurantId);
         restaurantQueueNoRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
