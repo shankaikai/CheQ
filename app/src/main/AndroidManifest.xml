@@ -48,6 +48,10 @@
             android:name=".Restaurant.RestaurantActivity"
             android:theme="@style/AppTheme"
             android:screenOrientation="nosensor"/>
+        <activity
+            android:name=".Restaurant.RestaurantAllQueuesActivity"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="nosensor"/>
         <activity android:name=".Login.RestaurantOnboard.RestaurantOnboardingActivity"
             android:screenOrientation="nosensor"/>
         <activity android:name=".Login.RestaurantOnboard.RestaurantOnboardingMenuActivity"
