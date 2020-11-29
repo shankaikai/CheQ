@@ -20,8 +20,7 @@
             android:textSize="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/constraintLayoutRH"
-            android:layout_marginBottom="16dp"></TextView>
+            tools:layout_editor_absoluteY="28dp"></TextView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <RelativeLayout
@@ -49,16 +48,16 @@
             android:layout_height="22dp"
             android:layout_toRightOf="@+id/viewAllQueueTextView"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/arrow_forward_24">
+            android:background="@drawable/arrow_forward">
         </Button>
 
         <ListView
             android:id="@+id/viewAllQueueListView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_below="@+id/viewAllQueueTextView"
-            android:layout_marginTop="12dp"></ListView>
+            android:layout_marginTop="12dp"
+            android:background="@color/colorPrimaryDark"></ListView>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -79,14 +78,11 @@
             >
         </TextView>
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/viewAllPreordersListView"
+        <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/viewAllPreordersTextView"
-            android:layout_marginTop="12dp">
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_marginTop="50dp">
+        </ListView>
     </RelativeLayout>
 
 
