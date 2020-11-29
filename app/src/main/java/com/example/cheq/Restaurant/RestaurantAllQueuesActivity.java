@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.cheq.Managers.FirebaseManager;
+import com.example.cheq.Managers.SessionManager;
 import com.example.cheq.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,7 +27,7 @@ public class RestaurantAllQueuesActivity extends AppCompatActivity {
     // Firebase
     FirebaseManager firebaseManager;
     String restaurantId;
-
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,20 +36,24 @@ public class RestaurantAllQueuesActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.restaurantAllQueuesBackBtn);
 
         seats = new ArrayList<>();
-
+        sessionManager = SessionManager.getSessionManager(this);
         firebaseManager = new FirebaseManager();
-        restaurantId = "88888888";
+        restaurantId = sessionManager.getUserPhone();
 
-        DatabaseReference rootRef = firebaseManager.rootRef;
-        DatabaseReference restaurantQueueNoRef = rootRef.child("Queues").child(restaurantId);
+        final DatabaseReference rootRef = firebaseManager.rootRef;
+        DatabaseReference restaurantQueueNoRef = rootRef.child("Queues").child("88888888");
         restaurantQueueNoRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //The queue no. is always "AXX" where the first "X" is the no. of pax, the second "X" is the index of the queue in that category of no. of pax.
+                seats.clear();
                 for (DataSnapshot noOfPax : dataSnapshot.getChildren()) {
                     for (DataSnapshot seatNo2: noOfPax.getChildren()){
-                        Log.i("test222", String.valueOf(seatNo2));
-                        seats.add(new Seat("A" + noOfPax.getKey() + seatNo2.getKey(), Integer.parseInt(noOfPax.getKey())));
+                        Log.i("resId", restaurantId);
+                        Log.i("noOfPax", String.valueOf(noOfPax.getKey()));
+                        Log.i("seatNo2", String.valueOf(seatNo2.getKey()));
+
+                        seats.add(new Seat("A" + noOfPax.getKey() + seatNo2.getKey(), Integer.parseInt(noOfPax.getKey()), seatNo2.getKey(), restaurantId));
                     }
                 }
                 //Setting the SeatsAdapter up to display the queues in a Recyclerview.
@@ -61,10 +66,6 @@ public class RestaurantAllQueuesActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
-
-        // seats.add(new Seat("A11", 2));
-
-
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override

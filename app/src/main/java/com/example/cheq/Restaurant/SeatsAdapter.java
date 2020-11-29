@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +12,32 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cheq.Managers.FirebaseManager;
+import com.example.cheq.Managers.SessionManager;
 import com.example.cheq.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SeatsAdapter extends RecyclerView.Adapter<SeatsAdapter.ViewHolder> {
     private ArrayList<Seat> seats;
+    FirebaseManager firebaseManager = new FirebaseManager();
 
-    public SeatsAdapter(ArrayList<Seat> seats){this.seats = seats;}
+    public SeatsAdapter(ArrayList<Seat> seats) {
+        this.seats = seats;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView restaurantAllQueuePax,restaurantAllQueueSeatNo;
-        Button restaurantAllQueueSeatButton,restaurantAllQueueCancelButton;
+        TextView restaurantAllQueuePax, restaurantAllQueueSeatNo;
+        Button restaurantAllQueueSeatButton, restaurantAllQueueCancelButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -33,8 +45,6 @@ public class SeatsAdapter extends RecyclerView.Adapter<SeatsAdapter.ViewHolder> 
             restaurantAllQueueSeatNo = itemView.findViewById(R.id.restaurantAllQueueSeatNo);
             restaurantAllQueueSeatButton = itemView.findViewById(R.id.restaurantAllQueuesSeatButton);
             restaurantAllQueueCancelButton = itemView.findViewById(R.id.restaurantAllQueuesCancelButton);
-
-
         }
     }
 
@@ -56,6 +66,7 @@ public class SeatsAdapter extends RecyclerView.Adapter<SeatsAdapter.ViewHolder> 
         // Get the data model based on position
         final Seat seat = seats.get(position);
 
+
         // Set item views based on your views and data model
         TextView restaurantAllQueuePax = holder.restaurantAllQueuePax;
         TextView restaurantAllQueueSeatNo = holder.restaurantAllQueueSeatNo;
@@ -64,13 +75,21 @@ public class SeatsAdapter extends RecyclerView.Adapter<SeatsAdapter.ViewHolder> 
         restaurantAllQueuePax.setText(seat.getNoOfPax());
         restaurantAllQueueSeatNo.setText(seat.getSeatNo());
 
+        final DatabaseReference restaurantQueueNoRef = firebaseManager.rootRef.child("Queues").child(seat.getRestaurantId());
         restaurantAllQueueCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                seats.remove(position);
-                notifyItemRemoved(position);
+                  restaurantQueueNoRef.child(seat.getNoOfPaxInt().toString()).child(seat.getUserId()).removeValue();
             }
         });
+    }
+
+    @Override
+    public int getItemCount() {
+        return seats.size();
+    }
+}
+
 
 //        restaurantAllQueueSeatButton.setOnClickListener(new View.OnClickListener(){
 //            @Override
@@ -85,10 +104,3 @@ public class SeatsAdapter extends RecyclerView.Adapter<SeatsAdapter.ViewHolder> 
 ////                intent.putExtra("noOfPax", seats.get(position).getNoOfPax());
 //            }
 //        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return seats.size();
-    }
-}
