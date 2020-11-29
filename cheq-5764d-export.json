@@ -1,0 +1,92 @@
+{
+  "Queues" : {
+    "88888888" : [ null, [ 99999999, 99999998 ], [ 98989898, 98989897 ], [ 97979797, 97979796 ], [ 98765432, 88759935 ], null, [ 95959595 ] ]
+  },
+  "Restaurants" : {
+    "88888888" : {
+      "restCategory" : "Bar",
+      "restEmail" : "crookedcrooks@gmail.com",
+      "restImageUri" : "https://firebasestorage.googleapis.com/v0/b/cheq-5764d.appspot.com/o/images%2Fcrookedcrooks.jpg?alt=media&token=1fb7aa14-442b-4fad-b1de-678db770d366",
+      "restName" : "Crooked Crooks",
+      "restPhone" : "88888888"
+    },
+    "88889999" : {
+      "restCategory" : "Cafe",
+      "restEmail" : "f@gmail.com",
+      "restImageUri" : "https://firebasestorage.googleapis.com/v0/b/cheq-5764d.appspot.com/o/images%2F45635ccd-6ad3-4e3a-9841-2c85c550065e?alt=media&token=911bf724-bcbc-436f-be26-23103b0fbfc9",
+      "restName" : "resty",
+      "restPhone" : "95641234"
+    },
+    "94561234" : {
+      "restCategory" : "Cafe",
+      "restEmail" : "gry@gmail.com",
+      "restImageUri" : "https://firebasestorage.googleapis.com/v0/b/cheq-5764d.appspot.com/o/images%2F83936f96-b3c8-45b8-9e9b-75eb8a61e50e?alt=media&token=bcc32a7c-c526-4d3e-af51-e8f5b9dbedee",
+      "restName" : "resty",
+      "restPhone" : "94567896"
+    },
+    "95324568" : {
+      "restCategory" : "Cafe",
+      "restEmail" : "qwe@gmail.com",
+      "restImageUri" : "https://firebasestorage.googleapis.com/v0/b/cheq-5764d.appspot.com/o/images%2F035c133b-7307-466f-9c12-63faaff41752?alt=media&token=39651915-05d1-472c-b463-4a7b5a7fb1a8",
+      "restName" : "123",
+      "restPhone" : "95632145"
+    },
+    "95641235" : {
+      "restCategory" : "Cafe",
+      "restEmail" : "k@gmail.com",
+      "restImageUri" : "https://firebasestorage.googleapis.com/v0/b/cheq-5764d.appspot.com/o/images%2Fb08ef22a-7e37-410e-84b2-415ec0afc6df?alt=media&token=3c537ce4-17cd-4f80-b387-98029d78eca3",
+      "restName" : "rest",
+      "restPhone" : "94561234"
+    }
+  },
+  "Users" : {
+    "88759935" : {
+      "currentQueue" : {
+        "date" : "\"20201129'",
+        "groupSize" : 4,
+        "infront" : 4,
+        "restaurantID" : "88888888"
+      },
+      "name" : "Kaye",
+      "userEmail" : "tankaye@gmail.com",
+      "userPassword" : "avc",
+      "userPhone" : "88759935",
+      "userType" : "Customer"
+    },
+    "88888888" : {
+      "name" : "abc",
+      "userEmail" : "abc@abc",
+      "userPassword" : "abcdefg",
+      "userPhone" : "88888888",
+      "userType" : "Restaurant"
+    },
+    "88889999" : {
+      "name" : "ben",
+      "userEmail" : "b@gmail.com",
+      "userPassword" : "password",
+      "userPhone" : "88889999",
+      "userType" : "Restaurant"
+    },
+    "93821490" : {
+      "name" : "Shan Kai",
+      "userEmail" : "shankai@shankai.com",
+      "userPassword" : "password",
+      "userPhone" : "93821490",
+      "userType" : "Customer"
+    },
+    "94561234" : {
+      "name" : "ben",
+      "userEmail" : "g@gmail.com",
+      "userPassword" : "shankai123",
+      "userPhone" : "94561234",
+      "userType" : "Restaurant"
+    },
+    "95641235" : {
+      "name" : "ben",
+      "userEmail" : "k@gmail.com",
+      "userPassword" : "shankai1×3",
+      "userPhone" : "95641235",
+      "userType" : "Restaurant"
+    }
+  }
+}
