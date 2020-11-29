@@ -1,28 +1,24 @@
 package com.example.cheq.Login;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cheq.Managers.FirebaseManager;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.cheq.MainActivity;
+import com.example.cheq.Managers.FirebaseManager;
 import com.example.cheq.Managers.SessionManager;
 import com.example.cheq.R;
 import com.example.cheq.Restaurant.RestaurantActivity;
-import com.example.cheq.Users.UserActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -104,6 +100,7 @@ public class PasswordActivity extends AppCompatActivity {
                        }
 
                    } else {
+                       passwordProgressBar.setVisibility(View.GONE);
                        // Display error toast
                        Toast.makeText(PasswordActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
                    }
@@ -122,6 +119,11 @@ public class PasswordActivity extends AppCompatActivity {
             // Display error toast
             Toast.makeText(PasswordActivity.this, "The password field is empty", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveToLoginActivity();
     }
 
     private void moveToMainActivity() {

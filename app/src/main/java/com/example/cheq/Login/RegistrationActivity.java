@@ -1,7 +1,5 @@
 package com.example.cheq.Login;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,17 +11,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cheq.Entities.User;
 import com.example.cheq.Login.RestaurantOnboard.RestaurantOnboardingActivity;
 import com.example.cheq.Managers.FirebaseManager;
 import com.example.cheq.Managers.SessionManager;
 import com.example.cheq.R;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -112,20 +108,6 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
-    private boolean validEmail(String userEmail) {
-        // Email regex pattern
-        String regex = "^(.+)@(.+)$";
-
-        // Initialize the Pattern object
-        Pattern pattern = Pattern.compile(regex);
-
-        // Initialize the Matcher object
-        Matcher matcher = pattern.matcher(userEmail);
-
-        // Return if email matches the regex pattern
-        return matcher.matches();
-    }
-
     public void moveToDoneActivity() {
         Intent intent = new Intent(RegistrationActivity.this, DoneActivity.class);
         startActivity(intent);
@@ -160,5 +142,10 @@ public class RegistrationActivity extends AppCompatActivity {
         } else {
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveToLoginActivity();
     }
 }

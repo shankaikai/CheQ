@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,8 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cheq.Managers.FirebaseManager;
-import com.example.cheq.MainActivity;
-import com.example.cheq.Managers.SessionManager;
 import com.example.cheq.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -89,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
+                    loginProgressBar.setVisibility(View.GONE);
                     Toast.makeText(LoginActivity.this, "An error occured", Toast.LENGTH_SHORT).show();
                     Log.d("Error", error.getMessage());
                 }
