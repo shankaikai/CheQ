@@ -19,7 +19,6 @@ import androidx.fragment.app.FragmentActivity;
 
 
 import com.example.cheq.Managers.FirebaseManager;
-import com.example.cheq.Managers.SessionManager;
 import com.example.cheq.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,7 +36,6 @@ public class RestaurantHomeFragment extends Fragment {
     Button viewAllQueuesBtn;
     ListView viewAllQueueListView;
     FirebaseManager firebaseManager;
-    SessionManager sessionManager;
     String restaurantId;
     final String[] xPax = {"2 Pax", "3 Pax","4 Pax","5 Pax","6 Pax++"};
     long[] xWaiting = new long[xPax.length];
@@ -53,9 +51,8 @@ public class RestaurantHomeFragment extends Fragment {
 
 
         firebaseManager = new FirebaseManager();
-        sessionManager = SessionManager.getSessionManager(getContext());
-        restaurantId = sessionManager.getUserPhone();
-
+        //need to update this restaurantId
+        restaurantId = "88888888";
 
         final DatabaseReference rootRef = firebaseManager.rootRef;
         DatabaseReference restaurantQueueRef = rootRef.child("Queues").child(restaurantId);
