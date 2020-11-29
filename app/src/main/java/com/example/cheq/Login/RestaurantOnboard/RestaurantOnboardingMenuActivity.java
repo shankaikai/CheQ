@@ -1,41 +1,44 @@
     package com.example.cheq.Login.RestaurantOnboard;
 
     import android.content.DialogInterface;
-    import android.content.Intent;
-    import android.net.Uri;
-    import android.os.Bundle;
-    import android.util.Log;
-    import android.view.LayoutInflater;
-    import android.view.View;
-    import android.widget.Button;
-    import android.widget.EditText;
-    import android.widget.ImageView;
-    import android.widget.ProgressBar;
-    import android.widget.Spinner;
-    import android.widget.Toast;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.Toast;
 
-    import androidx.annotation.NonNull;
-    import androidx.annotation.Nullable;
-    import androidx.appcompat.app.AlertDialog;
-    import androidx.appcompat.app.AppCompatActivity;
-    import androidx.recyclerview.widget.ItemTouchHelper;
-    import androidx.recyclerview.widget.LinearLayoutManager;
-    import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-    import com.example.cheq.Entities.FirebaseDishItem;
-    import com.example.cheq.Entities.RestaurantInfo;
-    import com.example.cheq.Managers.FirebaseManager;
-    import com.example.cheq.R;
-    import com.google.android.gms.tasks.Continuation;
-    import com.google.android.gms.tasks.OnCompleteListener;
-    import com.google.android.gms.tasks.Task;
-    import com.google.firebase.database.DatabaseReference;
-    import com.google.firebase.storage.FirebaseStorage;
-    import com.google.firebase.storage.StorageReference;
-    import com.google.firebase.storage.UploadTask;
+import com.example.cheq.Entities.FirebaseDishItem;
+import com.example.cheq.Managers.FirebaseManager;
+import com.example.cheq.R;
+import com.example.cheq.Restaurant.RestaurantActivity;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-    import java.util.ArrayList;
-    import java.util.UUID;
+import java.util.ArrayList;
+import java.util.UUID;
 
     public class RestaurantOnboardingMenuActivity extends AppCompatActivity {
     private ArrayList<DishItem> menuList;
@@ -175,8 +178,23 @@
     }
 
     void removeDish(int position) {
-        Toast.makeText(this, "Dish removed!", Toast.LENGTH_SHORT).show();
+        String dishName = menuList.get(position).getDishName();
+        Log.i("key123", dishName);
         menuList.remove(position);
+        Toast.makeText(this, "Dish removed!", Toast.LENGTH_SHORT).show();
+        // Remove from database
+        final DatabaseReference dishRef = firebaseManager.rootRef.child("Menu").child(userPhone).child(dishName);
+        dishRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dishRef.removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
     }
 
     // Choose dish picture
@@ -195,15 +213,16 @@
         }
     }
 
-    // Insert DishItem into menuList
-    private void insertDishIntoMenuList(String dishName, String dishPrice, String dishCategory, Uri imageUri) {
-        menuList.add(new DishItem(dishName, dishPrice, dishCategory, imageUri));
-        menuAdapter.notifyDataSetChanged();
-    }
+
 
     // Upload dish to firebase
     public void uploadDishToFirebase(final String dishName, final String dishPrice, final String dishCategory, Uri imageUri) {
         onboardMenuProgressBar.setVisibility(View.VISIBLE);
+        // Add it to local data source
+        menuList.add(new DishItem(dishName, dishPrice, dishCategory, imageUri));
+        // Update local recyclerview
+        menuAdapter.notifyDataSetChanged();
+        onboardMenuProgressBar.setVisibility(View.GONE);
         if (validateInputs(dishName, dishPrice, imageUri)) {
             // Generate a random string for the image name
             final String randomKey = UUID.randomUUID().toString();
@@ -227,18 +246,12 @@
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         String downloadUrl = task.getResult().toString();
-                        Log.i("hi", downloadUrl);
+                        Log.i("url", downloadUrl);
                         // Create FirebaseDish Object
                         FirebaseDishItem firebaseDishItem = new FirebaseDishItem(dishName, dishPrice, dishCategory, downloadUrl);
 
                         //Upload details to firebase
                         firebaseManager.addDish(firebaseDishItem, userPhone);
-
-                        // Set progress bar to gone
-                        onboardMenuProgressBar.setVisibility(View.GONE);
-
-                        // Move To RestaurantOnboardingMenuActivity
-                        // moveToMenuActivity(userPhone);
 
                     } else {
                         onboardMenuProgressBar.setVisibility(View.GONE);
@@ -267,5 +280,8 @@
         }
 
         private void moveToRestaurantActivity() {
+            Intent intent = new Intent(RestaurantOnboardingMenuActivity.this, RestaurantActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
 }

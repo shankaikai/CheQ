@@ -41,6 +41,6 @@ public class FirebaseManager {
         DatabaseReference firebaseReference = firebaseInstance.getReference("Menu");
         Log.i("hi", "add dish");
         // Insert user into firebase
-        firebaseReference.child(userPhone).push().setValue(firebaseDishItem);
+        firebaseReference.child(userPhone).child(firebaseDishItem.getDishName()).setValue(firebaseDishItem);
     }
 }
