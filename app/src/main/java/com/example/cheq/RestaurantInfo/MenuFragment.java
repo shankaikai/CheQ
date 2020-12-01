@@ -129,7 +129,11 @@ public class MenuFragment extends Fragment implements MenuAdapter.onRestaurantLi
             });
             itemsTextView = getActivity().findViewById(R.id.itemsTextView);
             totalBasketPrice = getActivity().findViewById(R.id.totalBasketPrice);
-            itemsTextView.setText(currentItems.toString() + " items");
+            if (currentItems == 1) {
+                itemsTextView.setText(currentItems.toString() + " item");
+            } else {
+                itemsTextView.setText(currentItems.toString() + " items");
+            }
             totalBasketPrice.setText("$" + df2.format(currentTotal));
         } else if (sessionManager.hasPreorder() && !restaurantID.equals(sessionManager.getPreorderRest())) {
             Toast.makeText(getContext(), "Your basket has items from another restaurant", Toast.LENGTH_LONG).show();
@@ -168,8 +172,11 @@ public class MenuFragment extends Fragment implements MenuAdapter.onRestaurantLi
 
     @Override
     public void onRestaurantClick(String dishName) {
-        // alertDialog(dishName);
-        addDishPopup(dishName);
+        if (sessionManager.getPreorderStatus().equals("Ordered")) {
+            Toast.makeText(getContext(), "You have already placed an order. You may view it under Current Activities.", Toast.LENGTH_LONG).show();
+        } else {
+            addDishPopup(dishName);
+        }
     }
 
     public void addDishPopup(final String dishName) {

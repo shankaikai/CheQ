@@ -85,7 +85,7 @@
     <string name="join_queue">Join Queue</string>
     <string name="rest_image_content">Restaurant</string>
     <string name="join_rest">Join Queue for Crooked Cooks?</string>
-    <string name="table_no">Table for: 2 PAX</string>
+    <string name="table_no">Table for:</string>
     <string name="one_pax_info"> 1 PAX \n No. of Groups \n Waiting: \n Estimated \n Waiting Time:</string>
     <string name="two_pax_info"> 2 PAX \n No. of Groups \n Waiting: \n Estimated \n Waiting Time:</string>
     <string name="three_pax_info"> 3 PAX \n No. of Groups \n Waiting: \n Estimated \n Waiting Time:</string>

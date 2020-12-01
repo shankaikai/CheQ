@@ -134,4 +134,8 @@ public class SessionManager {
         return sharedPreferences.getString(PREORDERUNIQUECOUNT, "");
     }
 
+    public String getPreorderStatus() {
+        return sharedPreferences.getString(PREORDERSTATUS, "");
+    }
+
 }
