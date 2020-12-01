@@ -6,11 +6,15 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,21 +23,28 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.example.cheq.Managers.FirebaseManager;
+import com.example.cheq.Managers.SessionManager;
 import com.example.cheq.R;
 import com.example.cheq.RestaurantInfo.SectionsPagerAdapter;
+import com.example.cheq.Users.Queue;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 
-public class RestaurantInfoActivity extends AppCompatActivity {
+public class RestaurantInfoActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     RecyclerView menuRecyclerView;
 
     FirebaseManager firebaseManager;
+
+    SessionManager sessionManager;
 
     // Store restaurant info
     String restaurantID;
@@ -47,6 +58,10 @@ public class RestaurantInfoActivity extends AppCompatActivity {
     TextView restCategory;
     Button joinQueueButton;
     PopupWindow popUp;
+    Spinner paxSpinner;
+
+    // Selected Pax No
+    int paxNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +73,9 @@ public class RestaurantInfoActivity extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
         joinQueueButton = findViewById(R.id.joinQueueButton);
+
+        // Initialise session manager
+        sessionManager = SessionManager.getSessionManager(RestaurantInfoActivity.this);
 
         // retrieve restaurant ID from the main activity
         restaurantID = getIntent().getStringExtra("restaurantID");
@@ -88,6 +106,21 @@ public class RestaurantInfoActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
+        // sessionManager.updateQueueStatus("");
+
+        // if user is already in queue, join button is greyed out
+        if (sessionManager.getQueueStatus().equals("In Queue")) {
+            if (sessionManager.getPreorderRest().equals(restaurantID)) {
+                joinQueueButton.setOnClickListener(null);
+                joinQueueButton.setText("Joined Queue");
+                joinQueueButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+                joinQueueButton.setBackground(getResources().getDrawable(R.drawable.joined_queue_button));
+            } else {
+                joinQueueButton.setOnClickListener(null);
+                joinQueueButton.setBackground(getResources().getDrawable(R.drawable.joined_queue_button));
+            }
+        }
     }
 
     public void onButtonShowPopupWindowClick(View v) {
@@ -116,6 +149,73 @@ public class RestaurantInfoActivity extends AppCompatActivity {
         // blur bg
         popupWindowBg.showAtLocation(v, Gravity.CENTER, 0, 0);
 
+        // Set up the paxSpinner
+        paxSpinner = popupView.findViewById(R.id.paxSpinner);
+        String[] pax = {"1", "2", "3", "4", "5", "6"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, pax);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        paxSpinner.setAdapter(adapter);
+        paxSpinner.setOnItemSelectedListener(this);
+
+        // initialise firebase
+        final DatabaseReference rootRef = firebaseManager.rootRef;
+
+        // set up clickListener for Join Queue Btn to send queue data into firebase
+        final Button joinQueueBtn = popupView.findViewById(R.id.confirmJoinButton);
+        joinQueueBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String userID = sessionManager.getUserPhone();
+
+                Date queueDate = new Date();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+                // Send to Users DB
+                com.example.cheq.Users.Queue queue = new Queue(paxNo, restaurantID, dateFormat.format(queueDate));
+                firebaseManager.addToUser(queue, userID);
+
+                // Send to Queues ID
+                rootRef.child("Queues").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Integer curNum = 0;
+
+                        Boolean check = snapshot.child(restaurantID).child(new Integer(paxNo).toString()).exists();
+
+                        if (check) {
+                            for (Iterator<DataSnapshot> queue = snapshot.child(restaurantID).child(new Integer(paxNo).toString()).getChildren().iterator(); queue.hasNext();) {
+                                Integer num = Integer.parseInt(queue.next().getKey());
+                                if (num > curNum) {
+                                    curNum = num;
+                                }
+                            }
+                            // Add one to the highest value before adding to DB
+                            curNum += 1;
+                        }
+
+                        firebaseManager.addToQueues(userID, restaurantID, curNum, paxNo);
+                        Toast.makeText(RestaurantInfoActivity.this, "You have joined the queue successfully. Navigate to the menu tab to place your preorder.", Toast.LENGTH_LONG).show();
+
+                        // dismiss the popup
+                        popupWindow.dismiss();
+
+                        // update queue status on shared preferences
+                        sessionManager.updateQueueStatus("In Queue");
+
+                        // disable join queue button when user joined the queue
+                        joinQueueButton.setOnClickListener(null);
+                        joinQueueButton.setText("Joined Queue");
+                        joinQueueButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+                        joinQueueButton.setBackground(getResources().getDrawable(R.drawable.joined_queue_button));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+            }
+        });
+
         // dismiss the popup window when touched
         popupView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -132,5 +232,14 @@ public class RestaurantInfoActivity extends AppCompatActivity {
 
     public String getRestaurantName() {
         return restaurantName;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        paxNo = i + 1;
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
     }
 }

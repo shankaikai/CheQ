@@ -11,59 +11,61 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Users.RestaurantPageActivity"
+        <activity android:name=".Users.BlankActivity"></activity>
+        <activity
+            android:name=".Users.RestaurantPageActivity"
             android:noHistory="true"
-            android:screenOrientation="nosensor"></activity>
-        <!-- SplashScreen -->
+            android:screenOrientation="nosensor" /> <!-- SplashScreen -->
         <activity
             android:name=".Login.SplashScreen"
             android:noHistory="true"
-            android:theme="@style/SplashScreen"
-            android:screenOrientation="nosensor">
+            android:screenOrientation="nosensor"
+            android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- LoginActivity -->
         <activity
             android:name=".Login.LoginActivity"
             android:noHistory="true"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="nosensor"/> <!-- RegistrationActivity -->
+            android:screenOrientation="nosensor"
+            android:theme="@style/AppTheme" /> <!-- RegistrationActivity -->
         <activity
             android:name=".Login.RegistrationActivity"
             android:noHistory="true"
-            android:screenOrientation="nosensor"/> <!-- PasswordActivity -->
+            android:screenOrientation="nosensor" /> <!-- PasswordActivity -->
         <activity
             android:name=".Login.PasswordActivity"
             android:noHistory="true"
-            android:screenOrientation="nosensor"/> <!-- MainActivity -->
-        <activity android:name=".MainActivity"
-            android:screenOrientation="nosensor"/> <!-- DoneActivity -->
+            android:screenOrientation="nosensor" /> <!-- MainActivity -->
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="nosensor" /> <!-- DoneActivity -->
         <activity
             android:name=".Login.DoneActivity"
             android:noHistory="true"
-            android:screenOrientation="nosensor"/> <!-- RestaurantActivity -->
+            android:screenOrientation="nosensor" /> <!-- RestaurantActivity -->
         <activity
             android:name=".Restaurant.RestaurantActivity"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="nosensor"/>
+            android:screenOrientation="nosensor"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Restaurant.RestaurantAllQueuesActivity"
-            android:screenOrientation="nosensor"/>
-
-        <activity android:name=".Login.RestaurantOnboard.RestaurantOnboardingActivity"
-            android:screenOrientation="nosensor"/>
-
-        <activity android:name=".Login.RestaurantOnboard.RestaurantOnboardingMenuActivity"
-            android:screenOrientation="nosensor"/>
-
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".Login.RestaurantOnboard.RestaurantOnboardingActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".Login.RestaurantOnboard.RestaurantOnboardingMenuActivity"
+            android:screenOrientation="nosensor" />
         <activity
             android:name=".Users.UserActivity"
-            android:screenOrientation="nosensor"/>
+            android:screenOrientation="nosensor" />
         <activity
             android:name=".RestaurantInfo.RestaurantInfoActivity"
-            android:screenOrientation="nosensor"/>
+            android:screenOrientation="nosensor" />
     </application>
 
 </manifest>

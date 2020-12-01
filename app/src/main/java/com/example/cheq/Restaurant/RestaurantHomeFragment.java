@@ -36,6 +36,7 @@ public class RestaurantHomeFragment extends Fragment {
 
     Button viewAllQueuesBtn;
     ListView viewAllQueueListView;
+    TextView viewAllPreOrdersNumberTextView;
     FirebaseManager firebaseManager;
     SessionManager sessionManager;
     String restaurantId;
@@ -50,7 +51,7 @@ public class RestaurantHomeFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_restaurant_home, container, false);
 
         viewAllQueuesBtn = view.findViewById(R.id.viewAllQueueBtn);
-
+        viewAllPreOrdersNumberTextView = view.findViewById(R.id.restaurantNoOfPreOrderTextViewNumber);
 
         firebaseManager = new FirebaseManager();
         sessionManager = SessionManager.getSessionManager(getContext());
@@ -59,10 +60,12 @@ public class RestaurantHomeFragment extends Fragment {
 
         final DatabaseReference rootRef = firebaseManager.rootRef;
         DatabaseReference restaurantQueueRef = rootRef.child("Queues").child(restaurantId);
+        DatabaseReference restaurantPreOrderRef = rootRef.child("Preorders").child(restaurantId);
         restaurantQueueRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                //Queue ListView
                 xWaiting[0] = dataSnapshot.child("1").getChildrenCount() + dataSnapshot.child("2").getChildrenCount();
                 //Log.i("countct1000", String.valueOf(dataSnapshot.child("1").getChildrenCount()));
                 xWaiting[1] = dataSnapshot.child("3").getChildrenCount();
@@ -76,6 +79,19 @@ public class RestaurantHomeFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {}
+        });
+        restaurantPreOrderRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //NoOfPreOrderTextView
+                Log.i("preordersNo", String.valueOf(snapshot.getChildrenCount()));
+                viewAllQueueListView = view.findViewById(R.id.viewAllQueueListView);
+                viewAllPreOrdersNumberTextView.setText(String.valueOf(snapshot.getChildrenCount()));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
 
         //HashMap<type of no. of pax waiting, no. of each type>

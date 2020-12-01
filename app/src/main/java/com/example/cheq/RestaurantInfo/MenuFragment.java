@@ -3,6 +3,7 @@ package com.example.cheq.RestaurantInfo;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -18,11 +19,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.cheq.MainActivity;
 import com.example.cheq.Managers.FirebaseManager;
 import com.example.cheq.Managers.SessionManager;
 import com.example.cheq.R;
-import com.example.cheq.Users.AllOutletsFragment;
 import com.example.cheq.Users.ViewBasketFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,6 +43,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.onRestaurantLi
     private AlertDialog addDishDialog;
     private TextView addDishName, addDishQuantity;
     private CardView addDishBtn;
+    private CardView cancelAddBtn;
 
     // Session Manager
     SessionManager sessionManager;
@@ -106,7 +106,8 @@ public class MenuFragment extends Fragment implements MenuAdapter.onRestaurantLi
         RestaurantInfoActivity activity = (RestaurantInfoActivity) getActivity();
         restaurantID = activity.getRestaurantID();
 
-        sessionManager.removePreorder();
+        // sessionManager.removePreorder();
+        // sessionManager.cancelPreorder();
 
         // If there are preorder items in the basket, restore it
         if (sessionManager.hasPreorder() && restaurantID.equals(sessionManager.getPreorderRest())) {
@@ -173,28 +174,40 @@ public class MenuFragment extends Fragment implements MenuAdapter.onRestaurantLi
     @Override
     public void onRestaurantClick(String dishName) {
         if (sessionManager.getPreorderStatus().equals("Ordered")) {
-            Toast.makeText(getContext(), "You have already placed an order. You may view it under Current Activities.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "You have already made a pre-order. You may view it under Current Activities.", Toast.LENGTH_LONG).show();
+        } else if (!sessionManager.getQueueStatus().equals("In Queue")) {
+            Toast.makeText(getContext(), "Please join the queue to make a pre-order", Toast.LENGTH_LONG).show();
         } else {
             addDishPopup(dishName);
         }
     }
 
     public void addDishPopup(final String dishName) {
-        dialogBuilder = new AlertDialog.Builder(((RestaurantInfoActivity) getActivity()));
+        dialogBuilder = new AlertDialog.Builder(getActivity());
         final View addDishPopupView = getLayoutInflater().inflate(R.layout.add_dish_popup, null);
 
         // connect the UI elements to the variables
         addDishName = (TextView) addDishPopupView.findViewById(R.id.addDishName);
         addDishQuantity = (TextView) addDishPopupView.findViewById(R.id.addDishQuantity);
         addDishBtn = (CardView) addDishPopupView.findViewById(R.id.addDishBtn);
+        cancelAddBtn = (CardView) addDishPopupView.findViewById(R.id.cancelAddBtn);
 
         // create the dialog
         dialogBuilder.setView(addDishPopupView);
         addDishDialog = dialogBuilder.create();
+        addDishDialog.getWindow().getDecorView().setBackgroundColor(Color.TRANSPARENT);
         addDishDialog.show();
 
         // set the text
         addDishName.setText(dishName);
+
+        // set the onClick listener for the cancelAddBtn
+        cancelAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addDishDialog.dismiss();
+            }
+        });
 
         // set the onClick listener for the addDishBtn
         addDishBtn.setOnClickListener(new View.OnClickListener() {

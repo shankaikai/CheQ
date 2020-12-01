@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,6 +31,8 @@ import java.util.List;
 public class SeatsAdapter extends RecyclerView.Adapter<SeatsAdapter.ViewHolder> {
     private ArrayList<Seat> seats;
     FirebaseManager firebaseManager = new FirebaseManager();
+    Context context;
+
 
     public SeatsAdapter(ArrayList<Seat> seats) {
         this.seats = seats;
@@ -50,14 +53,14 @@ public class SeatsAdapter extends RecyclerView.Adapter<SeatsAdapter.ViewHolder> 
 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         // Inflate the custom layout
         View restaurantSeatsView = inflater.inflate(R.layout.row_restaurant_allqueue_recycleview, parent, false);
 
         // Return a new holder instance
         ViewHolder restaurantSeatsViewHolder = new ViewHolder(restaurantSeatsView);
+        context = parent.getContext();
         return restaurantSeatsViewHolder;
     }
 
@@ -76,11 +79,22 @@ public class SeatsAdapter extends RecyclerView.Adapter<SeatsAdapter.ViewHolder> 
         restaurantAllQueueSeatNo.setText(seat.getSeatNo());
 
         final DatabaseReference restaurantQueueNoRef = firebaseManager.rootRef.child("Queues").child(seat.getRestaurantId());
+
         restaurantAllQueueCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("restId", seat.getRestaurantId());
                   restaurantQueueNoRef.child(seat.getNoOfPaxInt().toString()).child(seat.getUserId()).removeValue();
+                Toast.makeText(context, "Customer Removed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        restaurantAllQueueSeatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("restId", seat.getRestaurantId());
+                restaurantQueueNoRef.child(seat.getNoOfPaxInt().toString()).child(seat.getUserId()).removeValue();
+                Toast.makeText(context, "Customer Seated", Toast.LENGTH_SHORT).show();
             }
         });
     }

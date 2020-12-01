@@ -21,6 +21,8 @@ public class SessionManager {
     final String PREORDERREST = "preorderRest";
     final String PREORDERUNIQUECOUNT = "preorderUniqueCount";
     final String PREORDERSTATUS = "preorderStatus";
+    final String PREORDERRESTNAME = "preorderRestName";
+    final String QUEUESTATUS = "queueStatus";
 
     // Singleton SessionManager object
     private static SessionManager sessionManager = null;
@@ -64,6 +66,10 @@ public class SessionManager {
 
     public void uniqDishCount(String count) {
         editor.putString(PREORDERUNIQUECOUNT, count).commit();
+    }
+
+    public void setPreorderRestName(String name) {
+        editor.putString(PREORDERRESTNAME, name).commit();
     }
 
     // Call this function to check if user is logged in
@@ -110,6 +116,10 @@ public class SessionManager {
         editor.putString(PREORDERSTATUS, status).commit();
     }
 
+    public void updateQueueStatus(String status) {
+        editor.putString(QUEUESTATUS, status).commit();
+    }
+
     public String getUserPhone() {
         return sharedPreferences.getString(USERPHONEKEY, "");
     }
@@ -136,6 +146,22 @@ public class SessionManager {
 
     public String getPreorderStatus() {
         return sharedPreferences.getString(PREORDERSTATUS, "");
+    }
+
+    public void cancelPreorder() {
+        editor.putString(PREORDERSTATUS, "").commit();
+    }
+
+    public String getPreorderRestName() {
+        return sharedPreferences.getString(PREORDERRESTNAME, "");
+    }
+
+    public String getQueueStatus() {
+        return sharedPreferences.getString(QUEUESTATUS, "");
+    }
+
+    public void clearPreferences() {
+        sharedPreferences.edit().clear();
     }
 
 }
