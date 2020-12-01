@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cheq.MainActivity;
 import com.example.cheq.Managers.FirebaseManager;
 import com.example.cheq.R;
+import com.example.cheq.RestaurantInfo.RestaurantInfoActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -237,11 +238,8 @@ public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter
     // Opening up the restaurant information page when user clicks on the restaurant
     @Override
     public void onRestaurantClick(String id) {
-        // TODO: change the MainActivity to the correct Activity name
-//        Intent intent = new Intent(getActivity(), RestaurantPageActivity.class);
-//        intent.putExtra("restaurantID", id);
-//        getActivity().startActivity(intent);
-        EmptyBasketFragment fragment = new EmptyBasketFragment();
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        Intent intent = new Intent(getActivity(), RestaurantInfoActivity.class);
+        intent.putExtra("restaurantID", id);
+        getActivity().startActivity(intent);
     }
 }
