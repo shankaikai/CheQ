@@ -19,8 +19,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cheq.Login.RestaurantOnboard.MenuAdapter;
-import com.example.cheq.MainActivity;
 import com.example.cheq.Managers.FirebaseManager;
 import com.example.cheq.Managers.SessionManager;
 import com.example.cheq.R;
@@ -88,17 +86,12 @@ public class ViewBasketFragment extends Fragment {
         firebaseManager = new FirebaseManager();
         final DatabaseReference rootRef = firebaseManager.rootRef;
 
-        // Initialise session manager
+        // Initialise session manager & userID to send preorder to firebase
         sessionManager = SessionManager.getSessionManager(getActivity());
-
-        // Retrieve Restaurant ID
-        RestaurantInfoActivity activity = (RestaurantInfoActivity) getActivity();
-        restaurantName = activity.getRestaurantName();
-        restaurantID = activity.getRestaurantID();
         userID = sessionManager.getUserPhone();
 
+        // Restore basketItems if sharedPreferences has preorder
         basketItems = MenuFragment.restoreMap(sessionManager.getPreorder(), Integer.parseInt(sessionManager.getPreorderUniqueCount()));
-        Log.i("basket", basketItems.toString());
 
         // Initialise UI Elements
         restaurantNameBasket = view.findViewById(R.id.restaurantNameBasket);
@@ -107,6 +100,23 @@ public class ViewBasketFragment extends Fragment {
         orderPlaced = view.findViewById(R.id.orderPlaced);
         backArrow = view.findViewById(R.id.backArrow);
         basketLayout = view.findViewById(R.id.basketLayout);
+
+        // Retrieve Restaurant info based on the previous Activity
+        Log.i("activity", getActivity().toString());
+        if (getActivity().toString().contains("RestaurantInfoActivity")) {
+            RestaurantInfoActivity activity = (RestaurantInfoActivity) getActivity();
+            restaurantName = activity.getRestaurantName();
+            restaurantID = activity.getRestaurantID();
+        } else {
+            restaurantName = sessionManager.getPreorderRestName();
+            Log.i("rest", restaurantName);
+        }
+
+        // if there are preorder items, button is greyed out when they view their order
+        if (sessionManager.getPreorderStatus().equals("Ordered")) {
+            placeOrder.setVisibility(View.INVISIBLE);
+            orderPlaced.setVisibility(View.VISIBLE);
+        }
 
         restaurantNameBasket.setText(restaurantName);
         totalPriceTextView.setText("$" + sessionManager.getPreorderTotal());
@@ -126,7 +136,8 @@ public class ViewBasketFragment extends Fragment {
                     Preorder item = new Preorder(quantity, dish, userID, restaurantID);
                     firebaseManager.addPreorder(item);
                 }
-                sessionManager.removePreorder();
+                // sessionManager.removePreorder();
+                sessionManager.setPreorderRestName(restaurantName);
                 sessionManager.updatePreorderStatus("Ordered");
                 Toast.makeText(getContext(), "Order placed successfully", Toast.LENGTH_LONG).show();
                 placeOrder.setVisibility(View.INVISIBLE);
@@ -145,15 +156,19 @@ public class ViewBasketFragment extends Fragment {
                 getFragmentManager().popBackStackImmediate();
 
                 // Toggle visibility of the restaurant info to toggle to the basket view
-                View restInfo = getActivity().findViewById(R.id.restInfoLayout);
-                View basketCardView = getActivity().findViewById(R.id.basketCardView);
-                restInfo.setVisibility(View.VISIBLE);
-                if (!sessionManager.hasPreorder()) {
-                    basketCardView.setVisibility(View.INVISIBLE);
+                if (getActivity().toString().contains("RestaurantInfoActivity")) {
+                    View restInfo = getActivity().findViewById(R.id.restInfoLayout);
+                    View basketCardView = getActivity().findViewById(R.id.basketCardView);
+                    restInfo.setVisibility(View.VISIBLE);
+                    if (!sessionManager.hasPreorder()) {
+                        basketCardView.setVisibility(View.INVISIBLE);
+                    } else {
+                        basketCardView.setVisibility(View.VISIBLE);
+                    }
+                    basketLayout.setVisibility(View.INVISIBLE);
                 } else {
-                    basketCardView.setVisibility(View.VISIBLE);
+                    getActivity().onBackPressed();
                 }
-                basketLayout.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -207,5 +222,4 @@ public class ViewBasketFragment extends Fragment {
         }
         totalPriceTextView.setText("$" + sessionManager.getPreorderTotal());
     }
-
 }
