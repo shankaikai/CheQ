@@ -11,6 +11,11 @@
     <string name="no_search_results">No results match your search.</string>
     <string name="place_order_btn">Place Order</string>
     <string name="order_placed">Order Placed</string>
+    <string name="add_dish_popup_title">Add Item to Basket?</string>
+    <string name="dish_popup_default">Dish Name</string>
+    <string name="add_dish_btn">Add Dish</string>
+    <string name="view_basket">View My Basket</string>
+    <string name="cancel_btn">Cancel</string>
     <string-array name="restaurant_names">
         <item>gomgom</item>
         <item>Crooked Cooks</item>

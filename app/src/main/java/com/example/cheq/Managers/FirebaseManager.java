@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.cheq.Entities.FirebaseDishItem;
 import com.example.cheq.Entities.RestaurantInfoItem;
 import com.example.cheq.Entities.User;
+import com.example.cheq.Users.Preorder;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -42,5 +43,10 @@ public class FirebaseManager {
         Log.i("hi", "add dish");
         // Insert user into firebase
         firebaseReference.child(userPhone).child(firebaseDishItem.getDishName()).setValue(firebaseDishItem);
+    }
+
+    public void addPreorder(Preorder preorder) {
+        DatabaseReference firebaseReference = firebaseInstance.getReference("Preorders");
+        firebaseReference.child(preorder.getRestaurantID()).child(preorder.getUserID()).child(preorder.getDishName()).setValue(preorder.getDishQuantity());
     }
 }
