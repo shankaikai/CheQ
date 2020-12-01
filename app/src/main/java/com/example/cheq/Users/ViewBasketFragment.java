@@ -97,12 +97,6 @@ public class ViewBasketFragment extends Fragment {
         restaurantID = activity.getRestaurantID();
         userID = sessionManager.getUserPhone();
 
-        // Retrieve restaurants hashmap data
-//        Bundle b = this.getArguments();
-//        if (b.getSerializable("hashmap") != null) {
-//            basketItems = new HashMap<>();
-//            basketItems = (HashMap<String, HashMap<String, String>>) b.getSerializable(("hashmap"));
-//        }
         basketItems = MenuFragment.restoreMap(sessionManager.getPreorder(), Integer.parseInt(sessionManager.getPreorderUniqueCount()));
         Log.i("basket", basketItems.toString());
 
@@ -132,15 +126,15 @@ public class ViewBasketFragment extends Fragment {
                     Preorder item = new Preorder(quantity, dish, userID, restaurantID);
                     firebaseManager.addPreorder(item);
                 }
-                sessionManager.removePreorder(); // TODO: NOT WORKING
-                // Log.i("basket", sessionManager.getPreorder());
-                // sessionManager.updatePreorderStatus("Ordered");
+                sessionManager.removePreorder();
+                sessionManager.updatePreorderStatus("Ordered");
                 Toast.makeText(getContext(), "Order placed successfully", Toast.LENGTH_LONG).show();
                 placeOrder.setVisibility(View.INVISIBLE);
                 orderPlaced.setVisibility(View.VISIBLE);
                 getFragmentManager().popBackStackImmediate();
                 View restInfo = getActivity().findViewById(R.id.restInfoLayout);
                 restInfo.setVisibility(View.VISIBLE);
+                basketLayout.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -176,7 +170,6 @@ public class ViewBasketFragment extends Fragment {
                 int position = vH.getAdapterPosition();
                 String dishName = BasketListAdapter.dishName.get(position);
                 removeDish(dishName);
-                Log.i("Delete item", "yay");
                 basketAdapter.notifyItemRemoved(position);
                 basketList.setAdapter(new BasketListAdapter(basketItems));
                 if (basketItems.size() == 0) {

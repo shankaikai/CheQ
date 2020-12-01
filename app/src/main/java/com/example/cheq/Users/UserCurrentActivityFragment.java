@@ -77,6 +77,12 @@ public class UserCurrentActivityFragment extends Fragment {
             public void onClick(View v) {
                 //TODO: pre order button
                 Toast.makeText(getActivity(), "view_pre_order", Toast.LENGTH_SHORT).show();
+
+                // Retrieve preorder from firebase
+                
+
+                ViewBasketFragment fragment = new ViewBasketFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.userActivitiesBase, fragment).commit();
             }
         });
 
