@@ -3,6 +3,8 @@ package com.example.cheq.Managers;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import static com.example.cheq.Constants.SharedPreferencesConstants.*;
+
 public class SessionManager {
     // Instantiate SharePreference and Editor objects which will be used to store and edit sessions
     SharedPreferences sharedPreferences;

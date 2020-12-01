@@ -78,7 +78,7 @@ public class UserActivitiesFragment extends Fragment {
         UserActivitiesSectionsPagerAdapter sectionsPagerAdapter = new UserActivitiesSectionsPagerAdapter(this.getContext(), getChildFragmentManager());
         ViewPager viewPager = getView().findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
-        TabLayout tabs = getView().findViewById(R.id.tabs);
+        TabLayout tabs = getView().findViewById(R.id.activities_tabs);
         tabs.setupWithViewPager(viewPager);
     }
 }
