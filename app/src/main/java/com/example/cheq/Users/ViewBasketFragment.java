@@ -102,7 +102,6 @@ public class ViewBasketFragment extends Fragment {
         basketLayout = view.findViewById(R.id.basketLayout);
 
         // Retrieve Restaurant info based on the previous Activity
-        Log.i("activity", getActivity().toString());
         if (getActivity().toString().contains("RestaurantInfoActivity")) {
             RestaurantInfoActivity activity = (RestaurantInfoActivity) getActivity();
             restaurantName = activity.getRestaurantName();
@@ -136,16 +135,22 @@ public class ViewBasketFragment extends Fragment {
                     Preorder item = new Preorder(quantity, dish, userID, restaurantID);
                     firebaseManager.addPreorder(item);
                 }
-                // sessionManager.removePreorder();
                 sessionManager.setPreorderRestName(restaurantName);
                 sessionManager.updatePreorderStatus("Ordered");
-                Toast.makeText(getContext(), "Order placed successfully", Toast.LENGTH_LONG).show();
+
                 placeOrder.setVisibility(View.INVISIBLE);
                 orderPlaced.setVisibility(View.VISIBLE);
-                getFragmentManager().popBackStackImmediate();
-                View restInfo = getActivity().findViewById(R.id.restInfoLayout);
-                restInfo.setVisibility(View.VISIBLE);
-                basketLayout.setVisibility(View.INVISIBLE);
+
+                Toast.makeText(getContext(), "Order placed successfully", Toast.LENGTH_LONG).show();
+
+                if (getActivity().toString().contains("RestaurantInfoActivity")) {
+                    View restInfo = getActivity().findViewById(R.id.restInfoLayout);
+                    restInfo.setVisibility(View.VISIBLE);
+                    basketLayout.setVisibility(View.INVISIBLE);
+                    getActivity().findViewById(R.id.menuCL).setPadding(0, 0, 0, 0);
+                } else {
+                    getActivity().onBackPressed();
+                }
             }
         });
 
@@ -153,17 +158,20 @@ public class ViewBasketFragment extends Fragment {
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().popBackStackImmediate();
+                // getFragmentManager().popBackStackImmediate();
 
                 // Toggle visibility of the restaurant info to toggle to the basket view
                 if (getActivity().toString().contains("RestaurantInfoActivity")) {
                     View restInfo = getActivity().findViewById(R.id.restInfoLayout);
-                    View basketCardView = getActivity().findViewById(R.id.basketCardView);
+                    View basketCL = getActivity().findViewById(R.id.basketCL);
+                    ConstraintLayout menuCL = getActivity().findViewById(R.id.menuCL);
                     restInfo.setVisibility(View.VISIBLE);
                     if (!sessionManager.hasPreorder()) {
-                        basketCardView.setVisibility(View.INVISIBLE);
+                        basketCL.setVisibility(View.INVISIBLE);
+                        menuCL.setPadding(0, 0, 0, 0);
                     } else {
-                        basketCardView.setVisibility(View.VISIBLE);
+                        basketCL.setVisibility(View.VISIBLE);
+                        menuCL.setPadding(0, 0, 0, 160);
                     }
                     basketLayout.setVisibility(View.INVISIBLE);
                 } else {
@@ -172,38 +180,43 @@ public class ViewBasketFragment extends Fragment {
             }
         });
 
-        // Enable deleting of items
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                BasketListAdapter.ViewHolder vH = (BasketListAdapter.ViewHolder) viewHolder;
-                int position = vH.getAdapterPosition();
-                String dishName = BasketListAdapter.dishName.get(position);
-                removeDish(dishName);
-                basketAdapter.notifyItemRemoved(position);
-                basketList.setAdapter(new BasketListAdapter(basketItems));
-                if (basketItems.size() == 0) {
-                    // Toggle back to restaurant info if basket is empty
-                    View restInfo = getActivity().findViewById(R.id.restInfoLayout);
-                    View basketCardView = getActivity().findViewById(R.id.basketCardView);
-                    restInfo.setVisibility(View.VISIBLE);
-                    if (!sessionManager.hasPreorder()) {
-                        basketCardView.setVisibility(View.INVISIBLE);
-                    } else {
-                        basketCardView.setVisibility(View.VISIBLE);
-                    }
-                    basketLayout.setVisibility(View.INVISIBLE);
+        // Enable deleting of items only if order is not sent
+        if (!sessionManager.getPreorderStatus().equals("Ordered")) {
+            ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                @Override
+                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                    return false;
                 }
-            }
-        };
 
-        itemTouchHelper = new ItemTouchHelper(simpleCallback);
-        itemTouchHelper.attachToRecyclerView(basketList);
+                @Override
+                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                    BasketListAdapter.ViewHolder vH = (BasketListAdapter.ViewHolder) viewHolder;
+                    int position = vH.getAdapterPosition();
+                    String dishName = BasketListAdapter.dishName.get(position);
+                    removeDish(dishName);
+                    basketAdapter.notifyItemRemoved(position);
+                    basketList.setAdapter(new BasketListAdapter(basketItems));
+                    if (basketItems.size() == 0) {
+                        // Toggle back to restaurant info if basket is empty
+                        View restInfo = getActivity().findViewById(R.id.restInfoLayout);
+                        View basketCL = getActivity().findViewById(R.id.basketCL);
+                        ConstraintLayout menuCL = getActivity().findViewById(R.id.menuCL);
+                        restInfo.setVisibility(View.VISIBLE);
+                        if (!sessionManager.hasPreorder()) {
+                            basketCL.setVisibility(View.INVISIBLE);
+                            menuCL.setPadding(0, 0, 0, 0);
+                        } else {
+                            basketCL.setVisibility(View.VISIBLE);
+                            menuCL.setPadding(0, 0, 0, 160);
+                        }
+                        basketLayout.setVisibility(View.INVISIBLE);
+                    }
+                }
+            };
+
+            itemTouchHelper = new ItemTouchHelper(simpleCallback);
+            itemTouchHelper.attachToRecyclerView(basketList);
+        }
 
         return view;
     }

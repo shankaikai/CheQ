@@ -1,10 +1,6 @@
 package com.example.cheq.Users;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.cheq.R;
 
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ViewOutletsListAdapter extends RecyclerView.Adapter<com.example.cheq.Users.ViewOutletsListAdapter.ViewHolder> {
+public class QueueAgainListAdapter extends RecyclerView.Adapter<QueueAgainListAdapter.ViewHolder> {
 
     private static final String TAG = "test";
     ArrayList<String> restaurantNames;
@@ -59,7 +49,7 @@ public class ViewOutletsListAdapter extends RecyclerView.Adapter<com.example.che
         public void onClick(View view) {
             int idx = getAdapterPosition();
             String restID = restaurantID.get(idx);
-            onRestaurantListener.onRestaurantClick(restID);
+            onRestaurantListener.onClick(restID);
         }
 
         public ImageView getImageView() {
@@ -76,7 +66,7 @@ public class ViewOutletsListAdapter extends RecyclerView.Adapter<com.example.che
     }
 
     // Constructor
-    public ViewOutletsListAdapter(HashMap<String, HashMap<String, String>> info, onRestaurantListener onRestaurantListener, Context context) {
+    public QueueAgainListAdapter(HashMap<String, HashMap<String, String>> info, onRestaurantListener onRestaurantListener, Context context) {
         this.restaurantNames = new ArrayList<>();
         this.categories = new ArrayList<>();
         this.restaurantImages = new ArrayList<>();
@@ -115,11 +105,11 @@ public class ViewOutletsListAdapter extends RecyclerView.Adapter<com.example.che
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return 5;
+        return restaurantNames.size();
     }
 
     public interface onRestaurantListener {
-        void onRestaurantClick(String id);
+        void onClick(String id);
     }
 
     public ArrayList<String> getRestaurantID() {

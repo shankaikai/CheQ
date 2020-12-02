@@ -33,6 +33,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,6 +61,7 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
     Button joinQueueButton;
     PopupWindow popUp;
     Spinner paxSpinner;
+    TextView restWaitTime;
 
     // Selected Pax No
     int paxNo;
@@ -84,30 +87,11 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
         restImage = findViewById(R.id.restImage);
         restTitle = findViewById(R.id.restaurantName);
         restCategory = findViewById(R.id.restaurantCategory);
+        // TODO: Initialise waiting time
 
         // Initialise firebaseManager
         firebaseManager = new FirebaseManager();
         final DatabaseReference rootRef = firebaseManager.rootRef;
-
-        // retrieve restaurant info from firebase
-        rootRef.child("Restaurants").child(restaurantID).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // Log.i("fb", snapshot.toString());
-                restaurantName = snapshot.child("restName").getValue().toString();
-                restaurantDes = snapshot.child("restCategory").getValue().toString();
-                restaurantImage = snapshot.child("restImageUri").getValue().toString();
-                Glide.with(RestaurantInfoActivity.this).load(restaurantImage).into(restImage);
-                restTitle.setText(restaurantName);
-                restCategory.setText(restaurantDes);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-
-        // sessionManager.updateQueueStatus("");
 
         // if user is already in queue, join button is greyed out
         if (sessionManager.getQueueStatus().equals("In Queue")) {
@@ -118,9 +102,41 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
                 joinQueueButton.setBackground(getResources().getDrawable(R.drawable.joined_queue_button));
             } else {
                 joinQueueButton.setOnClickListener(null);
-                joinQueueButton.setBackground(getResources().getDrawable(R.drawable.joined_queue_button));
+                joinQueueButton.setBackground(getResources().getDrawable(R.drawable.greyed_out_button));
             }
         }
+
+        // retrieve restaurant info from firebase
+        rootRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                restaurantName = snapshot.child("Restaurants").child(restaurantID).child("restName").getValue().toString();
+                restaurantDes = snapshot.child("Restaurants").child(restaurantID).child("restCategory").getValue().toString();
+                restaurantImage = snapshot.child("Restaurants").child(restaurantID).child("restImageUri").getValue().toString();
+                Glide.with(getApplicationContext()).load(restaurantImage).into(restImage);
+                restTitle.setText(restaurantName);
+                restCategory.setText(restaurantDes);
+
+                // Retrieve userID
+                String userID = sessionManager.getUserPhone();
+                if (snapshot.child("Users").child(userID).child("currentQueue").exists()) {
+                    sessionManager.updateQueueStatus("In Queue");
+                    String id = snapshot.child("Users").child(userID).child("currentQueue").child("restaurantID").getValue().toString();
+                    if (id.equals(restaurantID)) {
+                        joinQueueButton.setOnClickListener(null);
+                        joinQueueButton.setText("Joined Queue");
+                        joinQueueButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+                        joinQueueButton.setBackground(getResources().getDrawable(R.drawable.joined_queue_button));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        // sessionManager.updateQueueStatus("");
     }
 
     public void onButtonShowPopupWindowClick(View v) {
@@ -196,9 +212,6 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
                         firebaseManager.addToQueues(userID, restaurantID, curNum, paxNo);
                         Toast.makeText(RestaurantInfoActivity.this, "You have joined the queue successfully. Navigate to the menu tab to place your preorder.", Toast.LENGTH_LONG).show();
 
-                        // dismiss the popup
-                        popupWindow.dismiss();
-
                         // update queue status on shared preferences
                         sessionManager.updateQueueStatus("In Queue");
 
@@ -207,6 +220,9 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
                         joinQueueButton.setText("Joined Queue");
                         joinQueueButton.setTextColor(getResources().getColor(R.color.colorPrimary));
                         joinQueueButton.setBackground(getResources().getDrawable(R.drawable.joined_queue_button));
+
+                        // dismiss the popup
+                        popupWindow.dismiss();
                     }
 
                     @Override
@@ -216,12 +232,12 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
             }
         });
 
-        // dismiss the popup window when touched
-        popupView.setOnTouchListener(new View.OnTouchListener() {
+        // set up the click function for cancel button
+        final Button cancelBtn = popupView.findViewById(R.id.cancelButton);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View view) {
                 popupWindow.dismiss();
-                return true;
             }
         });
     }

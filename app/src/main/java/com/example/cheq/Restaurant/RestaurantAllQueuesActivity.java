@@ -51,9 +51,10 @@ public class RestaurantAllQueuesActivity extends AppCompatActivity {
                     for (DataSnapshot seatNo2: noOfPax.getChildren()){
                         Log.i("resId", restaurantId);
                         Log.i("noOfPax", String.valueOf(noOfPax.getKey()));
+                        Log.i("userId", String.valueOf(seatNo2.getValue()));
                         Log.i("seatNo2", String.valueOf(seatNo2.getKey()));
 
-                        seats.add(new Seat("A" + noOfPax.getKey() + seatNo2.getKey(), Integer.parseInt(noOfPax.getKey()), seatNo2.getKey(), restaurantId));
+                        seats.add(new Seat("A" + noOfPax.getKey() + seatNo2.getKey(), Integer.parseInt(noOfPax.getKey()), (String) seatNo2.getValue(), restaurantId, seatNo2.getKey()));
                     }
                 }
                 //Setting the SeatsAdapter up to display the queues in a Recyclerview.

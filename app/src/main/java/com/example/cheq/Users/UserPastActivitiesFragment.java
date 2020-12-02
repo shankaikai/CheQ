@@ -15,9 +15,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cheq.Entities.CurrentQueue;
+import com.example.cheq.Managers.SessionManager;
 import com.example.cheq.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,7 +40,7 @@ import static com.example.cheq.Constants.SharedPreferencesConstants.USERPHONEKEY
 public class UserPastActivitiesFragment extends Fragment {
 
     String userID;
-    SharedPreferences sharedPreferences;
+    SessionManager sessionManager;
     ArrayList<String> resIDsArray = new ArrayList<>();
     ArrayList<String> datesArray = new ArrayList<>();
     ArrayList<String> groupSizesArray = new ArrayList<>();
@@ -47,7 +49,9 @@ public class UserPastActivitiesFragment extends Fragment {
     ArrayList<String> dates = new ArrayList<>();
     ArrayList<String> groupsizes = new ArrayList<>();
 
-
+    // UI Elements
+    TextView noPastActivitiesTextView;
+    RecyclerView pastActivitiesRecyclerView;
 
     // TODO: Customize parameter argument names
     private static final String PAST_ACTIVITIES_COUNT = "column-count";
@@ -84,50 +88,54 @@ public class UserPastActivitiesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_past_activities_list, container, false);
-        sharedPreferences = getContext().getSharedPreferences(SHAREDPREFNAME, Context.MODE_PRIVATE);
-        userID = sharedPreferences.getString(USERPHONEKEY, null); // get phone number from sharedpreference
 
+        // set up Session Manager and
+        // get phone number from Session Manager
+        sessionManager = SessionManager.getSessionManager(getActivity());
+        userID = sessionManager.getUserPhone();
+
+        // Initialise database
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        if (userID != null) {
 
-            databaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
+        // Initialise UI
+        noPastActivitiesTextView = view.findViewById(R.id.noPastActivitiesTextView);
+        pastActivitiesRecyclerView = view.findViewById(R.id.pastActivitiesList);
 
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.child("Users").child(userID).child("pastQueues").exists()) {
+                    // Set the no Past Activities view to invisible
+                    noPastActivitiesTextView.setVisibility(View.INVISIBLE);
+
+                    // Retrieve past queues data
                     for (DataSnapshot snapshot1 : snapshot.child("Users").child(userID).child("pastQueues").getChildren()) {
-                        //Log.i("What are you", snapshot1.toString());
                         String key = snapshot1.getKey().toString();
                         resIDsArray.add(key);
                         datesArray.add(snapshot.child("Users").child(userID).child("pastQueues").child(key).child("date").getValue().toString());
                         groupSizesArray.add(snapshot.child("Users").child(userID).child("pastQueues").child(key).child("groupSize").getValue().toString());
                     }
+
                     dates = datesArray;
                     groupsizes = groupSizesArray;
                     Query query = databaseReference.child("Restaurants");
                     query.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            Log.i("Snapshot is: ", snapshot.toString());
                             for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                                 if (resIDsArray.contains(snapshot1.getKey())) {
-                                    Log.i("restName", snapshot1.child("restName").getValue().toString());
                                     names.add(snapshot1.child("restName").getValue().toString());
                                     images.add(Uri.parse(snapshot1.child("restImageUri").getValue().toString()));
                                 }
                             }
-                            if (view instanceof RecyclerView) {
-                                Context context = view.getContext();
-                                RecyclerView recyclerView = (RecyclerView) view;
-                                if (mColumnCount <= 1) {
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                                } else {
-                                    recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-                                }
-                                recyclerView.setAdapter(new UserPastActivitiesRecyclerViewAdapter(names, dates, groupsizes, images, context));
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-                            }
+                            // Set up the recycler view
+                            pastActivitiesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                            pastActivitiesRecyclerView.setAdapter(new UserPastActivitiesRecyclerViewAdapter(names, dates, groupsizes, images, getContext()));
+                            pastActivitiesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+                            // set the visibility of the recycler view to visible
+                            pastActivitiesRecyclerView.setVisibility(View.VISIBLE);
                         }
 
                         @Override
@@ -135,40 +143,18 @@ public class UserPastActivitiesFragment extends Fragment {
 
                         }
                     });
-//                    names = namesArray;
-//                    for (String i : imagesArray) {
-//                        images.add(Uri.parse(i));
-//                    }
-                    //Log.i("Names: ", names.toString());
-                    //Log.i("Images: ", images.toString());
+                } else {
+                    noPastActivitiesTextView.setVisibility(View.VISIBLE);
+                    pastActivitiesRecyclerView.setVisibility(View.INVISIBLE);
                 }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getContext(), "Service is unavailable", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Service is unavailable", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-
-        // Get lists from string.xml
-//        names = getResources().getStringArray(R.array.past_activities);
-//        dates = getResources().getStringArray(R.array.past_activities_date);
-//        groupsizes = getResources().getStringArray(R.array.past_activities_groupsize);
-
-        // Set the adapter
-//        if (view instanceof RecyclerView) {
-//            Context context = view.getContext();
-//            RecyclerView recyclerView = (RecyclerView) view;
-//            if (mColumnCount <= 1) {
-//                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-//            } else {
-//                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-//            }
-//            recyclerView.setAdapter(new UserPastActivitiesRecyclerViewAdapter(names, dates, groupsizes, images));
-//            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//
-//        }
         return view;
     }
 }

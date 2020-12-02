@@ -67,7 +67,6 @@ public class RestaurantHomeFragment extends Fragment {
 
                 //Queue ListView
                 xWaiting[0] = dataSnapshot.child("1").getChildrenCount() + dataSnapshot.child("2").getChildrenCount();
-                //Log.i("countct1000", String.valueOf(dataSnapshot.child("1").getChildrenCount()));
                 xWaiting[1] = dataSnapshot.child("3").getChildrenCount();
                 xWaiting[2] = dataSnapshot.child("4").getChildrenCount();
                 xWaiting[3] = dataSnapshot.child("5").getChildrenCount();
