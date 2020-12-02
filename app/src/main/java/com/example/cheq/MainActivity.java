@@ -26,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Iterator;
+
 public class MainActivity extends AppCompatActivity {
 
         SessionManager sessionManager;
@@ -70,12 +72,26 @@ public class MainActivity extends AppCompatActivity {
 
                                 if (snapshot.child("Users").child(userPhone).child("currentQueue").exists()) {
                                         sessionManager.updateQueueStatus("In Queue");
+                                        String preorderRest = snapshot.child("Users").child(userPhone).child("currentQueue").child("restaurantID").getValue().toString();
+                                        // Check if preorder exists
+                                        if (snapshot.child("Preorders").child(preorderRest).child(userPhone).exists()) {
+                                                for (Iterator<DataSnapshot> dish = snapshot.child("Preorders").child(preorderRest).child(userPhone).getChildren().iterator(); dish.hasNext();) {
+                                                        // TODO: Complete this part
+                                                        String dishName = dish.next().getKey();
+                                                        String dishQuantity = snapshot.child("Preorders").child(preorderRest).child(userPhone).child(dishName).getValue().toString();
+                                                }
+                                        } else {
+                                                sessionManager.updatePreorderStatus("");
+                                                sessionManager.removePreorder();
+                                        }
                                 } else {
                                         // remove data in shared preferences if user is not in queue / has been seated
                                         sessionManager.updateQueueStatus("");
                                         sessionManager.removePreorder();
                                         sessionManager.updatePreorderStatus("");
                                 }
+
+                                // TODO: Add in a function to retrieve preorder from firebase and store locally in Session Manager
                         }
 
                         @Override
