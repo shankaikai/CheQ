@@ -1,11 +1,13 @@
 package com.example.cheq.RestaurantInfo;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -59,9 +61,9 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
     TextView restTitle;
     TextView restCategory;
     Button joinQueueButton;
+    TextView restWait;
     PopupWindow popUp;
     Spinner paxSpinner;
-    TextView restWaitTime;
 
     // Selected Pax No
     int paxNo;
@@ -87,11 +89,35 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
         restImage = findViewById(R.id.restImage);
         restTitle = findViewById(R.id.restaurantName);
         restCategory = findViewById(R.id.restaurantCategory);
+        restWait = findViewById(R.id.numTime);
+
+
         // TODO: Initialise waiting time
 
         // Initialise firebaseManager
         firebaseManager = new FirebaseManager();
         final DatabaseReference rootRef = firebaseManager.rootRef;
+
+//        //TODO: Average waiting time
+//        rootRef.child("Queues").child(restaurantID).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                int count = 0;
+//                for (int i = 1; i <= 6; i++) {
+//                    String indivCount = snapshot.child(i + "").getChildrenCount() + "";
+//                    int indivCountInt = Integer.parseInt(indivCount);
+//                    count += indivCountInt;
+//                }
+//                int waitingTime = (count * 20) / count;
+//                restaurantWaitTime = String.valueOf(waitingTime);
+//                restWait.setText(restaurantWaitTime);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
         // if user is already in queue, join button is greyed out
         if (sessionManager.getQueueStatus().equals("In Queue")) {
@@ -146,24 +172,28 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
                 getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.join_queue_pop_up, null);
 
-        // blur bg
-        View popupBg = inflater.inflate(R.layout.blur_bg_frame, null);
-
         // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
-        // blur bg
-        final PopupWindow popupWindowBg = new PopupWindow(popupBg, width, height, focusable);
 
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window token
         popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
 
-        // blur bg
-        popupWindowBg.showAtLocation(v, Gravity.CENTER, 0, 0);
+        // blur window
+        popupWindow.setBackgroundDrawable(null);
+        popupWindow.showAsDropDown(popupView);
+
+        View container = (View) popupWindow.getContentView().getParent();
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        WindowManager.LayoutParams p = (WindowManager.LayoutParams) container.getLayoutParams();
+        //add flag
+        p.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        p.dimAmount = 0.5f;
+        wm.updateViewLayout(container, p);
 
         // Set up the paxSpinner
         paxSpinner = popupView.findViewById(R.id.paxSpinner);
@@ -238,6 +268,15 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
+            }
+        });
+
+        // dismiss the popup window when touched
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+                return true;
             }
         });
     }
