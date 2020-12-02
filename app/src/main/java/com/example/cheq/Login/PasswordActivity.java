@@ -65,7 +65,7 @@ public class PasswordActivity extends AppCompatActivity {
         passwordBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveToLoginActivity();
+                onBackPressed();
             }
         });
 
