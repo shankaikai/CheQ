@@ -39,22 +39,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link com.example.cheq.Users.UserHomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter.onRestaurantListener {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private static final String TAG = "test";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter.onRestaurantListener, QueueAgainListAdapter.onRestaurantListener {
 
     // variables required for the View All Outlets Segment
     RecyclerView outletsList;
@@ -83,31 +68,9 @@ public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment UserHomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static com.example.cheq.Users.UserHomeFragment newInstance(String param1, String param2) {
-        com.example.cheq.Users.UserHomeFragment fragment = new com.example.cheq.Users.UserHomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -174,7 +137,6 @@ public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter
                             allRestaurants.get(id).put("category", category);
                             allRestaurants.get(id).put("name", name);
                             allRestaurants.get(id).put("image", imageURL);
-                            Log.i(TAG, name);
                             restaurantsNamesIDs.put(id, name.toLowerCase());
                             if (restaurantsQueueAgainList != null && restaurantsQueueAgainList.contains(id)) {
                                 restaurantInfo.put(id, new HashMap<String, String>());
@@ -189,7 +151,7 @@ public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter
                         if (restaurantsQueueAgainList != null) {
                             queueAgainList = (RecyclerView) view.findViewById(R.id.queueAgainList);
                             queueAgainList.setLayoutManager(new LinearLayoutManager(UserHomeFragment.this.getContext(), LinearLayoutManager.HORIZONTAL, false));
-                            mAdapter = new com.example.cheq.Users.ViewOutletsListAdapter(restaurantInfo, UserHomeFragment.this, getContext());
+                            mAdapter = new com.example.cheq.Users.QueueAgainListAdapter(restaurantInfo, UserHomeFragment.this, getContext());
                             queueAgainList.setAdapter(mAdapter);
                             queueAgainList.setHasFixedSize(true);
                             queueAgainLayout.setVisibility(View.VISIBLE);
@@ -238,6 +200,15 @@ public class UserHomeFragment extends Fragment implements ViewOutletsListAdapter
     // Opening up the restaurant information page when user clicks on the restaurant
     @Override
     public void onRestaurantClick(String id) {
+        Log.i("view all outlets", id);
+        Intent intent = new Intent(getActivity(), RestaurantInfoActivity.class);
+        intent.putExtra("restaurantID", id);
+        getActivity().startActivity(intent);
+    }
+
+    @Override
+    public void onClick(String id) {
+        Log.i("queue again", id);
         Intent intent = new Intent(getActivity(), RestaurantInfoActivity.class);
         intent.putExtra("restaurantID", id);
         getActivity().startActivity(intent);

@@ -60,4 +60,9 @@ public class FirebaseManager {
         DatabaseReference firebaseReference = firebaseInstance.getReference("Queues");
         firebaseReference.child(restID).child(size.toString()).child(count.toString()).setValue(userID);
     }
+
+    public void addToPastQueues(Queue queue, String userID, String restaurantID) {
+        DatabaseReference firebaseReference = firebaseInstance.getReference("Users");
+        firebaseReference.child(userID).child("pastQueues").child(restaurantID).setValue(queue);
+    }
 }

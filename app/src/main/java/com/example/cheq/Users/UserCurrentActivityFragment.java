@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
@@ -41,7 +42,7 @@ import static com.example.cheq.Constants.SharedPreferencesConstants.USERPHONEKEY
 public class UserCurrentActivityFragment extends Fragment {
 
     Button viewPreOrderButton, leaveQueueButton;
-    ConstraintLayout currentActivityConstraintLayout;
+    CardView currentActivityCardView;
     SharedPreferences sharedPreferences;
     String userID;
     Boolean isCurrentQueuePresent = false;
@@ -53,6 +54,8 @@ public class UserCurrentActivityFragment extends Fragment {
     TextView currentActivityGroupsBefore;
     TextView currentActivityWait;
     TextView noCurrentActivity;
+
+    Integer waitPerGrp = 20;
 
     @Nullable
     @Override
@@ -66,7 +69,7 @@ public class UserCurrentActivityFragment extends Fragment {
         // Initialise UI Elements
         viewPreOrderButton = view.findViewById(R.id.viewPreOrderButton);
         leaveQueueButton = view.findViewById(R.id.leaveQueueButton);
-        currentActivityConstraintLayout = view.findViewById(R.id.currentActivityCL);
+        currentActivityCardView = view.findViewById(R.id.currentActivityCL);
         noCurrentActivity = view.findViewById(R.id.noCurrentActivity);
 
         // Retrieve preorder info and display onto the cardView
@@ -97,6 +100,22 @@ public class UserCurrentActivityFragment extends Fragment {
                     String name = snapshot.child("Restaurants").child(restID).child("restName").getValue().toString();
                     String date = snapshot.child("Users").child(userID).child("currentQueue").child("date").getValue().toString();
                     Integer size = Integer.parseInt(snapshot.child("Users").child(userID).child("currentQueue").child("groupSize").getValue().toString());
+
+                    // Find number of groups in front and waiting time
+                    Integer numGroups = 0;
+                    for (Iterator<DataSnapshot> queue = snapshot.child("Queues").child(restID).child(size.toString()).getChildren().iterator(); queue.hasNext();) {
+                        Integer id = Integer.parseInt(queue.next().getValue().toString());
+                        Log.i("queue", id.toString());
+                        if (!id.equals(userID)) {
+                            numGroups += 1;
+                        }
+                    }
+                    currentActivityGroupsBefore.setText(numGroups.toString());
+                    Integer waitingTime = numGroups * waitPerGrp;
+                    if (waitingTime.equals(0)) {
+                        waitingTime = waitPerGrp;
+                    }
+                    currentActivityWait.setText(waitingTime.toString() + " mins");
 
                     // Format group size
                     String sizeStr = size.toString();
@@ -144,11 +163,12 @@ public class UserCurrentActivityFragment extends Fragment {
                     }
 
                     // toggle the view
-                    currentActivityConstraintLayout.setVisibility(View.VISIBLE);
+                    currentActivityCardView.setVisibility(View.VISIBLE);
                     noCurrentActivity.setVisibility(View.INVISIBLE);
+
                 } else {
                     isCurrentQueuePresent = false;
-                    currentActivityConstraintLayout.setVisibility(View.GONE);
+                    currentActivityCardView.setVisibility(View.GONE);
                     noCurrentActivity.setVisibility(View.VISIBLE);
                 }
             }
@@ -160,5 +180,13 @@ public class UserCurrentActivityFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // change the text of the place order button
+        viewPreOrderButton.setText("View Pre-order");
     }
 }

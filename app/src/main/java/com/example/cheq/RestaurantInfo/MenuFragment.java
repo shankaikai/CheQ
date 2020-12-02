@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -70,6 +71,8 @@ public class MenuFragment extends Fragment implements MenuAdapter.onRestaurantLi
     CardView basketCardView;
     TextView itemsTextView;
     TextView totalBasketPrice;
+    ConstraintLayout basketCL;
+    ConstraintLayout menuCL;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -97,6 +100,9 @@ public class MenuFragment extends Fragment implements MenuAdapter.onRestaurantLi
         currentTotal = 0.0;
         currentItems = 0;
 
+        // Initialise menu fragment constraint layout
+        menuCL = view.findViewById(R.id.menuCL);
+
         sessionManager = SessionManager.getSessionManager(getActivity());
 
         // Initialise firebaseManager
@@ -115,7 +121,9 @@ public class MenuFragment extends Fragment implements MenuAdapter.onRestaurantLi
             currentItems = Integer.parseInt(sessionManager.getPreorderCount());
             preorderItems = restoreMap(sessionManager.getPreorder(), Integer.parseInt(sessionManager.getPreorderUniqueCount()));
             basketCardView = getActivity().findViewById(R.id.basketCardView);
-            basketCardView.setVisibility(View.VISIBLE);
+            basketCL = getActivity().findViewById(R.id.basketCL);
+            menuCL.setPadding(0, 0, 0, 160);
+            basketCL.setVisibility(View.VISIBLE);
             basketCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -124,7 +132,8 @@ public class MenuFragment extends Fragment implements MenuAdapter.onRestaurantLi
                     // Toggle visibility of the restaurant info to toggle to the basket view
                     View restInfo = getActivity().findViewById(R.id.restInfoLayout);
                     restInfo.setVisibility(View.INVISIBLE);
-                    basketCardView.setVisibility(View.INVISIBLE);
+                    basketCL.setVisibility(View.INVISIBLE);
+                    menuCL.setPadding(0, 0, 0, 0);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container2, fragment).commit();
                 }
             });
@@ -137,7 +146,9 @@ public class MenuFragment extends Fragment implements MenuAdapter.onRestaurantLi
             }
             totalBasketPrice.setText("$" + df2.format(currentTotal));
         } else if (sessionManager.hasPreorder() && !restaurantID.equals(sessionManager.getPreorderRest())) {
-            Toast.makeText(getContext(), "Your basket has items from another restaurant", Toast.LENGTH_LONG).show();
+            if (!sessionManager.getPreorderStatus().equals("Ordered")) {
+                Toast.makeText(getContext(), "Your basket has items from another restaurant", Toast.LENGTH_LONG).show();
+            }
         }
 
         // Retrieve menu items
@@ -242,7 +253,8 @@ public class MenuFragment extends Fragment implements MenuAdapter.onRestaurantLi
                 }
 
                 // Initialise basketCardView if it has not been initialised
-                if (basketCardView == null) {
+                if (basketCardView == null || basketCL == null) {
+                    basketCL = getActivity().findViewById(R.id.basketCL);
                     basketCardView = getActivity().findViewById(R.id.basketCardView);
                     itemsTextView = getActivity().findViewById(R.id.itemsTextView);
                     totalBasketPrice = getActivity().findViewById(R.id.totalBasketPrice);
@@ -254,17 +266,22 @@ public class MenuFragment extends Fragment implements MenuAdapter.onRestaurantLi
                             // Toggle visibility of the restaurant info to toggle to the basket view
                             View restInfo = getActivity().findViewById(R.id.restInfoLayout);
                             restInfo.setVisibility(View.INVISIBLE);
-                            basketCardView.setVisibility(View.INVISIBLE);
-                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container2, fragment).commit();
+                            basketCL.setVisibility(View.INVISIBLE);
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container2, fragment, "menu").addToBackStack("menu").commit();
                         }
                     });
                 }
 
-                // Display the view basket card view
-                getActivity().findViewById(R.id.basketCardView).setVisibility(View.VISIBLE);
+                // Display the view basket constraint layout
+                getActivity().findViewById(R.id.basketCL).setVisibility(View.VISIBLE);
+                menuCL.setPadding(0, 0, 0, 160);
 
                 // Display updated item count and total price
-                itemsTextView.setText(currentItems.toString() + " items");
+                if (currentItems == 1) {
+                    itemsTextView.setText(currentItems.toString() + " item");
+                } else {
+                    itemsTextView.setText(currentItems.toString() + " items");
+                }
                 totalBasketPrice.setText("$" + df2.format(currentTotal));
 
                 // Save to shared preferences or update the current preorders
@@ -294,6 +311,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.onRestaurantLi
     }
 
     public static HashMap<String, HashMap<String, String>> restoreMap(String preorderString, Integer count) {
+        Log.i("preorder", preorderString);
         HashMap<String, HashMap<String, String>> output = new HashMap<>();
         if (count == 1) {
             HashMap<String, String> map = new HashMap<>();

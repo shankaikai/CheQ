@@ -12,41 +12,43 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="You have no Current Activities"
+        android:text="@string/no_current_queue"
         android:textSize="20dp"
         android:visibility="invisible"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/currentActivityCL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:elevation="16dp">
+        android:elevation="16dp"
+        android:visibility="invisible"
+        app:cardCornerRadius="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/currentActivityCL"
+            android:id="@+id/activityConstraintLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"
+            android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:padding="16dp">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/currentActivityName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
                 android:text="Crooked Crooks"
                 android:textColor="@color/colorBlack"
                 android:textSize="18dp"
                 android:textStyle="bold"
-                android:layout_marginLeft="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,10 +56,10 @@
                 android:id="@+id/currentActivityDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="16dp"
                 android:text="20 Oct 2020, Tuesday"
                 android:textSize="12dp"
-                android:layout_marginLeft="8dp"
                 app:layout_constraintLeft_toRightOf="@id/imageView2"
                 app:layout_constraintTop_toBottomOf="@+id/currentActivityName"
                 tools:ignore="MissingConstraints" />
@@ -76,10 +78,10 @@
                 android:id="@+id/currentActivityGroupsBeforeLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="No. of Groups Before You: "
                 android:textColor="@color/colorBlack"
                 android:textSize="15dp"
-                android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="@+id/currentActivityName"
                 app:layout_constraintTop_toBottomOf="@+id/currentActivityGroupSize" />
 
@@ -90,8 +92,8 @@
                 android:layout_marginLeft="8dp"
                 android:text="2"
                 android:textColor="@color/colorBlack"
-                android:textStyle="bold"
                 android:textSize="15dp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/currentActivityGroupsBeforeLabel"
                 app:layout_constraintStart_toEndOf="@+id/currentActivityGroupsBeforeLabel" />
 
@@ -113,8 +115,8 @@
                 android:layout_marginLeft="8dp"
                 android:text="15 mins"
                 android:textColor="@color/colorBlack"
-                android:textStyle="bold"
                 android:textSize="15dp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/currentActivityWaitLabel"
                 app:layout_constraintStart_toEndOf="@+id/currentActivityWaitLabel" />
 
@@ -139,13 +141,13 @@
                 android:id="@+id/leaveQueueButton"
                 android:layout_width="135dp"
                 android:layout_height="30dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
                 android:background="@drawable/rounded_button"
                 android:backgroundTint="@color/colorGrey"
                 android:text="Leave Queue"
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimary"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="24dp"
                 android:textSize="12dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/viewPreOrderButton"
@@ -156,8 +158,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
-                app:layout_constraintRight_toRightOf="@id/currentActivityCL"
-                app:layout_constraintTop_toTopOf="@+id/currentActivityName">
+                app:layout_constraintRight_toRightOf="@id/activityConstraintLayout"
+                app:layout_constraintTop_toTopOf="@+id/currentActivityName"
+                android:visibility="invisible">
 
                 <TextView
                     android:id="@+id/queueNo"

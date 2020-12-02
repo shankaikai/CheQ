@@ -8,16 +8,15 @@
 
     <ImageView
         android:id="@+id/restaurant_image"
-        android:layout_width="176dp"
-        android:layout_height="176dp"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:layout_gravity="left"
         android:src="@drawable/bulbasaur" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="5dp" >
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/restaurant_name"
@@ -25,7 +24,10 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_medium"
             android:text="Restaurant Name"
-            android:textSize="16dp"/>
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorBlack"
+            android:layout_marginTop="4dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -33,10 +35,11 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_gravity="center"
-                android:src="@drawable/restaurant" />
+                android:src="@drawable/restaurant"
+                app:tint="@color/colorGrey"/>
 
             <TextView
                 android:id="@+id/category"
@@ -46,7 +49,8 @@
                 android:fontFamily="@font/montserrat_light"
                 android:text="Category"
                 android:textSize="12dp"
-                android:layout_marginLeft="5dp" />
+                android:layout_marginLeft="4dp"
+                android:textColor="@color/colorGrey"/>
 
         </LinearLayout>
 

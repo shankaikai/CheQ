@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         String userName;
         String userEmail;
 
+        String currentActivity;
+
         @Override
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
@@ -52,13 +54,28 @@ public class MainActivity extends AppCompatActivity {
 
                 DatabaseReference rootRef = firebaseManager.rootRef;
 
+                if (getIntent().getStringExtra("currentActivity") != null) {
+                        if (getIntent().getStringExtra("currentActivity").equals("1")) {
+                                currentActivity = "1";
+                        }
+                }
+
                 // Retrieving the user's name and email from firebase and
                 // Store these info locally in the Main Activity
-                rootRef.child("Users").child(userPhone).addValueEventListener(new ValueEventListener() {
+                rootRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                userName = snapshot.child("name").getValue(String.class);
-                                userEmail = snapshot.child("userEmail").getValue(String.class);
+                                userName = snapshot.child("Users").child(userPhone).child("name").getValue(String.class);
+                                userEmail = snapshot.child("Users").child(userPhone).child("userEmail").getValue(String.class);
+
+                                if (snapshot.child("Users").child(userPhone).child("currentQueue").exists()) {
+                                        sessionManager.updateQueueStatus("In Queue");
+                                } else {
+                                        // remove data in shared preferences if user is not in queue / has been seated
+                                        sessionManager.updateQueueStatus("");
+                                        sessionManager.removePreorder();
+                                        sessionManager.updatePreorderStatus("");
+                                }
                         }
 
                         @Override
@@ -83,7 +100,13 @@ public class MainActivity extends AppCompatActivity {
                                         selectedFragment = new UserAccountFragment();
                                         break;
                         }
+
+                        if (currentActivity == "1") {
+                                selectedFragment = new UserActivitiesFragment();
+                        }
+
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+                        currentActivity = null;
                         return true;
                 }
         };

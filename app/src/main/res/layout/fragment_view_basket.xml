@@ -81,7 +81,7 @@
         android:id="@+id/totalPriceCLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:elevation="16dp">
@@ -101,7 +101,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Total"
-                android:textColor="@color/colorBlack" />
+                android:textColor="@color/colorBlack"
+                tools:ignore="MissingConstraints" />
 
             <TextView
                 android:id="@+id/basketTotalPrice"
@@ -113,7 +114,8 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/totalTextView" />
+                app:layout_constraintStart_toEndOf="@+id/totalTextView"
+                tools:ignore="MissingConstraints" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
