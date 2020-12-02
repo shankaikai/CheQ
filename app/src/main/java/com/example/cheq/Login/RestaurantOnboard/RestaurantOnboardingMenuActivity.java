@@ -61,7 +61,7 @@ import java.util.UUID;
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
 
-    
+    AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +95,7 @@ import java.util.UUID;
         onboardMenuRecycler.setLayoutManager(menuLayoutManger);
         onboardMenuRecycler.setAdapter(menuAdapter);
 
-
+        // ItemTouchHelper
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -124,7 +124,7 @@ import java.util.UUID;
     }
 
 
-
+        // This method opens an alert dialog to get user inputs for a dish
         private void openDishPrompt() {
         // get dish_prompt.xml view
         LayoutInflater li = LayoutInflater.from(this);
@@ -149,33 +149,47 @@ import java.util.UUID;
         });
 
         alertDialogBuilder
-                .setCancelable(true)
-                .setPositiveButton("Done",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String dishName = inputDishName.getText().toString();
-                                String dishPrice = inputDishPrice.getText().toString();
-                                String dishCategory = spinnerDishCategory.getSelectedItem().toString();
+            .setCancelable(true)
+            .setPositiveButton("Done", null)
+            .setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
 
-                                uploadDishToFirebase(dishName, dishPrice, dishCategory, imageUri);
-
-                                // Reset imageUri to null;
-                                imageUri = null;
-                                Log.i("Hi", dishName + dishPrice + dishCategory);
-//                                insertDishIntoMenuList(dishName, dishPrice, dishCategory, imageUri);
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
 
         // Create alertDialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog = alertDialogBuilder.create();
+
+        // Override the alert dialog positive button to enable validation
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                Button doneBtn = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                doneBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String dishName = inputDishName.getText().toString();
+                        String dishPrice = inputDishPrice.getText().toString();
+                        String dishCategory = spinnerDishCategory.getSelectedItem().toString();
+
+                        if (validateInputs(dishName, dishPrice, imageUri)) {
+
+                            uploadDishToFirebase(dishName, dishPrice, dishCategory, imageUri);
+
+                            // Reset imageUri to null;
+                            imageUri = null;
+                            Log.i("UploadDish", dishName + dishPrice + dishCategory);
+                            alertDialog.dismiss();
+                        } else {
+                            Toast.makeText(RestaurantOnboardingMenuActivity.this, "Please input all fields for your dish", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
 
         // Show the dialog
         alertDialog.show();
@@ -183,7 +197,7 @@ import java.util.UUID;
 
     void removeDish(int position) {
         String dishName = menuList.get(position).getDishName();
-        Log.i("key123", dishName);
+        Log.i("removedDish", dishName);
         menuList.remove(position);
         Toast.makeText(this, "Dish removed!", Toast.LENGTH_SHORT).show();
         // Remove from database
@@ -219,7 +233,7 @@ import java.util.UUID;
 
 
 
-    // Upload dish to firebase
+    // Upload dish to firestorage
     public void uploadDishToFirebase(final String dishName, final String dishPrice, final String dishCategory, Uri imageUri) {
         onboardMenuProgressBar.setVisibility(View.VISIBLE);
         // Add it to local data source
@@ -227,48 +241,45 @@ import java.util.UUID;
         // Update local recyclerview
         menuAdapter.notifyDataSetChanged();
         onboardMenuProgressBar.setVisibility(View.GONE);
-        if (validateInputs(dishName, dishPrice, imageUri)) {
 
-            // Generate a random string for the image name
-            final String randomKey = UUID.randomUUID().toString();
-            final StorageReference ref = storageReference.child(randomKey);
+        // Generate a random string for the image name
+        final String randomKey = UUID.randomUUID().toString();
+        final StorageReference ref = storageReference.child(randomKey);
 
-            // Add the file into firebase storage
-            UploadTask uploadTask = ref.putFile(imageUri);
+        // Add the file into firebase storage
+        UploadTask uploadTask = ref.putFile(imageUri);
 
-            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-
-                    // Continue with the task to get the download URL
-                    return ref.getDownloadUrl();
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
                 }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        String downloadUrl = task.getResult().toString();
-                        Log.i("url", downloadUrl);
-                        // Create FirebaseDish Object
-                        FirebaseDishItem firebaseDishItem = new FirebaseDishItem(dishName, dishPrice, dishCategory, downloadUrl);
 
-                        //Upload details to firebase
-                        firebaseManager.addDish(firebaseDishItem, userPhone);
+                // Continue with the task to get the download URL
+                return ref.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    String downloadUrl = task.getResult().toString();
+                    Log.i("url", downloadUrl);
+                    // Create FirebaseDish Object
+                    FirebaseDishItem firebaseDishItem = new FirebaseDishItem(dishName, dishPrice, dishCategory, downloadUrl);
 
-                    } else {
-                        onboardMenuProgressBar.setVisibility(View.GONE);
-                        Toast.makeText(RestaurantOnboardingMenuActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
-                    }
+                    //Upload details to firebase
+                    firebaseManager.addDish(firebaseDishItem, userPhone);
+
+                } else {
+                    onboardMenuProgressBar.setVisibility(View.GONE);
+                    Toast.makeText(RestaurantOnboardingMenuActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
                 }
-            });
-        } else {
-            onboardMenuProgressBar.setVisibility(View.GONE);
+            }
+        });
         }
 
-    }
+
 
         // Validate all the inputs
         public boolean validateInputs(String dishName, String dishPrice, Uri imageUri){
@@ -289,4 +300,9 @@ import java.util.UUID;
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
-}
+
+        @Override
+        public void onBackPressed() {
+            Toast.makeText(this, "Please add your dishes", Toast.LENGTH_SHORT).show();
+        }
+    }

@@ -92,9 +92,9 @@ public class RestaurantOnboardingActivity extends AppCompatActivity {
     private void choosePicture(){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, REQUEST_CODE_IMAGE);
-        }
+
+        startActivityForResult(intent, REQUEST_CODE_IMAGE);
+
     }
 
     @Override
@@ -192,5 +192,10 @@ public class RestaurantOnboardingActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Please fill in your restaurant details", Toast.LENGTH_SHORT).show();
     }
 }
