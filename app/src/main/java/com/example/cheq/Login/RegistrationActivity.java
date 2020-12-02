@@ -54,7 +54,7 @@ public class RegistrationActivity extends AppCompatActivity {
         registerBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveToLoginActivity();
+                onBackPressed();
             }
         });
         registerContinueBtn = findViewById(R.id.registerContinueBtn);
