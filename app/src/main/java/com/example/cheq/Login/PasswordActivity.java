@@ -82,7 +82,8 @@ public class PasswordActivity extends AppCompatActivity {
 
         final DatabaseReference rootRef = firebaseManager.rootRef;
 
-        if (userPassword != null) {
+        // Check if the userPassword is more than 6 characters
+        if (InputValidation.isValidPassword(userPassword)) {
 
             // Check firebase for password match
            final DatabaseReference userRef = rootRef.child("Users").child(userPhone);
@@ -99,11 +100,11 @@ public class PasswordActivity extends AppCompatActivity {
                        if (userType.equals("Customer")) {
                            moveToMainActivity();
                        } else {
-
                            moveToRestaurantActivity();
                        }
 
                    } else {
+                       passwordProgressBar.setVisibility(View.GONE);
                        // Display error toast
                        Toast.makeText(PasswordActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
                    }
@@ -120,7 +121,7 @@ public class PasswordActivity extends AppCompatActivity {
         else {
             passwordProgressBar.setVisibility(View.GONE);
             // Display error toast
-            Toast.makeText(PasswordActivity.this, "The password field is empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PasswordActivity.this, "Please input a password with at least 6 characters", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -147,5 +148,10 @@ public class PasswordActivity extends AppCompatActivity {
         } else {
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveToLoginActivity();
     }
 }

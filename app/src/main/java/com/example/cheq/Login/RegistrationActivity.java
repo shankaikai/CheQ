@@ -86,17 +86,19 @@ public class RegistrationActivity extends AppCompatActivity {
         String userPhone = getIntent().getStringExtra("userPhone");
         
         // Validate inputs
-        if (userName == null || userPassword == null){
-            Toast.makeText(RegistrationActivity.this, "Username/Password is empty", Toast.LENGTH_SHORT).show();
+        if (userName == null){
+            Toast.makeText(RegistrationActivity.this, "Username is empty", Toast.LENGTH_SHORT).show();
             registerProgressBar.setVisibility(View.GONE);
         } else if (!InputValidation.isValidEmail(userEmail)) {
             Toast.makeText(RegistrationActivity.this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
             registerProgressBar.setVisibility(View.GONE);
+        } else if (!InputValidation.isValidPassword(userPassword)) {
+            Toast.makeText(this, "Please input a password with at least 6 characters", Toast.LENGTH_SHORT).show();
         }
         else {
-
             // Create new User object
             User user = new User(userPhone, userName, userEmail, userPassword, userType);
+
             // Insert new user into firebase
             firebaseManager.registerNewUser(user);
 
@@ -110,20 +112,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 moveToRestaurantRegisterDetailsActivity(userPhone);
             }
         }
-    }
-
-    private boolean validEmail(String userEmail) {
-        // Email regex pattern
-        String regex = "^(.+)@(.+)$";
-
-        // Initialize the Pattern object
-        Pattern pattern = Pattern.compile(regex);
-
-        // Initialize the Matcher object
-        Matcher matcher = pattern.matcher(userEmail);
-
-        // Return if email matches the regex pattern
-        return matcher.matches();
     }
 
     public void moveToDoneActivity() {
@@ -160,5 +148,10 @@ public class RegistrationActivity extends AppCompatActivity {
         } else {
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveToLoginActivity();
     }
 }

@@ -6,7 +6,8 @@
     android:layout_marginBottom="4dp"
     app:cardCornerRadius="5dp"
     app:cardElevation="7dp"
-    app:cardBackgroundColor="@color/colorAccent">
+    android:layout_margin="5dp"
+    app:cardBackgroundColor="@color/colorPrimary">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,31 +16,37 @@
 
         <ImageView
             android:id="@+id/dishImage"
-            android:layout_width="60sp"
-            android:layout_height="60sp"
-            android:padding="2dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/snorlax"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="15dp"/>
+            android:layout_marginLeft="15dp" />
 
-        <TextView
-            android:id="@+id/dishName"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/dishImage"
-            android:text="Line 1"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/dishCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/dishName"
-            android:layout_toEndOf="@+id/dishImage"
-            android:text="Line 2"
-            android:textSize="15sp" />
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:layout_toEndOf="@+id/dishImage">
+            <TextView
+                android:id="@+id/dishName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Line 1"
+                android:textColor="@android:color/black"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/dishCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dishName"
+                android:layout_toEndOf="@+id/dishImage"
+                android:text="Line 2"
+                android:textSize="10dp" />
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/dishPrice"
@@ -50,7 +57,7 @@
             android:text="Price"
             android:textColor="@color/colorBlack"
             android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:layout_marginRight="15dp"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
