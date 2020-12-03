@@ -55,6 +55,7 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
     String restaurantName;
     String restaurantDes;
     String restaurantImage;
+    String restaurantWaitTime;
 
     // UI Elements
     ImageView restImage;
@@ -98,26 +99,32 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
         firebaseManager = new FirebaseManager();
         final DatabaseReference rootRef = firebaseManager.rootRef;
 
-//        //TODO: Average waiting time
-//        rootRef.child("Queues").child(restaurantID).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                int count = 0;
-//                for (int i = 1; i <= 6; i++) {
-//                    String indivCount = snapshot.child(i + "").getChildrenCount() + "";
-//                    int indivCountInt = Integer.parseInt(indivCount);
-//                    count += indivCountInt;
-//                }
-//                int waitingTime = (count * 20) / count;
-//                restaurantWaitTime = String.valueOf(waitingTime);
-//                restWait.setText(restaurantWaitTime);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+        //TODO: Average waiting time
+        rootRef.child("Queues").child(restaurantID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int count = 0;
+                for (int i = 1; i <= 6; i++) {
+                    String indivCount = snapshot.child(i + "").getChildrenCount() + "";
+                    int indivCountInt = Integer.parseInt(indivCount);
+                    count += indivCountInt;
+                }
+                if (count == 0) {
+                    int waitingTime = 0;
+                    restaurantWaitTime = String.valueOf(waitingTime);
+                    restWait.setText(restaurantWaitTime);
+                } else {
+                    int waitingTime = (count * 20) / count;
+                    restaurantWaitTime = String.valueOf(waitingTime);
+                    restWait.setText(restaurantWaitTime);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         // if user is already in queue, join button is greyed out
         if (sessionManager.getQueueStatus().equals("In Queue")) {
