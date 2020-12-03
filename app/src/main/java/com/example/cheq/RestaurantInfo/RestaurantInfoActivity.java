@@ -271,13 +271,13 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
         });
 
         // dismiss the popup window when touched
-        popupView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                popupWindow.dismiss();
-                return true;
-            }
-        });
+//        popupView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                popupWindow.dismiss();
+//                return true;
+//            }
+//        });
     }
 
     public String getRestaurantID() {

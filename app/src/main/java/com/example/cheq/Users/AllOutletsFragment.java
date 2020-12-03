@@ -71,6 +71,7 @@ public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAd
         searchEditText = view.findViewById(R.id.searchEditText);
         noResultsTextView = view.findViewById(R.id.noResultsTextView);
         backArrow = view.findViewById(R.id.backArrow);
+        viewAllOutletsList = (RecyclerView) view.findViewById(R.id.viewAllOutletsList);
 
         // Retrieve restaurants hashmap data
         Bundle b = this.getArguments();
@@ -113,13 +114,11 @@ public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAd
 
                     // setting up the list to display all restaurants in database
                     // it will only be appeared if the users has completed queues
-                    if (getContext() != null) {
-                        viewAllOutletsList = (RecyclerView) view.findViewById(R.id.viewAllOutletsList);
-                        viewAllOutletsList.setLayoutManager(new LinearLayoutManager(AllOutletsFragment.this.getContext()));
-                        mAdapter = new com.example.cheq.Users.ViewAllOutletsListAdapter(allRestaurants, AllOutletsFragment.this, getContext());
-                        viewAllOutletsList.setAdapter(mAdapter);
-                        viewAllOutletsList.setVisibility(View.VISIBLE);
-                    }
+                    // viewAllOutletsList = (RecyclerView) view.findViewById(R.id.viewAllOutletsList);
+                    viewAllOutletsList.setLayoutManager(new LinearLayoutManager(AllOutletsFragment.this.getContext()));
+                    mAdapter = new com.example.cheq.Users.ViewAllOutletsListAdapter(allRestaurants, AllOutletsFragment.this, getContext());
+                    viewAllOutletsList.setAdapter(mAdapter);
+                    viewAllOutletsList.setVisibility(View.VISIBLE);
                 }
 
                 @Override
@@ -128,29 +127,6 @@ public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAd
                 }
             });
         }
-
-//        rootRef.child("Queues"). addValueEventListener(new ValueEventListener() {
-//           @Override
-//           public void onDataChange(@NonNull DataSnapshot snapshot) {
-//
-//               // search through the queues DB by each restaurant to calculate average waiting time
-//               for (String id: allRestaurants.keySet()) {
-//
-//                   for (Iterator<DataSnapshot> size = snapshot.child(id).getChildren().iterator(); size.hasNext();) {
-//                       String key = size.next().getKey();
-//                       int count = (int) snapshot.child(id).child(key).getChildrenCount();
-//                   }
-//
-//                   allRestaurants.get(id).put("waitingTime", "20 mins");
-//               }
-//
-//               snapshot.child("Queues");
-//           }
-//
-//           @Override
-//           public void onCancelled(@NonNull DatabaseError error) {
-//           }
-//        });
 
         return view;
     }
