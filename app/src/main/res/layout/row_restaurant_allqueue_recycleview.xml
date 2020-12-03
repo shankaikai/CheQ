@@ -30,13 +30,14 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/montserrat"
                 android:paddingLeft="20dp"
-                android:text="A001"
+                android:text="85889999"
                 android:textFontWeight="700"
                 android:textSize="15dp"
                 android:textColor="@color/colorBlack"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"/>
+
             <TextView
                 android:id="@+id/restaurantAllQueuePax"
                 android:layout_width="wrap_content"
@@ -44,13 +45,14 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/montserrat"
                 android:text="2 Pax"
+                android:textColor="@color/colorBlack"
+                android:layout_marginLeft="20dp"
                 android:textFontWeight="400"
                 android:textSize="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginLeft="90dp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:textColor="@color/colorBlack"/>
+                app:layout_constraintStart_toEndOf="@+id/restaurantAllQueueSeatNo"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/restaurantAllQueuesSeatButton"
