@@ -151,11 +151,12 @@ public class ViewBasketFragment extends Fragment {
                 Log.i("activity", getActivity().toString());
 
                 if (getActivity().toString().contains("RestaurantInfoActivity")) {
-                    getFragmentManager().popBackStackImmediate();
+                    // getFragmentManager().popBackStackImmediate();
                     View restInfo = getActivity().findViewById(R.id.restInfoLayout);
                     restInfo.setVisibility(View.VISIBLE);
                     basketLayout.setVisibility(View.INVISIBLE);
                     getActivity().findViewById(R.id.menuCL).setPadding(0, 0, 0, 0);
+                    getActivity().findViewById(R.id.basketCL).setPadding(0, 0, 0, 0);
                 } else {
                     getActivity().onBackPressed();
                 }
