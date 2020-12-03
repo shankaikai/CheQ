@@ -15,6 +15,9 @@
     <string name="dish_popup_default">Dish Name</string>
     <string name="add_dish_btn">Add Dish</string>
     <string name="view_basket">View My Basket</string>
+    <string name="order_confirm">Order Confirmation</string>
+    <string name="swipe_delete">Swipe to delete a dish item.</string>
+    <string name="no_items_basket">You have no items in your basket. Head back to the Menu tab to browse the menu.</string>
     <string name="cancel_btn">Cancel</string>
     <string name="no_current_queue">You have no Current Queue</string>
     <string name="no_past_activities">You have no Past Activities</string>

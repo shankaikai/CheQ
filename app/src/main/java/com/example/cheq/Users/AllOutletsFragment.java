@@ -32,22 +32,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AllOutletsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAdapter.onRestaurantListener, TextWatcher {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private static final String TAG = "test";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    FirebaseManager firebaseManager;
 
     // UI Elements
     EditText searchEditText;
@@ -61,24 +48,6 @@ public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAd
     HashMap<String, HashMap<String, String>> allRestaurants;
     HashMap<String, String> restaurantNamesIDs;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AllOutletsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AllOutletsFragment newInstance(String param1, String param2) {
-        AllOutletsFragment fragment = new AllOutletsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     public AllOutletsFragment() {
         // Required empty public constructor
     }
@@ -86,11 +55,6 @@ public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAd
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
     }
 
     @Override
@@ -98,6 +62,10 @@ public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAd
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_all_outlets, container, false);
+
+        firebaseManager = new FirebaseManager();
+
+        DatabaseReference rootRef = firebaseManager.rootRef;
 
         // Initialise UI elements
         searchEditText = view.findViewById(R.id.searchEditText);
@@ -115,17 +83,13 @@ public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAd
             restaurantNamesIDs = (HashMap<String, String>) b.getSerializable(("restaurantNames"));
         }
 
+        // validating all search inputs to control the recyclerview
+        searchEditText.addTextChangedListener(this);
+
         for (String id: allRestaurants.keySet()) {
             // TODO: adjust to queue length after this works
             allRestaurants.get(id).put("waitingTime", "20 mins");
         }
-
-        backArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().popBackStackImmediate();
-            }
-        });
 
         // setting up the list to display all restaurants in database
         // it will only be appeared if the users has completed queues
@@ -137,8 +101,28 @@ public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAd
             viewAllOutletsList.setVisibility(View.VISIBLE);
         }
 
-        // validating all search inputs to control the recyclerview
-        searchEditText.addTextChangedListener(this);
+//        rootRef.child("Queues"). addValueEventListener(new ValueEventListener() {
+//           @Override
+//           public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//               // search through the queues DB by each restaurant to calculate average waiting time
+//               for (String id: allRestaurants.keySet()) {
+//
+//                   for (Iterator<DataSnapshot> size = snapshot.child(id).getChildren().iterator(); size.hasNext();) {
+//                       String key = size.next().getKey();
+//                       int count = (int) snapshot.child(id).child(key).getChildrenCount();
+//                   }
+//
+//                   allRestaurants.get(id).put("waitingTime", "20 mins");
+//               }
+//
+//               snapshot.child("Queues");
+//           }
+//
+//           @Override
+//           public void onCancelled(@NonNull DatabaseError error) {
+//           }
+//        });
 
         return view;
     }

@@ -1,10 +1,8 @@
 package com.example.cheq.RestaurantInfo;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -25,7 +25,6 @@ import com.bumptech.glide.Glide;
 import com.example.cheq.Managers.FirebaseManager;
 import com.example.cheq.Managers.SessionManager;
 import com.example.cheq.R;
-import com.example.cheq.RestaurantInfo.SectionsPagerAdapter;
 import com.example.cheq.Users.Queue;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -33,10 +32,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -87,6 +83,7 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
         restImage = findViewById(R.id.restImage);
         restTitle = findViewById(R.id.restaurantName);
         restCategory = findViewById(R.id.restaurantCategory);
+
         // TODO: Initialise waiting time
 
         // Initialise firebaseManager
@@ -135,8 +132,6 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-
-        // sessionManager.updateQueueStatus("");
     }
 
     public void onButtonShowPopupWindowClick(View v) {
@@ -257,5 +252,10 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

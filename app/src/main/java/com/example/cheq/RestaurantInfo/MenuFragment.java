@@ -62,7 +62,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.onRestaurantLi
     private ArrayList<Double> rawPrices;
 
     // 2 Decimal Places
-    private static DecimalFormat df2 = new DecimalFormat("#.##");
+    private static DecimalFormat df2 = new DecimalFormat("#.00");
 
     // Variables needed for preorder
     HashMap<String, HashMap<String, String>> preorderItems;
@@ -112,42 +112,42 @@ public class MenuFragment extends Fragment implements MenuAdapter.onRestaurantLi
         RestaurantInfoActivity activity = (RestaurantInfoActivity) getActivity();
         restaurantID = activity.getRestaurantID();
 
-        // sessionManager.removePreorder();
-        // sessionManager.cancelPreorder();
-
         // If there are preorder items in the basket, restore it
-        if (sessionManager.hasPreorder() && restaurantID.equals(sessionManager.getPreorderRest())) {
-            currentTotal = Double.parseDouble(sessionManager.getPreorderTotal());
-            currentItems = Integer.parseInt(sessionManager.getPreorderCount());
-            preorderItems = restoreMap(sessionManager.getPreorder(), Integer.parseInt(sessionManager.getPreorderUniqueCount()));
-            basketCardView = getActivity().findViewById(R.id.basketCardView);
-            basketCL = getActivity().findViewById(R.id.basketCL);
-            menuCL.setPadding(0, 0, 0, 160);
-            basketCL.setVisibility(View.VISIBLE);
-            basketCardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ViewBasketFragment fragment = new ViewBasketFragment();
+        // if user has already ordered, basketCL should not appear
+        if (!sessionManager.getPreorderStatus().equals("Ordered")) {
+            if (sessionManager.hasPreorder() && restaurantID.equals(sessionManager.getPreorderRest())) {
+                currentTotal = Double.parseDouble(sessionManager.getPreorderTotal());
+                currentItems = Integer.parseInt(sessionManager.getPreorderCount());
+                preorderItems = restoreMap(sessionManager.getPreorder(), Integer.parseInt(sessionManager.getPreorderUniqueCount()));
+                basketCardView = getActivity().findViewById(R.id.basketCardView);
+                basketCL = getActivity().findViewById(R.id.basketCL);
+                menuCL.setPadding(0, 0, 0, 160);
+                basketCL.setVisibility(View.VISIBLE);
+                basketCardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ViewBasketFragment fragment = new ViewBasketFragment();
 
-                    // Toggle visibility of the restaurant info to toggle to the basket view
-                    View restInfo = getActivity().findViewById(R.id.restInfoLayout);
-                    restInfo.setVisibility(View.INVISIBLE);
-                    basketCL.setVisibility(View.INVISIBLE);
-                    menuCL.setPadding(0, 0, 0, 0);
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container2, fragment).commit();
+                        // Toggle visibility of the restaurant info to toggle to the basket view
+                        View restInfo = getActivity().findViewById(R.id.restInfoLayout);
+                        restInfo.setVisibility(View.INVISIBLE);
+                        basketCL.setVisibility(View.INVISIBLE);
+                        menuCL.setPadding(0, 0, 0, 0);
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container2, fragment).commit();
+                    }
+                });
+                itemsTextView = getActivity().findViewById(R.id.itemsTextView);
+                totalBasketPrice = getActivity().findViewById(R.id.totalBasketPrice);
+                if (currentItems == 1) {
+                    itemsTextView.setText(currentItems.toString() + " item");
+                } else {
+                    itemsTextView.setText(currentItems.toString() + " items");
                 }
-            });
-            itemsTextView = getActivity().findViewById(R.id.itemsTextView);
-            totalBasketPrice = getActivity().findViewById(R.id.totalBasketPrice);
-            if (currentItems == 1) {
-                itemsTextView.setText(currentItems.toString() + " item");
-            } else {
-                itemsTextView.setText(currentItems.toString() + " items");
-            }
-            totalBasketPrice.setText("$" + df2.format(currentTotal));
-        } else if (sessionManager.hasPreorder() && !restaurantID.equals(sessionManager.getPreorderRest())) {
-            if (!sessionManager.getPreorderStatus().equals("Ordered")) {
-                Toast.makeText(getContext(), "Your basket has items from another restaurant", Toast.LENGTH_LONG).show();
+                totalBasketPrice.setText("$" + df2.format(currentTotal));
+            } else if (sessionManager.hasPreorder() && !restaurantID.equals(sessionManager.getPreorderRest())) {
+                if (!sessionManager.getPreorderStatus().equals("Ordered")) {
+                    Toast.makeText(getContext(), "Your basket has items from another restaurant", Toast.LENGTH_LONG).show();
+                }
             }
         }
 
