@@ -151,6 +151,7 @@ public class ViewBasketFragment extends Fragment {
                 Log.i("activity", getActivity().toString());
 
                 if (getActivity().toString().contains("RestaurantInfoActivity")) {
+                    getFragmentManager().popBackStackImmediate();
                     View restInfo = getActivity().findViewById(R.id.restInfoLayout);
                     restInfo.setVisibility(View.VISIBLE);
                     basketLayout.setVisibility(View.INVISIBLE);
@@ -172,6 +173,8 @@ public class ViewBasketFragment extends Fragment {
                     View restInfo = getActivity().findViewById(R.id.restInfoLayout);
                     View basketCL = getActivity().findViewById(R.id.basketCL);
                     ConstraintLayout menuCL = getActivity().findViewById(R.id.menuCL);
+                    TextView totalBasketPrice = getActivity().findViewById(R.id.totalBasketPrice);
+                    TextView itemsTextView = getActivity().findViewById(R.id.itemsTextView);
                     restInfo.setVisibility(View.VISIBLE);
                     if (!sessionManager.hasPreorder()) {
                         basketCL.setVisibility(View.INVISIBLE);
@@ -179,6 +182,14 @@ public class ViewBasketFragment extends Fragment {
                     } else {
                         basketCL.setVisibility(View.VISIBLE);
                         menuCL.setPadding(0, 0, 0, 160);
+                        Double total = Double.parseDouble(sessionManager.getPreorderTotal());
+                        totalBasketPrice.setText("$" + df2.format(total));
+                        Integer currentItems = Integer.parseInt(sessionManager.getPreorderCount());
+                        if (currentItems == 1) {
+                            itemsTextView.setText(currentItems.toString() + " item");
+                        } else {
+                            itemsTextView.setText(currentItems.toString() + " items");
+                        }
                     }
                     basketLayout.setVisibility(View.INVISIBLE);
                 } else {
@@ -241,8 +252,8 @@ public class ViewBasketFragment extends Fragment {
             Double currentTotal = Double.parseDouble(sessionManager.getPreorderTotal()) - (priceToRemove * quantityToRemove);
             String newString = MenuFragment.stringify(basketItems);
             sessionManager.savePreorder(currentCount.toString(), currentTotal.toString(), newString, restaurantID);
+            Double total = Double.parseDouble(sessionManager.getPreorderTotal());
+            totalPriceTextView.setText("$" + df2.format(total));
         }
-        Double total = Double.parseDouble(sessionManager.getPreorderTotal());
-        totalPriceTextView.setText("$" + df2.format(total));
     }
 }

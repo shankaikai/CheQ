@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -51,6 +52,7 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
     String restaurantName;
     String restaurantDes;
     String restaurantImage;
+    String restaurantWaitTime;
 
     // UI Elements
     ImageView restImage;
@@ -87,33 +89,36 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
         restCategory = findViewById(R.id.restaurantCategory);
         restWait = findViewById(R.id.numTime);
 
-
-        // TODO: Initialise waiting time
-
         // Initialise firebaseManager
         firebaseManager = new FirebaseManager();
         final DatabaseReference rootRef = firebaseManager.rootRef;
 
-//        //TODO: Average waiting time
-//        rootRef.child("Queues").child(restaurantID).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                int count = 0;
-//                for (int i = 1; i <= 6; i++) {
-//                    String indivCount = snapshot.child(i + "").getChildrenCount() + "";
-//                    int indivCountInt = Integer.parseInt(indivCount);
-//                    count += indivCountInt;
-//                }
-//                int waitingTime = (count * 20) / count;
-//                restaurantWaitTime = String.valueOf(waitingTime);
-//                restWait.setText(restaurantWaitTime);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+        // Calculate average time based on the current number of queues
+        rootRef.child("Queues").child(restaurantID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int count = 0;
+                for (int i = 1; i <= 6; i++) {
+                    String indivCount = snapshot.child(i + "").getChildrenCount() + "";
+                    int indivCountInt = Integer.parseInt(indivCount);
+                    count += indivCountInt;
+                }
+                if (count == 0) {
+                    int waitingTime = 0;
+                    restaurantWaitTime = String.valueOf(waitingTime);
+                    restWait.setText(restaurantWaitTime);
+                } else {
+                    int waitingTime = (count * 20) / count;
+                    restaurantWaitTime = String.valueOf(waitingTime);
+                    restWait.setText(restaurantWaitTime);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         // if user is already in queue, join button is greyed out
         if (sessionManager.getQueueStatus().equals("In Queue")) {
@@ -172,7 +177,6 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
         boolean focusable = true; // lets taps outside the popup also dismiss it
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
-
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window token
         popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
@@ -184,6 +188,7 @@ public class RestaurantInfoActivity extends AppCompatActivity implements Adapter
         View container = (View) popupWindow.getContentView().getParent();
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         WindowManager.LayoutParams p = (WindowManager.LayoutParams) container.getLayoutParams();
+
         //add flag
         p.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         p.dimAmount = 0.5f;

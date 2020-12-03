@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
                 if (getIntent().getStringExtra("currentActivity") != null) {
                         if (getIntent().getStringExtra("currentActivity").equals("1")) {
                                 currentActivity = "1";
+                                Log.i("activity", currentActivity);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new UserActivitiesFragment()).commit();
+                                bottomNav.getMenu().findItem(R.id.nav_activities).setChecked(true);
                         }
                 }
 
@@ -80,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                                                 // if preorder exists
                                                 // get count of children and collate total price of basket
                                                 long count = snapshot.child("Preorders").child(preorderRest).child(userPhone).getChildrenCount();
+                                                Integer itemCount = 0;
                                                 Double totalPrice = 0.0;
                                                 String preorderStr = "";
                                                 // get all the dish name, quantity and price
@@ -89,11 +93,13 @@ public class MainActivity extends AppCompatActivity {
                                                         Double dishPrice = Double.parseDouble(snapshot.child("Menu").child(preorderRest).child(dishName).child("dishPrice").getValue().toString());
                                                         totalPrice += Integer.parseInt(dishQuantity) * dishPrice;
                                                         // convert to preorderStr
+                                                        itemCount += Integer.parseInt(dishQuantity);
                                                         preorderStr = preorderStr + dishName + "," + "quantity:" + dishQuantity + ",price:" + dishPrice.toString() + "/";
                                                 }
                                                 Log.i("preorder string", preorderStr);
                                                 // add preorder info to session manager
-                                                sessionManager.savePreorder(String.valueOf(count), totalPrice.toString(), preorderStr, preorderRest);
+                                                sessionManager.uniqDishCount(String.valueOf(count));
+                                                sessionManager.savePreorder(String.valueOf(count), totalPrice.toString(), preorderStr.substring(0, preorderStr.length() - 1), preorderRest);
                                         }
                                 } else {
                                         // remove data in shared preferences if user is not in queue / has been seated
@@ -127,12 +133,7 @@ public class MainActivity extends AppCompatActivity {
                                         break;
                         }
 
-                        if (currentActivity == "1") {
-                                selectedFragment = new UserActivitiesFragment();
-                        }
-
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
-                        currentActivity = null;
                         return true;
                 }
         };
