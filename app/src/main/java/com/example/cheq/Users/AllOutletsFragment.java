@@ -86,19 +86,47 @@ public class AllOutletsFragment extends Fragment implements ViewAllOutletsListAd
         // validating all search inputs to control the recyclerview
         searchEditText.addTextChangedListener(this);
 
-        for (String id: allRestaurants.keySet()) {
+        for (final String id: allRestaurants.keySet()) {
             // TODO: adjust to queue length after this works
-            allRestaurants.get(id).put("waitingTime", "20 mins");
-        }
+            rootRef.child("Queues").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (Iterator<DataSnapshot> rest = snapshot.getChildren().iterator(); rest.hasNext();) {
+                        rest.next();
+                        int count = 0;
+                        String restaurantWaitTime;
+                        for (int i = 1; i <= 6; i++) {
+                            String indivCount = snapshot.child(id).child(i + "").getChildrenCount() + "";
+                            int indivCountInt = Integer.parseInt(indivCount);
+                            count += indivCountInt;
+                        }
+                        if (count == 0) {
+                            int waitingTime = 0;
+                            restaurantWaitTime = String.valueOf(waitingTime) + " min";
+                        } else {
+                            int waitingTime = (count * 20) / count;
+                            restaurantWaitTime = String.valueOf(waitingTime) + " mins";
+                        }
+                        Log.i("waiting time", restaurantWaitTime);
+                        allRestaurants.get(id).put("waitingTime", restaurantWaitTime);
+                    }
 
-        // setting up the list to display all restaurants in database
-        // it will only be appeared if the users has completed queues
-        if (this.getContext() != null) {
-            viewAllOutletsList = (RecyclerView) view.findViewById(R.id.viewAllOutletsList);
-            viewAllOutletsList.setLayoutManager(new LinearLayoutManager(AllOutletsFragment.this.getContext()));
-            mAdapter = new com.example.cheq.Users.ViewAllOutletsListAdapter(allRestaurants, AllOutletsFragment.this, getContext());
-            viewAllOutletsList.setAdapter(mAdapter);
-            viewAllOutletsList.setVisibility(View.VISIBLE);
+                    // setting up the list to display all restaurants in database
+                    // it will only be appeared if the users has completed queues
+                    if (getContext() != null) {
+                        viewAllOutletsList = (RecyclerView) view.findViewById(R.id.viewAllOutletsList);
+                        viewAllOutletsList.setLayoutManager(new LinearLayoutManager(AllOutletsFragment.this.getContext()));
+                        mAdapter = new com.example.cheq.Users.ViewAllOutletsListAdapter(allRestaurants, AllOutletsFragment.this, getContext());
+                        viewAllOutletsList.setAdapter(mAdapter);
+                        viewAllOutletsList.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
 
 //        rootRef.child("Queues"). addValueEventListener(new ValueEventListener() {

@@ -118,6 +118,8 @@ public class MenuFragment extends Fragment implements MenuAdapter.onRestaurantLi
             if (sessionManager.hasPreorder() && restaurantID.equals(sessionManager.getPreorderRest())) {
                 currentTotal = Double.parseDouble(sessionManager.getPreorderTotal());
                 currentItems = Integer.parseInt(sessionManager.getPreorderCount());
+                Log.i("total", currentTotal.toString());
+                Log.i("items", currentItems.toString());
                 preorderItems = restoreMap(sessionManager.getPreorder(), Integer.parseInt(sessionManager.getPreorderUniqueCount()));
                 basketCardView = getActivity().findViewById(R.id.basketCardView);
                 basketCL = getActivity().findViewById(R.id.basketCL);
@@ -159,7 +161,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.onRestaurantLi
                     String dishName = item.next().getKey();
                     Double price = Double.parseDouble(snapshot.child(dishName).child("dishPrice").getValue().toString());
                     rawPrices.add(price);
-                    String dishPrice = "$" + df2.format(price);
+                    String dishPrice = df2.format(price);
                     String imageURL = snapshot.child(dishName).child("downloadUrl").getValue().toString();
                     dishNames.add(dishName);
                     dishPrices.add(dishPrice);
@@ -226,7 +228,12 @@ public class MenuFragment extends Fragment implements MenuAdapter.onRestaurantLi
             public void onClick(View view) {
                 // if sessionManager does not have any preorder records (maybe due to deletion previously)
                 // initialise all preorder data variables to 0
-                if (!sessionManager.hasPreorder()) {
+                // restore session manager preorder info into preorderItems before adding new items
+                if (sessionManager.hasPreorder()) {
+                    preorderItems = restoreMap(sessionManager.getPreorder(), Integer.parseInt(sessionManager.getPreorderUniqueCount()));
+                    currentItems = Integer.parseInt(sessionManager.getPreorderCount());
+                    currentTotal = Double.parseDouble(sessionManager.getPreorderTotal());
+                } else {
                     preorderItems = new HashMap<>();
                     currentTotal = 0.0;
                     currentItems = 0;

@@ -97,6 +97,13 @@ public class QueuesFragment extends Fragment {
                 // Log.i("info", currentQInfo.toString());
 
                 recyclerView = view.findViewById(R.id.queueRecyclerView);
+
+                if (sessionManager.hasPreorder() && !sessionManager.getPreorderStatus().equals("Ordered")) {
+                    recyclerView.setPadding(0,0,0,160);
+                } else {
+                    recyclerView.setPadding(0,0,0,0);
+                }
+
                 recyclerView.setLayoutManager(new LinearLayoutManager(QueuesFragment.this.getContext()));
                 recyclerView.setAdapter(new QueueAdapter(getContext(), currentQInfo));
                 recyclerView.setHasFixedSize(true);
