@@ -94,6 +94,7 @@ public class RegistrationActivity extends AppCompatActivity {
             registerProgressBar.setVisibility(View.GONE);
         } else if (!InputValidation.isValidPassword(userPassword)) {
             Toast.makeText(this, "Please input a password with at least 6 characters", Toast.LENGTH_SHORT).show();
+            registerProgressBar.setVisibility(View.GONE);
         }
         else {
             // Create new User object
