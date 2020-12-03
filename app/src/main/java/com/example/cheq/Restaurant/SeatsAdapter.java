@@ -77,7 +77,7 @@ public class SeatsAdapter extends RecyclerView.Adapter<SeatsAdapter.ViewHolder> 
         Button restaurantAllQueueSeatButton = holder.restaurantAllQueueSeatButton;
         final Button restaurantAllQueueCancelButton = holder.restaurantAllQueueCancelButton;
         restaurantAllQueuePax.setText(seat.getNoOfPax());
-        restaurantAllQueueSeatNo.setText(seat.getSeatNo());
+        restaurantAllQueueSeatNo.setText(seat.getUserId());
 
         final DatabaseReference rootRef = firebaseManager.rootRef;
         final DatabaseReference restaurantQueueNoRef = rootRef.child("Queues").child(seat.getRestaurantId());
