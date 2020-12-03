@@ -1,159 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="400dp"
     android:orientation="vertical"
     android:layout_gravity="bottom"
     android:background="@android:color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".RestaurantInfo.QueuesFragment">
 
-    <ScrollView
-        android:id="@+id/queue_scroller"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/queueRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:ignore="UselessParent">
+        android:paddingBottom="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:orientation="vertical">
+    <!--    <ScrollView-->
+    <!--        android:id="@+id/queue_scroller"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        tools:ignore="UselessParent">-->
 
-            <LinearLayout
-                android:id="@+id/pax1and2"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_gravity="top"-->
+    <!--            android:orientation="vertical">-->
 
-                <EditText
-                    android:id="@+id/pax1_info"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/curvedcorner_outline"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:inputType="textMultiLine"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="@string/one_pax_info"
-                    android:textSize="12sp"
-                    android:autofillHints=""
-                    android:paddingStart="10dp"
-                    tools:ignore="RtlSymmetry" />
+    <!--            <LinearLayout-->
+    <!--                android:id="@+id/pax1and2"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="120dp"-->
+    <!--                android:gravity="center"-->
+    <!--                android:orientation="horizontal">-->
 
-                <EditText
-                    android:id="@+id/pax2_info"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:background="@drawable/curvedcorner_outline"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:inputType="textMultiLine"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="@string/two_pax_info"
-                    android:textSize="12sp"
-                    android:layout_marginStart="20dp"
-                    android:autofillHints=""
-                    android:paddingStart="10dp"
-                    tools:ignore="RtlSymmetry" />
+    <!--                <EditText-->
+    <!--                    android:id="@+id/pax1_info"-->
+    <!--                    android:layout_width="150dp"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:background="@drawable/curvedcorner_outline"-->
+    <!--                    android:clickable="false"-->
+    <!--                    android:focusable="false"-->
+    <!--                    android:inputType="textMultiLine"-->
+    <!--                    android:paddingLeft="10dp"-->
+    <!--                    android:paddingTop="10dp"-->
+    <!--                    android:paddingBottom="10dp"-->
+    <!--                    android:text="@string/one_pax_info"-->
+    <!--                    android:textSize="12sp"-->
+    <!--                    android:autofillHints=""-->
+    <!--                    android:paddingStart="10dp"-->
+    <!--                    tools:ignore="RtlSymmetry" />-->
 
-            </LinearLayout>
+    <!--                <EditText-->
+    <!--                    android:id="@+id/pax2_info"-->
+    <!--                    android:layout_width="150dp"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_marginLeft="20dp"-->
+    <!--                    android:background="@drawable/curvedcorner_outline"-->
+    <!--                    android:clickable="false"-->
+    <!--                    android:focusable="false"-->
+    <!--                    android:inputType="textMultiLine"-->
+    <!--                    android:paddingLeft="10dp"-->
+    <!--                    android:paddingTop="10dp"-->
+    <!--                    android:paddingBottom="10dp"-->
+    <!--                    android:text="@string/two_pax_info"-->
+    <!--                    android:textSize="12sp"-->
+    <!--                    android:layout_marginStart="20dp"-->
+    <!--                    android:autofillHints=""-->
+    <!--                    android:paddingStart="10dp"-->
+    <!--                    tools:ignore="RtlSymmetry" />-->
 
-            <LinearLayout
-                android:id="@+id/pax3and4"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+    <!--            </LinearLayout>-->
 
-                <EditText
-                    android:id="@+id/pax3_info"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/curvedcorner_outline"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:inputType="textMultiLine"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="@string/three_pax_info"
-                    android:textSize="12sp"
-                    android:autofillHints=""
-                    android:paddingStart="10dp"
-                    tools:ignore="RtlSymmetry" />
+    <!--            <LinearLayout-->
+    <!--                android:id="@+id/pax3and4"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="120dp"-->
+    <!--                android:gravity="center"-->
+    <!--                android:orientation="horizontal">-->
 
-                <EditText
-                    android:id="@+id/pax4_info"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:background="@drawable/curvedcorner_outline"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:inputType="textMultiLine"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="@string/four_pax_info"
-                    android:textSize="12sp"
-                    android:layout_marginStart="20dp"
-                    android:paddingStart="10dp"
-                    tools:ignore="RtlSymmetry" />
+    <!--                <EditText-->
+    <!--                    android:id="@+id/pax3_info"-->
+    <!--                    android:layout_width="150dp"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:background="@drawable/curvedcorner_outline"-->
+    <!--                    android:clickable="false"-->
+    <!--                    android:focusable="false"-->
+    <!--                    android:inputType="textMultiLine"-->
+    <!--                    android:paddingLeft="10dp"-->
+    <!--                    android:paddingTop="10dp"-->
+    <!--                    android:paddingBottom="10dp"-->
+    <!--                    android:text="@string/three_pax_info"-->
+    <!--                    android:textSize="12sp"-->
+    <!--                    android:autofillHints=""-->
+    <!--                    android:paddingStart="10dp"-->
+    <!--                    tools:ignore="RtlSymmetry" />-->
 
-            </LinearLayout>
+    <!--                <EditText-->
+    <!--                    android:id="@+id/pax4_info"-->
+    <!--                    android:layout_width="150dp"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_marginLeft="20dp"-->
+    <!--                    android:background="@drawable/curvedcorner_outline"-->
+    <!--                    android:clickable="false"-->
+    <!--                    android:focusable="false"-->
+    <!--                    android:inputType="textMultiLine"-->
+    <!--                    android:paddingLeft="10dp"-->
+    <!--                    android:paddingTop="10dp"-->
+    <!--                    android:paddingBottom="10dp"-->
+    <!--                    android:text="@string/four_pax_info"-->
+    <!--                    android:textSize="12sp"-->
+    <!--                    android:layout_marginStart="20dp"-->
+    <!--                    android:paddingStart="10dp"-->
+    <!--                    tools:ignore="RtlSymmetry" />-->
 
-            <LinearLayout
-                android:id="@+id/pax5and6"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+    <!--            </LinearLayout>-->
 
-                <EditText
-                    android:id="@+id/pax5_info"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/curvedcorner_outline"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:inputType="textMultiLine"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="@string/five_pax_info"
-                    android:textSize="12sp"
-                    android:autofillHints=""
-                    android:paddingStart="10dp"
-                    tools:ignore="RtlSymmetry" />
+    <!--            <LinearLayout-->
+    <!--                android:id="@+id/pax5and6"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="120dp"-->
+    <!--                android:gravity="center"-->
+    <!--                android:orientation="horizontal">-->
 
-                <EditText
-                    android:id="@+id/pax6_info"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:background="@drawable/curvedcorner_outline"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:inputType="textMultiLine"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="@string/six_pax_info"
-                    android:textSize="12sp"
-                    android:layout_marginStart="20dp"
-                    android:autofillHints=""
-                    android:paddingStart="10dp"
-                    tools:ignore="RtlSymmetry" />
-            </LinearLayout>
+    <!--                <EditText-->
+    <!--                    android:id="@+id/pax5_info"-->
+    <!--                    android:layout_width="150dp"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:background="@drawable/curvedcorner_outline"-->
+    <!--                    android:clickable="false"-->
+    <!--                    android:focusable="false"-->
+    <!--                    android:inputType="textMultiLine"-->
+    <!--                    android:paddingLeft="10dp"-->
+    <!--                    android:paddingTop="10dp"-->
+    <!--                    android:paddingBottom="10dp"-->
+    <!--                    android:text="@string/five_pax_info"-->
+    <!--                    android:textSize="12sp"-->
+    <!--                    android:autofillHints=""-->
+    <!--                    android:paddingStart="10dp"-->
+    <!--                    tools:ignore="RtlSymmetry" />-->
 
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    <!--                <EditText-->
+    <!--                    android:id="@+id/pax6_info"-->
+    <!--                    android:layout_width="150dp"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_marginLeft="20dp"-->
+    <!--                    android:background="@drawable/curvedcorner_outline"-->
+    <!--                    android:clickable="false"-->
+    <!--                    android:focusable="false"-->
+    <!--                    android:inputType="textMultiLine"-->
+    <!--                    android:paddingLeft="10dp"-->
+    <!--                    android:paddingTop="10dp"-->
+    <!--                    android:paddingBottom="10dp"-->
+    <!--                    android:text="@string/six_pax_info"-->
+    <!--                    android:textSize="12sp"-->
+    <!--                    android:layout_marginStart="20dp"-->
+    <!--                    android:autofillHints=""-->
+    <!--                    android:paddingStart="10dp"-->
+    <!--                    tools:ignore="RtlSymmetry" />-->
+    <!--            </LinearLayout>-->
+
+    <!--        </LinearLayout>-->
+    <!--    </ScrollView>-->
+</androidx.constraintlayout.widget.ConstraintLayout>
