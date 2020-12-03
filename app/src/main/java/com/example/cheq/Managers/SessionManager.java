@@ -110,6 +110,7 @@ public class SessionManager {
         editor.putString(PREORDERREST, "").commit();
         editor.putString(PREORDERCOUNT, "").commit();
         editor.putString(PREORDERTOTAL, "").commit();
+        editor.putString(PREORDERSTATUS, "").commit();
     }
 
     public void updatePreorderStatus(String status) {

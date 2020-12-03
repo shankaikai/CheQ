@@ -59,12 +59,26 @@
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Order Confirmation"
+            android:text="@string/order_confirm"
             android:textColor="@color/colorBlack"
-            android:textSize="15dp"
+            android:textSize="18dp"
             android:textStyle="bold"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintBottom_toTopOf="@id/swipeDeleteTextView" />
+
+        <TextView
+            android:id="@+id/swipeDeleteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/swipe_delete"
+            android:textColor="@color/colorGrey"
+            android:textSize="12dp"
+            android:textStyle="italic"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@id/basketList" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -77,93 +91,104 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/totalPriceCLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:elevation="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/totalPriceLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="24dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@id/placeOrder"
-            app:layout_constraintTop_toTopOf="parent">
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <TextView
-                android:id="@+id/totalTextView"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/totalPriceLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Total"
-                android:textColor="@color/colorBlack"
-                tools:ignore="MissingConstraints" />
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@id/placeOrder"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/basketTotalPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:text="$9.50"
-                android:textColor="@color/colorBlack"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/totalTextView"
-                tools:ignore="MissingConstraints" />
+                <TextView
+                    android:id="@+id/totalTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total"
+                    android:textSize="15dp"
+                    android:textColor="@color/colorBlack"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/basketTotalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="$9.50"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold"
+                    android:textSize="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/totalTextView"
+                    tools:ignore="MissingConstraints" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/orderPlaced"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="invisible"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/totalPriceLayout">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorGrey"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center"
+                    android:text="@string/order_placed"
+                    android:textSize="15dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/placeOrder"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="visible"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/totalPriceLayout">
+
+                <TextView
+                    android:id="@+id/placeOrderTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryDark"
+                    android:gravity="center"
+                    android:text="@string/place_order_btn"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+            </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/orderPlaced"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/totalPriceLayout"
-            app:cardCornerRadius="10dp"
-            android:visibility="invisible">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:fontFamily="@font/montserrat"
-                android:text="@string/order_placed"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:background="@color/colorGrey"/>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/placeOrder"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/totalPriceLayout"
-            app:cardCornerRadius="10dp"
-            android:visibility="visible">
-
-            <TextView
-                android:id="@+id/placeOrderTextView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/place_order_btn"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:background="@color/colorPrimaryDark"/>
-
-        </androidx.cardview.widget.CardView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

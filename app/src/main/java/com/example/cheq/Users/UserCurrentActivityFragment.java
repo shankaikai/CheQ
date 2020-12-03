@@ -48,6 +48,8 @@ public class UserCurrentActivityFragment extends Fragment {
     Boolean isCurrentQueuePresent = false;
     View view;
 
+    SessionManager sessionManager;
+
     TextView currentActivityName;
     TextView currentActivityDate;
     TextView currentActivityGroupSize;
@@ -65,6 +67,8 @@ public class UserCurrentActivityFragment extends Fragment {
         userID = sharedPreferences.getString(USERPHONEKEY, null); // get phone number from sharedpreference
 
         view = inflater.inflate(R.layout.fragment_user_current_activities, container, false);
+
+        sessionManager = SessionManager.getSessionManager(getActivity());
 
         // Initialise UI Elements
         viewPreOrderButton = view.findViewById(R.id.viewPreOrderButton);
@@ -186,7 +190,11 @@ public class UserCurrentActivityFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        // change the text of the place order button
-        viewPreOrderButton.setText("View Pre-order");
+        if (sessionManager.getPreorderStatus().equals("Ordered")) {
+            // change the text of the place order button
+            viewPreOrderButton.setText("View Pre-order");
+        } else {
+            viewPreOrderButton.setText("Place Order");
+        }
     }
 }

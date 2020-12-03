@@ -70,28 +70,38 @@ public class MainActivity extends AppCompatActivity {
                                 userName = snapshot.child("Users").child(userPhone).child("name").getValue(String.class);
                                 userEmail = snapshot.child("Users").child(userPhone).child("userEmail").getValue(String.class);
 
-                                if (snapshot.child("Users").child(userPhone).child("currentQueue").exists()) {
+                                Boolean checkCurrentQueue = snapshot.child("Users").child(userPhone).child("currentQueue").exists();
+
+                                if (checkCurrentQueue) {
                                         sessionManager.updateQueueStatus("In Queue");
                                         String preorderRest = snapshot.child("Users").child(userPhone).child("currentQueue").child("restaurantID").getValue().toString();
                                         // Check if preorder exists
                                         if (snapshot.child("Preorders").child(preorderRest).child(userPhone).exists()) {
+                                                // if preorder exists
+                                                // get count of children and collate total price of basket
+                                                long count = snapshot.child("Preorders").child(preorderRest).child(userPhone).getChildrenCount();
+                                                Double totalPrice = 0.0;
+                                                String preorderStr = "";
+                                                // get all the dish name, quantity and price
                                                 for (Iterator<DataSnapshot> dish = snapshot.child("Preorders").child(preorderRest).child(userPhone).getChildren().iterator(); dish.hasNext();) {
-                                                        // TODO: Complete this part
                                                         String dishName = dish.next().getKey();
                                                         String dishQuantity = snapshot.child("Preorders").child(preorderRest).child(userPhone).child(dishName).getValue().toString();
+                                                        Double dishPrice = Double.parseDouble(snapshot.child("Menu").child(preorderRest).child(dishName).child("dishPrice").getValue().toString());
+                                                        totalPrice += Integer.parseInt(dishQuantity) * dishPrice;
+                                                        // convert to preorderStr
+                                                        preorderStr = preorderStr + dishName + "," + "quantity:" + dishQuantity + ",price:" + dishPrice.toString() + "/";
                                                 }
-                                        } else {
-                                                sessionManager.updatePreorderStatus("");
-                                                sessionManager.removePreorder();
+                                                Log.i("preorder string", preorderStr);
+                                                // add preorder info to session manager
+                                                sessionManager.savePreorder(String.valueOf(count), totalPrice.toString(), preorderStr, preorderRest);
                                         }
                                 } else {
                                         // remove data in shared preferences if user is not in queue / has been seated
                                         sessionManager.updateQueueStatus("");
                                         sessionManager.removePreorder();
                                         sessionManager.updatePreorderStatus("");
+                                        Log.i("preorder = empty", sessionManager.getPreorder());
                                 }
-
-                                // TODO: Add in a function to retrieve preorder from firebase and store locally in Session Manager
                         }
 
                         @Override

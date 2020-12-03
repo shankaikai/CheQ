@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Users.BlankActivity"></activity>
+        <activity android:name=".Users.BlankActivity" />
         <activity
             android:name=".Users.RestaurantPageActivity"
             android:noHistory="true"

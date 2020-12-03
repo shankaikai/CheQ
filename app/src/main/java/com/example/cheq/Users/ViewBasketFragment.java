@@ -34,7 +34,7 @@ import java.util.HashMap;
 public class ViewBasketFragment extends Fragment {
 
     // 2 Decimal Places
-    private static DecimalFormat df2 = new DecimalFormat("#.##");
+    private static DecimalFormat df2 = new DecimalFormat("#.00");
 
     // Session Manager
     SessionManager sessionManager;
@@ -57,6 +57,7 @@ public class ViewBasketFragment extends Fragment {
     CardView orderPlaced;
     Button backArrow;
     ConstraintLayout basketLayout;
+    TextView swipeDeleteTextView;
 
     BasketListAdapter basketAdapter;
 
@@ -91,7 +92,9 @@ public class ViewBasketFragment extends Fragment {
         userID = sessionManager.getUserPhone();
 
         // Restore basketItems if sharedPreferences has preorder
-        basketItems = MenuFragment.restoreMap(sessionManager.getPreorder(), Integer.parseInt(sessionManager.getPreorderUniqueCount()));
+        if (sessionManager.hasPreorder()) {
+            basketItems = MenuFragment.restoreMap(sessionManager.getPreorder(), Integer.parseInt(sessionManager.getPreorderUniqueCount()));
+        }
 
         // Initialise UI Elements
         restaurantNameBasket = view.findViewById(R.id.restaurantNameBasket);
@@ -100,6 +103,7 @@ public class ViewBasketFragment extends Fragment {
         orderPlaced = view.findViewById(R.id.orderPlaced);
         backArrow = view.findViewById(R.id.backArrow);
         basketLayout = view.findViewById(R.id.basketLayout);
+        swipeDeleteTextView = view.findViewById(R.id.swipeDeleteTextView);
 
         // Retrieve Restaurant info based on the previous Activity
         if (getActivity().toString().contains("RestaurantInfoActivity")) {
@@ -118,7 +122,8 @@ public class ViewBasketFragment extends Fragment {
         }
 
         restaurantNameBasket.setText(restaurantName);
-        totalPriceTextView.setText("$" + sessionManager.getPreorderTotal());
+        Double total = Double.parseDouble(sessionManager.getPreorderTotal());
+        totalPriceTextView.setText("$" + df2.format(total));
 
         // Initialise Recycler View
         basketList = (RecyclerView) view.findViewById(R.id.basketList);
@@ -142,6 +147,8 @@ public class ViewBasketFragment extends Fragment {
                 orderPlaced.setVisibility(View.VISIBLE);
 
                 Toast.makeText(getContext(), "Order placed successfully", Toast.LENGTH_LONG).show();
+
+                Log.i("activity", getActivity().toString());
 
                 if (getActivity().toString().contains("RestaurantInfoActivity")) {
                     View restInfo = getActivity().findViewById(R.id.restInfoLayout);
@@ -216,6 +223,8 @@ public class ViewBasketFragment extends Fragment {
 
             itemTouchHelper = new ItemTouchHelper(simpleCallback);
             itemTouchHelper.attachToRecyclerView(basketList);
+        } else {
+            swipeDeleteTextView.setVisibility(View.GONE);
         }
 
         return view;
@@ -233,6 +242,7 @@ public class ViewBasketFragment extends Fragment {
             String newString = MenuFragment.stringify(basketItems);
             sessionManager.savePreorder(currentCount.toString(), currentTotal.toString(), newString, restaurantID);
         }
-        totalPriceTextView.setText("$" + sessionManager.getPreorderTotal());
+        Double total = Double.parseDouble(sessionManager.getPreorderTotal());
+        totalPriceTextView.setText("$" + df2.format(total));
     }
 }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cheq.R;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -21,6 +22,9 @@ public class BasketListAdapter extends RecyclerView.Adapter<com.example.cheq.Use
     static ArrayList<String> dishName;
     ArrayList<String> dishPrice;
     ArrayList<String> dishQuantity;
+
+    // 2 Decimal Places
+    private static DecimalFormat df2 = new DecimalFormat("#.00");
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -76,7 +80,9 @@ public class BasketListAdapter extends RecyclerView.Adapter<com.example.cheq.Use
 
         // retrieve the data for that position
         holder.getNameTextView().setText(dishName.get(position));
-        holder.getPriceTextView().setText(dishPrice.get(position));
+        Double price = Double.parseDouble(dishPrice.get(position));
+        Log.i("price", df2.format(price));
+        holder.getPriceTextView().setText("$" + df2.format(price));
         holder.getQuantityTextView().setText(dishQuantity.get(position) + "x");
     }
 
