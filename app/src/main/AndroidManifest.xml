@@ -38,7 +38,10 @@
             android:noHistory="true" /> <!-- RestaurantActivity -->
         <activity
             android:name=".Restaurant.RestaurantActivity"
-            android:theme="@style/AppTheme" >
+
+            android:theme="@style/AppTheme"
+            android:noHistory="true"
+            >
 
         </activity>
         <activity android:name=".Restaurant.RestaurantAllQueuesActivity"
