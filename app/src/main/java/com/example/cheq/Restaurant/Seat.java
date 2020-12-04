@@ -7,12 +7,14 @@ public class Seat implements Serializable {
     private Integer noOfPax;
     private String userId;
     private String restaurantId;
+    private  String seatId;
 
-    public Seat(String seatNo, Integer noOfPax, String userId, String restaurantId){
+    public Seat(String seatNo, Integer noOfPax, String userId, String restaurantId, String seatId){
         this.seatNo = seatNo;
         this.noOfPax = noOfPax;
         this.userId = userId;
         this.restaurantId = restaurantId;
+        this.seatId = seatId;
     }
 
     public String getSeatNo(){
@@ -33,6 +35,10 @@ public class Seat implements Serializable {
         return restaurantId;
     }
 
+    public String getSeatId() {
+        return seatId;
+    }
+
     public void setSeatNo(String seatNo) {
         this.seatNo = seatNo;
     }
@@ -45,6 +51,10 @@ public class Seat implements Serializable {
 
     public void setRestaurantId(String restaurantId) {
         this.restaurantId = restaurantId;
+    }
+
+    public void setSeatId(String seatId) {
+        this.seatId = seatId;
     }
 }
 

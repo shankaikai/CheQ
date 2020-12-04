@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cheq.Managers.FirebaseManager;
 import com.example.cheq.Managers.SessionManager;
 import com.example.cheq.R;
+import com.example.cheq.Users.Queue;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
@@ -30,6 +32,8 @@ import java.util.List;
 public class SeatsAdapter extends RecyclerView.Adapter<SeatsAdapter.ViewHolder> {
     private ArrayList<Seat> seats;
     FirebaseManager firebaseManager = new FirebaseManager();
+    Context context;
+
 
     public SeatsAdapter(ArrayList<Seat> seats) {
         this.seats = seats;
@@ -50,14 +54,14 @@ public class SeatsAdapter extends RecyclerView.Adapter<SeatsAdapter.ViewHolder> 
 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         // Inflate the custom layout
         View restaurantSeatsView = inflater.inflate(R.layout.row_restaurant_allqueue_recycleview, parent, false);
 
         // Return a new holder instance
         ViewHolder restaurantSeatsViewHolder = new ViewHolder(restaurantSeatsView);
+        context = parent.getContext();
         return restaurantSeatsViewHolder;
     }
 
@@ -71,16 +75,75 @@ public class SeatsAdapter extends RecyclerView.Adapter<SeatsAdapter.ViewHolder> 
         TextView restaurantAllQueuePax = holder.restaurantAllQueuePax;
         TextView restaurantAllQueueSeatNo = holder.restaurantAllQueueSeatNo;
         Button restaurantAllQueueSeatButton = holder.restaurantAllQueueSeatButton;
-        Button restaurantAllQueueCancelButton = holder.restaurantAllQueueCancelButton;
+        final Button restaurantAllQueueCancelButton = holder.restaurantAllQueueCancelButton;
         restaurantAllQueuePax.setText(seat.getNoOfPax());
-        restaurantAllQueueSeatNo.setText(seat.getSeatNo());
+        restaurantAllQueueSeatNo.setText(seat.getUserId());
 
-        final DatabaseReference restaurantQueueNoRef = firebaseManager.rootRef.child("Queues").child(seat.getRestaurantId());
+        final DatabaseReference rootRef = firebaseManager.rootRef;
+        final DatabaseReference restaurantQueueNoRef = rootRef.child("Queues").child(seat.getRestaurantId());
+        final DatabaseReference restaurantUserRef = rootRef.child("Users").child(seat.getUserId());
+        final DatabaseReference restaurantPreordersRef = rootRef.child("Preorders").child(seat.getRestaurantId());
+
         restaurantAllQueueCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //remove from "Queues"
                 Log.i("restId", seat.getRestaurantId());
-                  restaurantQueueNoRef.child(seat.getNoOfPaxInt().toString()).child(seat.getUserId()).removeValue();
+                restaurantQueueNoRef.child(seat.getNoOfPaxInt().toString()).child(seat.getSeatId()).removeValue();
+
+                //remove from "Users/currentQueue"
+                  Log.i("restUserId", restaurantUserRef.child("currentQueue").toString());
+                  restaurantUserRef.child("currentQueue").removeValue();
+
+                  //remove preorders
+                if (restaurantPreordersRef.child(seat.getUserId()) != null){
+                    restaurantPreordersRef.child(seat.getUserId()).removeValue();
+                }
+
+                Toast.makeText(context, "Customer Removed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        restaurantAllQueueSeatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DatabaseReference restaurantUserCurrentQueueRef = restaurantUserRef.child("currentQueue");
+
+                //remove from "Users/currentQueue"
+                if(restaurantUserCurrentQueueRef.child("userId")!=null){
+                    restaurantUserCurrentQueueRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.child("groupSize").getValue()!=null){
+                            Log.i("userId", seat.getUserId());
+                            Log.i("groupSize", String.valueOf(snapshot.child("groupSize").getValue()));
+                            Log.i("date", snapshot.child("date").getValue().toString());
+                            Log.i("restaurantID",snapshot.child("restaurantID").getValue().toString());
+
+                            Queue queue = new Queue(Integer.parseInt(snapshot.child("groupSize").getValue().toString()), snapshot.child("restaurantID").getValue().toString(), snapshot.child("date").getValue().toString());
+
+
+                            firebaseManager.addToPastQueues(queue, seat.getUserId(), seat.getRestaurantId());
+                            restaurantUserRef.child("currentQueue").removeValue();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });}
+                //remove from "Queues"
+                Log.i("hello", restaurantQueueNoRef.child(seat.getNoOfPaxInt().toString()).child(seat.getUserId()).toString());
+                restaurantQueueNoRef.child(seat.getNoOfPaxInt().toString()).child(seat.getSeatId()).removeValue();
+
+                //remove from "Preorders"
+                if (restaurantPreordersRef.child(seat.getUserId()) != null){
+                    restaurantPreordersRef.child(seat.getUserId()).removeValue();
+                }
+
+                Toast.makeText(context, "Customer Seated", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -90,18 +153,3 @@ public class SeatsAdapter extends RecyclerView.Adapter<SeatsAdapter.ViewHolder> 
         return seats.size();
     }
 }
-
-
-//        restaurantAllQueueSeatButton.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v){
-//                int a = holder.getAdapterPosition();
-//                Intent intent = new Intent(v.getContext(), RestaurantSeatCustomerActivity.class);
-//                Bundle b = new Bundle();
-//                b.putSerializable("seat", seat);
-//                intent.putExtras(b);
-//                v.getContext().startActivity(intent);
-//
-////                intent.putExtra("noOfPax", seats.get(position).getNoOfPax());
-//            }
-//        });

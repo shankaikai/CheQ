@@ -115,7 +115,7 @@ public class ViewOutletsListAdapter extends RecyclerView.Adapter<com.example.che
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return restaurantNames.size();
+        return 5;
     }
 
     public interface onRestaurantListener {

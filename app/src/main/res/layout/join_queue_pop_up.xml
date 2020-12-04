@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/pop_up_bg"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textJoinQueue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:text="@string/join_rest"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/textTableFor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textJoinQueue"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/table_no"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/popUpInfo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textJoinQueue"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/paxSpinner"
+        style="@android:style/Widget.Holo.Light.Spinner"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="12dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/popUpInfo"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/popUpInfo"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textTableFor"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="@string/pop_up_info"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/confirmJoinButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/confirmJoinButton"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/popUpInfo"
+        android:layout_centerHorizontal="true"
+        android:text="@string/join_queue"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/cancelButton"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/curvedcorner"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:layout_marginLeft="32dp"/>
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/popUpInfo"
+        android:layout_centerHorizontal="true"
+        android:text="@string/cancel_btn"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/confirmJoinButton"
+        android:background="@drawable/curvedcorner"
+        android:backgroundTint="@color/colorGrey"
+        android:textStyle="bold"
+        android:layout_marginRight="32dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

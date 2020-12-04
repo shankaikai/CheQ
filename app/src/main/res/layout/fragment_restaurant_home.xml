@@ -4,24 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayoutRH"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:background="@color/colorPrimaryDark"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:fontFamily="@font/montserrat"
             android:text="Home"
             android:textColor="@android:color/white"
             android:textSize="18dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/constraintLayoutRH"
-            android:layout_marginBottom="16dp"></TextView>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"></TextView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <RelativeLayout
@@ -76,7 +79,7 @@
             android:textStyle="bold"
             android:fontFamily="@font/montserrat"
             android:textColor="#000000"
-            android:visibility="invisible"
+
             >
         </TextView>
 
@@ -87,6 +90,34 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/viewAllPreordersTextView"
             android:layout_marginTop="12dp">
+
+            <TextView
+                android:id="@+id/restaurantNoOfPreOrderTextViewText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:fontFamily="@font/montserrat"
+                android:text="No of Pre-orders"
+                android:textColor="@color/colorBlack"
+                android:textFontWeight="400"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></TextView>
+
+            <TextView
+                android:id="@+id/restaurantNoOfPreOrderTextViewNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="33dp"
+                android:fontFamily="@font/montserrat"
+                android:text="9"
+                android:textColor="@color/colorBlack"
+                android:textFontWeight="600"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></TextView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>
 

@@ -26,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Iterator;
+
 public class MainActivity extends AppCompatActivity {
 
         SessionManager sessionManager;
@@ -34,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         String userPhone;
         String userName;
         String userEmail;
+
+        String currentActivity;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +56,58 @@ public class MainActivity extends AppCompatActivity {
 
                 DatabaseReference rootRef = firebaseManager.rootRef;
 
+                if (getIntent().getStringExtra("currentActivity") != null) {
+                        if (getIntent().getStringExtra("currentActivity").equals("1")) {
+                                currentActivity = "1";
+                                Log.i("activity", currentActivity);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new UserActivitiesFragment()).commit();
+                                bottomNav.getMenu().findItem(R.id.nav_activities).setChecked(true);
+                        }
+                }
+
                 // Retrieving the user's name and email from firebase and
                 // Store these info locally in the Main Activity
-                rootRef.child("Users").child(userPhone).addValueEventListener(new ValueEventListener() {
+                rootRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                userName = snapshot.child("name").getValue(String.class);
-                                userEmail = snapshot.child("userEmail").getValue(String.class);
+                                userName = snapshot.child("Users").child(userPhone).child("name").getValue(String.class);
+                                userEmail = snapshot.child("Users").child(userPhone).child("userEmail").getValue(String.class);
+
+                                Boolean checkCurrentQueue = snapshot.child("Users").child(userPhone).child("currentQueue").exists();
+
+                                if (checkCurrentQueue) {
+                                        sessionManager.updateQueueStatus("In Queue");
+                                        String preorderRest = snapshot.child("Users").child(userPhone).child("currentQueue").child("restaurantID").getValue().toString();
+                                        // Check if preorder exists
+                                        if (snapshot.child("Preorders").child(preorderRest).child(userPhone).exists()) {
+                                                // if preorder exists
+                                                // get count of children and collate total price of basket
+                                                long count = snapshot.child("Preorders").child(preorderRest).child(userPhone).getChildrenCount();
+                                                Integer itemCount = 0;
+                                                Double totalPrice = 0.0;
+                                                String preorderStr = "";
+                                                // get all the dish name, quantity and price
+                                                for (Iterator<DataSnapshot> dish = snapshot.child("Preorders").child(preorderRest).child(userPhone).getChildren().iterator(); dish.hasNext();) {
+                                                        String dishName = dish.next().getKey();
+                                                        String dishQuantity = snapshot.child("Preorders").child(preorderRest).child(userPhone).child(dishName).getValue().toString();
+                                                        Double dishPrice = Double.parseDouble(snapshot.child("Menu").child(preorderRest).child(dishName).child("dishPrice").getValue().toString());
+                                                        totalPrice += Integer.parseInt(dishQuantity) * dishPrice;
+                                                        // convert to preorderStr
+                                                        itemCount += Integer.parseInt(dishQuantity);
+                                                        preorderStr = preorderStr + dishName + "," + "quantity:" + dishQuantity + ",price:" + dishPrice.toString() + "/";
+                                                }
+                                                Log.i("preorder string", preorderStr);
+                                                // add preorder info to session manager
+                                                sessionManager.uniqDishCount(String.valueOf(count));
+                                                sessionManager.savePreorder(String.valueOf(count), totalPrice.toString(), preorderStr.substring(0, preorderStr.length() - 1), preorderRest);
+                                        }
+                                } else {
+                                        // remove data in shared preferences if user is not in queue / has been seated
+                                        sessionManager.updateQueueStatus("");
+                                        sessionManager.removePreorder();
+                                        sessionManager.updatePreorderStatus("");
+                                        Log.i("preorder = empty", sessionManager.getPreorder());
+                                }
                         }
 
                         @Override
@@ -83,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                                         selectedFragment = new UserAccountFragment();
                                         break;
                         }
+
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
                         return true;
                 }

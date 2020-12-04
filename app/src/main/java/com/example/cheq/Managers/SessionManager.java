@@ -15,6 +15,14 @@ public class SessionManager {
     final String USERPHONEKEY = "userPhone";
     final String USERTYPE = "userType";
     final String RESTAURANTID = "restaurantID";
+    final String PREORDER = "preorder";
+    final String PREORDERCOUNT = "preorderCount";
+    final String PREORDERTOTAL = "preorderTotal";
+    final String PREORDERREST = "preorderRest";
+    final String PREORDERUNIQUECOUNT = "preorderUniqueCount";
+    final String PREORDERSTATUS = "preorderStatus";
+    final String PREORDERRESTNAME = "preorderRestName";
+    final String QUEUESTATUS = "queueStatus";
 
     // Singleton SessionManager object
     private static SessionManager sessionManager = null;
@@ -48,9 +56,33 @@ public class SessionManager {
         editor.putString(RESTAURANTID, restaurantID).commit();
     }
 
+    // Call this function save the preorders (orders are not placed yet)
+    public void savePreorder(String count, String total, String preorderString, String restaurantID) {
+        editor.putString(PREORDERCOUNT, count).commit();
+        editor.putString(PREORDERTOTAL, total).commit();
+        editor.putString(PREORDER, preorderString).commit();
+        editor.putString(PREORDERREST, restaurantID).commit();
+    }
+
+    public void uniqDishCount(String count) {
+        editor.putString(PREORDERUNIQUECOUNT, count).commit();
+    }
+
+    public void setPreorderRestName(String name) {
+        editor.putString(PREORDERRESTNAME, name).commit();
+    }
+
     // Call this function to check if user is logged in
     public boolean isLoggedIn(){
         if (sharedPreferences.getString(USERPHONEKEY, "") == "") {
+            return false;
+        }
+        return true;
+    }
+
+    // Call this function to check if there is a preorder
+    public boolean hasPreorder(){
+        if (sharedPreferences.getString(PREORDER, "") == "") {
             return false;
         }
         return true;
@@ -72,7 +104,65 @@ public class SessionManager {
         editor.putString(USERTYPE, "").commit();
     }
 
+    // Call this function to remove the preorder
+    public void removePreorder() {
+        editor.putString(PREORDER, "").commit();
+        editor.putString(PREORDERREST, "").commit();
+        editor.putString(PREORDERCOUNT, "").commit();
+        editor.putString(PREORDERTOTAL, "").commit();
+        editor.putString(PREORDERSTATUS, "").commit();
+    }
+
+    public void updatePreorderStatus(String status) {
+        editor.putString(PREORDERSTATUS, status).commit();
+    }
+
+    public void updateQueueStatus(String status) {
+        editor.putString(QUEUESTATUS, status).commit();
+    }
+
     public String getUserPhone() {
         return sharedPreferences.getString(USERPHONEKEY, "");
     }
+
+    public String getPreorderRest() {
+        return sharedPreferences.getString(PREORDERREST, "");
+    }
+
+    public String getPreorder() {
+        return sharedPreferences.getString(PREORDER, "");
+    }
+
+    public String getPreorderCount() {
+        return sharedPreferences.getString(PREORDERCOUNT, "");
+    }
+
+    public String getPreorderTotal() {
+        return sharedPreferences.getString(PREORDERTOTAL, "");
+    }
+
+    public String getPreorderUniqueCount() {
+        return sharedPreferences.getString(PREORDERUNIQUECOUNT, "");
+    }
+
+    public String getPreorderStatus() {
+        return sharedPreferences.getString(PREORDERSTATUS, "");
+    }
+
+    public void cancelPreorder() {
+        editor.putString(PREORDERSTATUS, "").commit();
+    }
+
+    public String getPreorderRestName() {
+        return sharedPreferences.getString(PREORDERRESTNAME, "");
+    }
+
+    public String getQueueStatus() {
+        return sharedPreferences.getString(QUEUESTATUS, "");
+    }
+
+    public void clearPreferences() {
+        sharedPreferences.edit().clear();
+    }
+
 }

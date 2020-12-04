@@ -17,7 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cheq.Entities.RestaurantInfo;
+import com.example.cheq.Entities.RestaurantInfoItem;
 import com.example.cheq.Login.InputValidation;
 import com.example.cheq.Managers.FirebaseManager;
 import com.example.cheq.R;
@@ -92,9 +92,9 @@ public class RestaurantOnboardingActivity extends AppCompatActivity {
     private void choosePicture(){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, REQUEST_CODE_IMAGE);
-        }
+
+        startActivityForResult(intent, REQUEST_CODE_IMAGE);
+
     }
 
     @Override
@@ -143,7 +143,7 @@ public class RestaurantOnboardingActivity extends AppCompatActivity {
                         String downloadUrl = task.getResult().toString();
 
                         // Create RestaurantInfo object
-                        RestaurantInfo restaurantInfo = new RestaurantInfo(restPhone, restName, restEmail, downloadUrl, restCategory);
+                        RestaurantInfoItem restaurantInfo = new RestaurantInfoItem(restPhone, restName, restEmail, downloadUrl, restCategory);
 
                         //Upload details to firebase
                         firebaseManager.addRestaurantDetails(restaurantInfo, userPhone);
@@ -192,5 +192,10 @@ public class RestaurantOnboardingActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Please fill in your restaurant details", Toast.LENGTH_SHORT).show();
     }
 }
